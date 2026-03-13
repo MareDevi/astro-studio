@@ -83,6 +83,7 @@ export function useCommandPalette() {
     // Define group order and labels
     const groupOrder: Array<{ key: string; heading: string }> = [
       { key: 'file', heading: 'File' },
+      { key: 'git', heading: 'Version Control' },
       { key: 'navigation', heading: 'Navigation' },
       { key: 'project', heading: 'Project' },
       { key: 'settings', heading: 'Settings' },

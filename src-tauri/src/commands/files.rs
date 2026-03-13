@@ -604,6 +604,7 @@ fn normalize_dates(_frontmatter: &mut IndexMap<String, Value>) {
 }
 
 /// Recursively normalizes dates in a Value
+#[allow(dead_code)]
 fn normalize_value(value: &mut Value) {
     match value {
         Value::String(s) => {

@@ -72,5 +72,10 @@ pub fn generate_bindings() -> Builder<tauri::Wry> {
         crate::commands::clipboard::copy_text_to_clipboard,
         // updater.rs commands
         crate::commands::updater::fetch_release_notes,
+        // git.rs commands
+        crate::commands::git::git_status,
+        crate::commands::git::git_commit,
+        crate::commands::git::git_push,
+        crate::commands::git::git_pull,
     ])
 }

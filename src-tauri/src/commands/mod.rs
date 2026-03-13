@@ -1,6 +1,7 @@
 pub mod clipboard;
 pub mod diagnostics;
 pub mod files;
+pub mod git;
 pub mod ide;
 pub mod mdx_components;
 pub mod menu;

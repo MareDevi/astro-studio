@@ -5,7 +5,11 @@ import { DatePicker } from '../../ui/date-picker'
 import { FieldWrapper } from './FieldWrapper'
 import type { FieldProps } from '../../../types/common'
 import type { SchemaField } from '../../../lib/schema'
-import { formatIsoDate, parseIsoDate, formatIsoDateTime } from '../../../lib/dates'
+import {
+  formatIsoDate,
+  parseIsoDate,
+  formatIsoDateTime,
+} from '../../../lib/dates'
 
 interface DateFieldProps extends FieldProps {
   field?: SchemaField
@@ -63,6 +67,7 @@ export const DateField: React.FC<DateFieldProps> = ({
             // If we have an existing value with time, try to preserve the time portion
             // when just changing the date.
             if (alreadyHasTime) {
+              // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
               const originalDate = new Date(value as string)
               if (!isNaN(originalDate.getTime())) {
                 // Update date but keep time

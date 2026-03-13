@@ -11,6 +11,7 @@ interface UIState {
   // Layout state
   sidebarVisible: boolean
   frontmatterPanelVisible: boolean
+  gitPanelVisible: boolean
   previewVisible: boolean
   focusModeEnabled: boolean
   typewriterModeEnabled: boolean
@@ -23,9 +24,11 @@ interface UIState {
   // Actions
   setSidebarVisible: (visible: boolean) => void
   setFrontmatterPanelVisible: (visible: boolean) => void
+  setGitPanelVisible: (visible: boolean) => void
   setPreviewVisible: (visible: boolean) => void
   toggleSidebar: () => void
   toggleFrontmatterPanel: () => void
+  toggleGitPanel: () => void
   togglePreview: () => void
   toggleFocusMode: () => void
   toggleTypewriterMode: () => void
@@ -57,6 +60,7 @@ export const useUIStore = create<UIState>((set, get) => ({
   // Initial state
   sidebarVisible: true,
   frontmatterPanelVisible: true,
+  gitPanelVisible: false,
   previewVisible: false,
   focusModeEnabled: false,
   typewriterModeEnabled: false,
@@ -71,6 +75,10 @@ export const useUIStore = create<UIState>((set, get) => ({
 
   setFrontmatterPanelVisible: (visible: boolean) => {
     set({ frontmatterPanelVisible: visible })
+  },
+
+  setGitPanelVisible: (visible: boolean) => {
+    set({ gitPanelVisible: visible })
   },
 
   setPreviewVisible: (visible: boolean) => {
@@ -88,7 +96,17 @@ export const useUIStore = create<UIState>((set, get) => ({
   toggleFrontmatterPanel: () => {
     set(state => ({
       frontmatterPanelVisible: !state.frontmatterPanelVisible,
+      gitPanelVisible: false, // Mutual exclusivity for now
       // Show bars when opening frontmatter panel
+      distractionFreeBarsHidden: false,
+    }))
+  },
+
+  toggleGitPanel: () => {
+    set(state => ({
+      gitPanelVisible: !state.gitPanelVisible,
+      frontmatterPanelVisible: false, // Mutual exclusivity for now
+      // Show bars when opening git panel
       distractionFreeBarsHidden: false,
     }))
   },

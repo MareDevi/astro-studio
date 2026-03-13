@@ -8,6 +8,7 @@ import { LeftSidebar } from './LeftSidebar'
 import { MainEditor } from './MainEditor'
 import { RightSidebar } from './RightSidebar'
 import { FrontmatterPanel } from '../frontmatter'
+import { GitPanel } from '../git/GitPanel'
 import { PreviewPanel } from '../preview/PreviewPanel'
 import { CommandPalette } from '../command-palette'
 import { ComponentBuilderDialog } from '../component-builder'
@@ -41,6 +42,7 @@ export const Layout: React.FC = () => {
   const frontmatterPanelVisible = useUIStore(
     state => state.frontmatterPanelVisible
   )
+  const gitPanelVisible = useUIStore(state => state.gitPanelVisible)
   const previewVisible = useUIStore(state => state.previewVisible)
 
   const { setTheme } = useTheme()
@@ -253,7 +255,7 @@ export const Layout: React.FC = () => {
             </>
           )}
 
-          {frontmatterPanelVisible && (
+          {(frontmatterPanelVisible || gitPanelVisible) && (
             <>
               <ResizableHandle className="!cursor-col-resize" />
               <ResizablePanel
@@ -263,7 +265,8 @@ export const Layout: React.FC = () => {
                 maxSize={LAYOUT_SIZES.rightSidebar.max}
               >
                 <RightSidebar>
-                  <FrontmatterPanel />
+                  {frontmatterPanelVisible && <FrontmatterPanel />}
+                  {gitPanelVisible && <GitPanel />}
                 </RightSidebar>
               </ResizablePanel>
             </>

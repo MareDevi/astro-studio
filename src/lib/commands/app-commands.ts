@@ -15,6 +15,10 @@ import {
   AlignVerticalSpaceAround,
   Highlighter,
   Link,
+  GitBranch,
+  GitCommit,
+  ArrowUpCircle,
+  ArrowDownCircle,
 } from 'lucide-react'
 import { AppCommand, CommandContext } from './types'
 import type { Collection } from '@/types'
@@ -22,6 +26,7 @@ import { toast } from '../toast'
 import { openInIde } from '../ide'
 import { openProjectViaDialog } from '../projects/actions'
 import { useContentLinkerStore } from '@/store/contentLinkerStore'
+import { commands } from '@/lib/bindings'
 
 /**
  * File-related commands
@@ -374,6 +379,85 @@ export const ideCommands: AppCommand[] = [
 ]
 
 /**
+ * Git-related commands
+ */
+export const gitCommands: AppCommand[] = [
+  {
+    id: 'git-status',
+    label: 'Git: Check Status',
+    description: 'Check the git status of the project',
+    icon: GitBranch,
+    group: 'git',
+    execute: async (context: CommandContext) => {
+      if (!context.projectPath) return
+      const result = await commands.gitStatus(context.projectPath)
+      if (result.status === 'ok') {
+        const msg = result.data.trim() ? result.data : 'Working tree clean'
+        toast.info(msg, { duration: 5000 })
+      } else {
+        toast.error('Git Status Failed', { description: result.error })
+      }
+    },
+    isAvailable: (context: CommandContext) => Boolean(context.projectPath),
+  },
+  {
+    id: 'git-commit',
+    label: 'Git: Commit All',
+    description: 'Stage all changes and commit',
+    icon: GitCommit,
+    group: 'git',
+    execute: async (context: CommandContext) => {
+      if (!context.projectPath) return
+      const message = window.prompt('Enter commit message:', 'Update content')
+      if (!message) return
+      const result = await commands.gitCommit(context.projectPath, message)
+      if (result.status === 'ok') {
+        toast.success('Successfully committed changes')
+      } else {
+        toast.error('Git Commit Failed', { description: result.error })
+      }
+    },
+    isAvailable: (context: CommandContext) => Boolean(context.projectPath),
+  },
+  {
+    id: 'git-push',
+    label: 'Git: Push',
+    description: 'Push commits to remote',
+    icon: ArrowUpCircle,
+    group: 'git',
+    execute: async (context: CommandContext) => {
+      if (!context.projectPath) return
+      toast.info('Pushing to remote...')
+      const result = await commands.gitPush(context.projectPath)
+      if (result.status === 'ok') {
+        toast.success('Successfully pushed changes')
+      } else {
+        toast.error('Git Push Failed', { description: result.error })
+      }
+    },
+    isAvailable: (context: CommandContext) => Boolean(context.projectPath),
+  },
+  {
+    id: 'git-pull',
+    label: 'Git: Pull',
+    description: 'Pull commits from remote',
+    icon: ArrowDownCircle,
+    group: 'git',
+    execute: async (context: CommandContext) => {
+      if (!context.projectPath) return
+      toast.info('Pulling from remote...')
+      const result = await commands.gitPull(context.projectPath)
+      if (result.status === 'ok') {
+        toast.success('Successfully pulled changes')
+      } else {
+        toast.error('Git Pull Failed', { description: result.error })
+      }
+    },
+    isAvailable: (context: CommandContext) => Boolean(context.projectPath),
+  },
+]
+
+/**
  * Get all available commands based on current context
  */
 export function getAllCommands(context: CommandContext): AppCommand[] {
@@ -388,6 +472,7 @@ export function getAllCommands(context: CommandContext): AppCommand[] {
     ...viewModeCommands,
     ...highlightCommands,
     ...ideCommands,
+    ...gitCommands,
     ...collectionCommands,
   ].filter(command => command.isAvailable(context))
 }

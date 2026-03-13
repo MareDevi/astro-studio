@@ -15,6 +15,7 @@ import {
   Eye,
   Pilcrow,
   MonitorPlay,
+  GitBranch,
 } from 'lucide-react'
 import { cn } from '../../../lib/utils'
 
@@ -54,6 +55,8 @@ export const TitleBarToolbar: React.FC<TitleBarToolbarProps> = ({
   const toggleTypewriterMode = useUIStore(state => state.toggleTypewriterMode)
   const togglePreview = useUIStore(state => state.togglePreview)
   const previewVisible = useUIStore(state => state.previewVisible)
+  const toggleGitPanel = useUIStore(state => state.toggleGitPanel)
+  const gitPanelVisible = useUIStore(state => state.gitPanelVisible)
   const distractionFreeBarsHidden = useUIStore(
     state => state.distractionFreeBarsHidden
   )
@@ -67,7 +70,8 @@ export const TitleBarToolbar: React.FC<TitleBarToolbarProps> = ({
     }
   }
 
-  const bothPanelsHidden = !sidebarVisible && !frontmatterPanelVisible
+  const bothPanelsHidden =
+    !sidebarVisible && !frontmatterPanelVisible && !gitPanelVisible
 
   return (
     <div
@@ -175,6 +179,21 @@ export const TitleBarToolbar: React.FC<TitleBarToolbarProps> = ({
             className={cn(
               'size-4',
               previewVisible && 'text-blue-500 dark:text-blue-400'
+            )}
+          />
+        </Button>
+
+        <Button
+          onClick={toggleGitPanel}
+          variant="ghost"
+          size="sm"
+          className="size-7 p-0 [&_svg]:transform-gpu [&_svg]:scale-100 text-gray-700 dark:text-gray-300"
+          title={gitPanelVisible ? 'Close Git Panel' : 'Open Git Panel'}
+        >
+          <GitBranch
+            className={cn(
+              'size-4',
+              gitPanelVisible && 'text-blue-500 dark:text-blue-400'
             )}
           />
         </Button>
