@@ -489,7 +489,7 @@ import {
 	Channel as TAURI_CHANNEL,
 } from "@tauri-apps/api/core";
 import * as TAURI_API_EVENT from "@tauri-apps/api/event";
-import type { WebviewWindow as __WebviewWindow__ } from "@tauri-apps/api/webviewWindow";
+import { type WebviewWindow as __WebviewWindow__ } from "@tauri-apps/api/webviewWindow";
 
 type __EventObj__<T> = {
 	listen: (
@@ -512,7 +512,9 @@ function __makeEvents__<T extends Record<string, any>>(
 ) {
 	return new Proxy(
 		{} as unknown as {
-			[K in keyof T]: __EventObj__<T[K]> & ((handle: __WebviewWindow__) => __EventObj__<T[K]>);
+			[K in keyof T]: __EventObj__<T[K]> & {
+				(handle: __WebviewWindow__): __EventObj__<T[K]>;
+			};
 		},
 		{
 			get: (_, event) => {
