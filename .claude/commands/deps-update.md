@@ -72,7 +72,7 @@ ls -t tasks-done/ | grep -i dep | head -3
 
 **npm:**
 ```bash
-pnpm outdated
+bun outdated
 ```
 
 **Cargo** (requires `cargo-outdated` - install with `cargo install cargo-outdated` if missing):
@@ -180,7 +180,7 @@ Create `tasks-todo/task-x-dependency-updates-YYYY-MM.md` with:
 
 ### 1. Review Research Findings
 
-Before updating, review what `pnpm outdated` and `cargo outdated` found in Research Phase. Identify any packages that:
+Before updating, review what `bun outdated` and `cargo outdated` found in Research Phase. Identify any packages that:
 - Have major version bumps (may have breaking changes)
 - Were flagged as problematic in previous upgrade tasks
 - Are related to pinned packages
@@ -190,7 +190,7 @@ Discuss any concerns with user before proceeding.
 ### 2. Update npm Dependencies
 
 ```bash
-pnpm update
+bun update
 ```
 
 Review what changed. For any major version bumps, briefly check changelogs.
@@ -203,7 +203,7 @@ cd src-tauri && cargo update
 
 ### 4. Review Pinned Packages (Interactive)
 
-Review pinned packages in both `package.json` (npm) and `Cargo.toml` (Rust). Look for exact versions (`=1.2.3` in Cargo, no `^`/`~` in npm) and pnpm overrides.
+Review pinned packages in both `package.json` (npm) and `Cargo.toml` (Rust). Look for exact versions (`=1.2.3` in Cargo, no `^`/`~` in npm) and bun overrides.
 
 For each pinned package, use AskUserQuestion:
 
@@ -226,7 +226,7 @@ If user chooses "Research update":
 ### 5. Run Checks
 
 ```bash
-pnpm run check:all
+bun run check:all
 ```
 
 Fix any errors. Common issues after updates:
@@ -237,7 +237,7 @@ Fix any errors. Common issues after updates:
 ### 6. Production Build
 
 ```bash
-pnpm run tauri:build
+bun run tauri:build
 ```
 
 Inspect logs for:
@@ -254,7 +254,7 @@ Inspect logs for:
 3. List any pinned package decisions made
 
 **Ask user to:**
-- Run the app (`pnpm run tauri:dev`) and verify it works
+- Run the app (`bun run tauri:dev`) and verify it works
 - Check for any obvious regressions
 
 Use AskUserQuestion to confirm ready to proceed to Test Sites Phase.
@@ -267,12 +267,12 @@ For each site in `test/`:
 
 First, check what would be upgraded:
 ```bash
-cd test/[site] && pnpm dlx @astrojs/upgrade --dry-run
+cd test/[site] && bun dlx @astrojs/upgrade --dry-run
 ```
 
 If dry-run shows a clean upgrade path (no conflicts or breaking changes), run the actual upgrade:
 ```bash
-cd test/[site] && pnpm dlx @astrojs/upgrade
+cd test/[site] && bun dlx @astrojs/upgrade
 ```
 
 The tool typically runs non-interactively. If it does prompt for input (e.g., breaking changes requiring decisions), ask the user to run it manually and report back.
@@ -280,17 +280,17 @@ The tool typically runs non-interactively. If it does prompt for input (e.g., br
 ### 2. Update Other Dependencies
 
 ```bash
-cd test/[site] && pnpm update
+cd test/[site] && bun update
 ```
 
 ### 3. Review Pinned Packages
 
-Check `package.json` for any exact pins (versions without `^` or `~`). Run `pnpm outdated` to see if pinned packages have updates available. If any exist, take same approach as Main App Phase step 4.
+Check `package.json` for any exact pins (versions without `^` or `~`). Run `bun outdated` to see if pinned packages have updates available. If any exist, take same approach as Main App Phase step 4.
 
 ### 4. Verify Site Works (User Action Required)
 
 Ask user to:
-1. Run `pnpm run dev` in the test site
+1. Run `bun run dev` in the test site
 2. Check the site builds and renders correctly in browser
 3. Open the project in Astro Editor and verify collections load and frontmatter forms work
 
@@ -302,7 +302,7 @@ Use AskUserQuestion to confirm site works.
 
 Run reset:testdata to update the temp copy used for testing:
 ```bash
-pnpm run reset:testdata
+bun run reset:testdata
 ```
 
 **Update task doc** and suggest user commits after all test sites are verified working.
@@ -321,14 +321,14 @@ Use AskUserQuestion to confirm ready to proceed to Telemetry Worker Phase.
 ### 1. Update Dependencies
 
 ```bash
-cd telemetry-worker && pnpm update
+cd telemetry-worker && bun update
 ```
 
 Check for wrangler major version changes - these may have API/config changes.
 
 ### 2. Review Pinned Packages
 
-Check `package.json` for any exact pins (versions without `^` or `~`). Run `pnpm outdated` to see if pinned packages have updates available. If any exist, take same approach as Main App Phase step 4.
+Check `package.json` for any exact pins (versions without `^` or `~`). Run `bun outdated` to see if pinned packages have updates available. If any exist, take same approach as Main App Phase step 4.
 
 ### 3. Test Staging Deployment
 
@@ -339,7 +339,7 @@ cd telemetry-worker && wrangler deploy --dry-run
 
 If dry-run passes, deploy to staging to verify it actually works:
 ```bash
-cd telemetry-worker && pnpm run deploy:staging
+cd telemetry-worker && bun run deploy:staging
 ```
 
 If either fails, check:
@@ -387,21 +387,21 @@ Review `scripts/*.js` for compatibility with updated packages.
 ### 3. Final Check
 
 ```bash
-pnpm run check:all
+bun run check:all
 ```
 
 ### 4. Security Audit (Informational)
 
 Run security audit for awareness:
 ```bash
-pnpm audit
+bun audit
 ```
 
 Note any issues in the task doc. Some may be unfixable due to transitive dependencies - that's expected. Only flag critical issues that have available fixes.
 
 ### 5. Clean Up Documentation
 
-If any pnpm overrides or version pins were removed because issues were fixed upstream:
+If any bun overrides or version pins were removed because issues were fixed upstream:
 - Remove related comments from `package.json`
 - Update `AGENTS.md` if it mentions the constraint
 - Check `docs/developer/*.md` for outdated version notes
@@ -517,5 +517,5 @@ If all phases complete successfully:
 
 2. Move to tasks-done:
 ```bash
-pnpm task:complete dependency-updates
+bun task:complete dependency-updates
 ```

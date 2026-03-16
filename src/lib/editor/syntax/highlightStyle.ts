@@ -1,6 +1,6 @@
-import { HighlightStyle } from '@codemirror/language'
-import { tags } from '@lezer/highlight'
-import { markdownTags } from './markdownTags'
+import { HighlightStyle } from '@codemirror/language';
+import { tags } from '@lezer/highlight';
+import { markdownTags } from './markdownTags';
 
 /**
  * Comprehensive highlight style that includes both markdown and standard language tags
@@ -298,4 +298,4 @@ export const comprehensiveHighlightStyle = HighlightStyle.define([
     fontWeight: 'var(--editor-font-weight-bold)',
     color: 'var(--editor-color-heading)',
   },
-])
+]);

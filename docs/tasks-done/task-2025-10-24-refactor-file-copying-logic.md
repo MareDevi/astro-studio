@@ -532,8 +532,8 @@ export type {
 - [ ] Achieve >90% code coverage
 
 **Validation Checkpoint:**
-- [ ] Run `pnpm run test` - all new tests pass
-- [ ] Run `pnpm run check:all` - no errors
+- [ ] Run `bun run test` - all new tests pass
+- [ ] Run `bun run check:all` - no errors
 - [ ] All Phase 1 files created and tested
 - [ ] No changes to existing code yet
 
@@ -654,8 +654,8 @@ export const processDroppedFile = async (
 - [ ] Error handling works (fallback to original path)
 
 **Validation Checkpoint:**
-- [ ] Run `pnpm run test` - all tests pass
-- [ ] Run `pnpm run check:all` - no errors
+- [ ] Run `bun run test` - all tests pass
+- [ ] Run `bun run check:all` - no errors
 - [ ] Manual testing complete
 - [ ] No regressions in editor drag-and-drop
 
@@ -766,8 +766,8 @@ const handleFileSelect = async (filePath: string) => {
 - [ ] Error toast displays on failure
 
 **Validation Checkpoint:**
-- [ ] Run `pnpm run test` - all tests pass
-- [ ] Run `pnpm run check:all` - no errors
+- [ ] Run `bun run test` - all tests pass
+- [ ] Run `bun run check:all` - no errors
 - [ ] Manual testing complete
 - [ ] No regressions in ImageField
 
@@ -794,8 +794,8 @@ const handleFileSelect = async (filePath: string) => {
 #### Step 4.2: Run full test suite
 
 ```bash
-pnpm run test:run
-pnpm run check:all
+bun run test:run
+bun run check:all
 ```
 
 **Acceptance Criteria:**
@@ -856,7 +856,7 @@ After refactoring:
 5. ✅ Constants consolidated in `src/lib/files/constants.ts`
 6. ⏳ Documentation updated in architecture guide (in progress)
 7. ✅ No Rust backend changes required
-8. ✅ Full quality gate passes: `pnpm run check:all`
+8. ✅ Full quality gate passes: `bun run check:all`
 
 ## Risk Mitigation
 
@@ -884,7 +884,7 @@ After refactoring:
 - ✅ Test each phase before proceeding
 - ✅ Preserve exact existing behavior
 - ✅ Extract reusable logic, keep UI concerns separate
-- ✅ Run `pnpm run check:all` after each phase
+- ✅ Run `bun run check:all` after each phase
 
 ---
 

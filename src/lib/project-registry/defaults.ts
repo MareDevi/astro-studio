@@ -2,7 +2,7 @@
  * Default settings and values for the project registry system
  */
 
-import { GlobalSettings, ProjectSettings, ProjectRegistry } from './types'
+import type { GlobalSettings, ProjectSettings, ProjectRegistry } from './types';
 
 export const DEFAULT_PROJECT_SETTINGS: ProjectSettings = {
   pathOverrides: {
@@ -17,7 +17,7 @@ export const DEFAULT_PROJECT_SETTINGS: ProjectSettings = {
     draft: 'draft',
   },
   // useAbsoluteAssetPaths: undefined by default (uses relative paths, matching Astro conventions)
-}
+};
 
 export const DEFAULT_GLOBAL_SETTINGS: GlobalSettings = {
   general: {
@@ -46,10 +46,10 @@ export const DEFAULT_GLOBAL_SETTINGS: GlobalSettings = {
     },
   },
   version: 2,
-}
+};
 
 export const DEFAULT_PROJECT_REGISTRY: ProjectRegistry = {
   projects: {},
   lastOpenedProject: null,
   version: 2,
-}
+};

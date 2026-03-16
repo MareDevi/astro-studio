@@ -1,10 +1,10 @@
-import { commands } from '@/lib/bindings'
-import { getEffectiveAssetsDirectory } from '../project-registry'
-import { ASTRO_PATHS } from '../constants'
+import { commands } from '@/lib/bindings';
+import { getEffectiveAssetsDirectory } from '../project-registry';
+import { ASTRO_PATHS } from '../constants';
 import type {
   ProcessFileToAssetsOptions,
   ProcessFileToAssetsResult,
-} from './types'
+} from './types';
 
 /**
  * Process a file for use in Astro content
@@ -18,7 +18,7 @@ import type {
  * @throws Error if file processing fails
  */
 export async function processFileToAssets(
-  options: ProcessFileToAssetsOptions
+  options: ProcessFileToAssetsOptions,
 ): Promise<ProcessFileToAssetsResult> {
   const {
     sourcePath,
@@ -28,30 +28,30 @@ export async function processFileToAssets(
     copyStrategy,
     currentFilePath,
     useRelativePaths,
-  } = options
+  } = options;
 
   // Extract filename for result
-  const filename = extractFilename(sourcePath)
+  const filename = extractFilename(sourcePath);
 
   // Determine if we need to copy the file
-  let shouldCopy = copyStrategy === 'always'
+  let shouldCopy = copyStrategy === 'always';
 
   if (copyStrategy === 'only-if-outside-project') {
-    const isInProject = await commands.isPathInProject(sourcePath, projectPath)
-    shouldCopy = !isInProject
+    const isInProject = await commands.isPathInProject(sourcePath, projectPath);
+    shouldCopy = !isInProject;
   }
 
-  let relativePath: string
-  let wasCopied: boolean
+  let relativePath: string;
+  let wasCopied: boolean;
 
   if (shouldCopy) {
     // Copy file to assets directory
     const assetsDirectory = getEffectiveAssetsDirectory(
       projectSettings,
-      collection
-    )
+      collection,
+    );
 
-    let result
+    let result;
     if (assetsDirectory !== ASTRO_PATHS.ASSETS_DIR) {
       // Use collection-specific or project-level override
       result = await commands.copyFileToAssetsWithOverride(
@@ -60,8 +60,8 @@ export async function processFileToAssets(
         collection,
         assetsDirectory,
         currentFilePath,
-        useRelativePaths
-      )
+        useRelativePaths,
+      );
     } else {
       // Use default assets directory
       result = await commands.copyFileToAssets(
@@ -69,29 +69,29 @@ export async function processFileToAssets(
         projectPath,
         collection,
         currentFilePath,
-        useRelativePaths
-      )
+        useRelativePaths,
+      );
     }
 
     if (result.status === 'error') {
-      throw new Error(result.error)
+      throw new Error(result.error);
     }
-    relativePath = result.data
+    relativePath = result.data;
 
-    wasCopied = true
+    wasCopied = true;
   } else {
     // File is already in project - reuse existing path
     const result = await commands.getRelativePath(
       sourcePath,
       projectPath,
       currentFilePath,
-      useRelativePaths
-    )
+      useRelativePaths,
+    );
     if (result.status === 'error') {
-      throw new Error(result.error)
+      throw new Error(result.error);
     }
-    relativePath = result.data
-    wasCopied = false
+    relativePath = result.data;
+    wasCopied = false;
   }
 
   // Path is already in final format from Rust - no normalization needed
@@ -99,7 +99,7 @@ export async function processFileToAssets(
     relativePath,
     wasCopied,
     filename,
-  }
+  };
 }
 
 /**
@@ -108,7 +108,7 @@ export async function processFileToAssets(
  * @returns Just the filename portion
  */
 function extractFilename(filePath: string): string {
-  const parts = filePath.split(/[/\\]/)
-  const filename = parts[parts.length - 1]
-  return filename || filePath
+  const parts = filePath.split(/[/\\]/);
+  const filename = parts[parts.length - 1];
+  return filename || filePath;
 }

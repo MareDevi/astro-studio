@@ -271,7 +271,7 @@ This downloads the new `reqwest` and `uuid` crates.
 **5b) Run development mode:**
 
 ```bash
-pnpm run tauri dev
+bun run tauri dev
 ```
 
 **Expected behavior:**
@@ -285,7 +285,7 @@ pnpm run tauri dev
 Check the database for new events:
 ```bash
 cd telemetry-worker
-pnpm wrangler d1 execute astro-telemetry --remote --command "
+bun wrangler d1 execute astro-telemetry --remote --command "
   SELECT * FROM telemetry_events
   WHERE app_id = 'astro-editor'
   ORDER BY created_at DESC
@@ -318,7 +318,7 @@ Should output:
 **5e) Test production build:**
 
 ```bash
-pnpm run tauri build
+bun run tauri build
 ```
 
 Install the built app from `src-tauri/target/release/bundle/macos/Astro Editor.app` and verify:
@@ -373,7 +373,7 @@ rm src-tauri/src/telemetry.rs
 
 Then run:
 ```bash
-pnpm run tauri dev
+bun run tauri dev
 ```
 
 ## Expected Payload

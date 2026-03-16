@@ -45,9 +45,7 @@
     "window-state:default",
     {
       "identifier": "fs:scope",
-      "allow": [
-        { "path": "**" }
-      ],
+      "allow": [{ "path": "**" }],
       "deny": [
         { "path": "/System/**" },
         { "path": "/usr/**" },
@@ -64,9 +62,7 @@
     },
     {
       "identifier": "opener:allow-open-path",
-      "allow": [
-        { "path": "**" }
-      ]
+      "allow": [{ "path": "**" }]
     }
   ]
 }

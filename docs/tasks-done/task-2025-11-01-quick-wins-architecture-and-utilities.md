@@ -72,7 +72,7 @@ export function useCommandContext(): CommandContext {
 #### Testing
 
 ```bash
-pnpm run check:ts
+bun run check:ts
 ```
 
 **Manual Testing (REQUIRED before proceeding to Item 1.2):**
@@ -138,7 +138,7 @@ File exports both hook AND pure function. Need to split.
 #### Testing
 
 ```bash
-pnpm run check:ts
+bun run check:ts
 ```
 
 **Manual Testing (REQUIRED before proceeding to Item 2.1):**
@@ -187,8 +187,8 @@ Extract three utility functions from editorStore (lines 17-176):
 #### Testing
 
 ```bash
-pnpm run check:ts
-pnpm run test:run  # Run the new object-utils tests
+bun run check:ts
+bun run test:run  # Run the new object-utils tests
 ```
 
 **Manual Testing (REQUIRED before proceeding to Item 2.2):**
@@ -296,8 +296,8 @@ export function getPublishedDate(
 #### Testing
 
 ```bash
-pnpm run check:ts
-pnpm run test:run  # Run the new filtering/sorting tests
+bun run check:ts
+bun run test:run  # Run the new filtering/sorting tests
 ```
 
 **Manual Testing (CRITICAL - DO NOT SKIP):**
@@ -392,16 +392,16 @@ Add under "Development Practices":
 
 ```bash
 # Establish baseline
-pnpm run check:all
-pnpm run test:run
+bun run check:all
+bun run test:run
 ```
 
 ### ⚠️ CRITICAL: Test After EACH Item (Not Each Phase)
 
 **ONE ITEM AT A TIME:**
 1. Complete implementation for one item
-2. Run TypeScript check: `pnpm run check:ts`
-3. Run tests if new tests were added: `pnpm run test:run`
+2. Run TypeScript check: `bun run check:ts`
+3. Run tests if new tests were added: `bun run test:run`
 4. **PERFORM MANUAL TESTING** (see each item's testing section)
 5. **ONLY proceed to next item if ALL tests pass**
 
@@ -409,7 +409,7 @@ pnpm run test:run
 
 ```bash
 # Full quality check before committing
-pnpm run check:all
+bun run check:all
 ```
 
 ### File-Click Testing (CRITICAL for Each Item)
@@ -447,8 +447,8 @@ pnpm run check:all
 
 - [ ] **Overall Quality:**
   - [ ] All TypeScript compiles without errors
-  - [ ] All tests passing (`pnpm run test:run`)
-  - [ ] `pnpm run check:all` succeeds
+  - [ ] All tests passing (`bun run test:run`)
+  - [ ] `bun run check:all` succeeds
   - [ ] All manual file-click testing confirms correct behavior
 
 ---

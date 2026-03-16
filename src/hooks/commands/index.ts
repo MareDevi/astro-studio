@@ -1,1 +1,1 @@
-export { useCommandContext } from './useCommandContext'
+export { useCommandContext } from './useCommandContext';

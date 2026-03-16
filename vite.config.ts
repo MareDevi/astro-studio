@@ -1,19 +1,17 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
-import { visualizer } from 'rollup-plugin-visualizer'
-import path from 'path'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+import { visualizer } from 'rollup-plugin-visualizer';
+import path from 'path';
 
-const host = process.env.TAURI_DEV_HOST
+const host = process.env.TAURI_DEV_HOST;
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
   plugins: [
     react({
       babel: {
-        plugins: [
-          ['babel-plugin-react-compiler', { target: '19' }]
-        ],
+        plugins: [['babel-plugin-react-compiler', { target: '19' }]],
       },
     }),
     tailwindcss(),
@@ -23,7 +21,7 @@ export default defineConfig(async () => ({
       filename: 'bundle-stats.html',
       gzipSize: true,
       brotliSize: true,
-    })
+    }),
   ],
   resolve: {
     alias: {
@@ -33,14 +31,14 @@ export default defineConfig(async () => ({
 
   // Build optimizations
   build: {
-    sourcemap: false,  // Disable source maps in production
-    minify: 'terser',  // Use terser for minification
+    sourcemap: false, // Disable source maps in production
+    minify: 'terser', // Use terser for minification
     terserOptions: {
       compress: {
-        drop_console: true,  // Remove console logs in production
-        drop_debugger: true  // Remove debugger statements
-      }
-    }
+        drop_console: true, // Remove console logs in production
+        drop_debugger: true, // Remove debugger statements
+      },
+    },
   },
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
@@ -68,4 +66,4 @@ export default defineConfig(async () => ({
       ],
     },
   },
-}))
+}));

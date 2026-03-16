@@ -1,45 +1,46 @@
-import React, { useRef, useEffect } from 'react'
-import { Search, ArrowUpDown, X, ArrowUp, ArrowDown } from 'lucide-react'
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
+import type React from 'react';
+import { useRef, useEffect } from 'react';
+import { Search, ArrowUpDown, X, ArrowUp, ArrowDown } from 'lucide-react';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../ui/select'
-import { cn } from '@/lib/utils'
-import type { SortOption } from '@/lib/files'
+} from '../ui/select';
+import { cn } from '@/lib/utils';
+import type { SortOption } from '@/lib/files';
 
 /**
  * Get a subtle type label for sort options
  */
 function getSortTypeLabel(option: SortOption): string | null {
   // Special case for last modified (filesystem metadata)
-  if (option.id === 'modified') return 'file data'
+  if (option.id === 'modified') return 'file data';
   // Map type to display label
   switch (option.type) {
     case 'alpha':
-      return 'alpha'
+      return 'alpha';
     case 'date':
-      return 'date'
+      return 'date';
     case 'numeric':
-      return 'num'
+      return 'num';
     default:
-      return null
+      return null;
   }
 }
 
 interface FilterBarProps {
-  searchQuery: string
-  sortMode: string
-  sortDirection: 'asc' | 'desc'
-  sortOptions: SortOption[]
-  onSearchChange: (query: string) => void
-  onSortModeChange: (mode: string) => void
-  onSortDirectionToggle: () => void
-  onClearSearch: () => void
+  searchQuery: string;
+  sortMode: string;
+  sortDirection: 'asc' | 'desc';
+  sortOptions: SortOption[];
+  onSearchChange: (query: string) => void;
+  onSortModeChange: (mode: string) => void;
+  onSortDirectionToggle: () => void;
+  onClearSearch: () => void;
 }
 
 export const FilterBar: React.FC<FilterBarProps> = ({
@@ -52,24 +53,24 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   onSortDirectionToggle,
   onClearSearch,
 }) => {
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Auto-focus search input when component mounts
   useEffect(() => {
-    inputRef.current?.focus()
-  }, [])
+    inputRef.current?.focus();
+  }, []);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onSearchChange(e.target.value)
-  }
+    onSearchChange(e.target.value);
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
-      onClearSearch()
+      onClearSearch();
     }
-  }
+  };
 
-  const currentSortOption = sortOptions.find(opt => opt.id === sortMode)
+  const currentSortOption = sortOptions.find((opt) => opt.id === sortMode);
 
   return (
     <div className="flex flex-col gap-2 p-2 border-b bg-muted/20">
@@ -114,8 +115,8 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             </SelectValue>
           </SelectTrigger>
           <SelectContent>
-            {sortOptions.map(option => {
-              const typeLabel = getSortTypeLabel(option)
+            {sortOptions.map((option) => {
+              const typeLabel = getSortTypeLabel(option);
               return (
                 <SelectItem
                   key={option.id}
@@ -131,7 +132,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                     )}
                   </span>
                 </SelectItem>
-              )
+              );
             })}
           </SelectContent>
         </Select>
@@ -144,7 +145,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             onClick={onSortDirectionToggle}
             className={cn(
               'size-6 p-0 flex-shrink-0',
-              'text-muted-foreground hover:text-foreground'
+              'text-muted-foreground hover:text-foreground',
             )}
             title={sortDirection === 'asc' ? 'Ascending' : 'Descending'}
           >
@@ -157,5 +158,5 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         )}
       </div>
     </div>
-  )
-}
+  );
+};

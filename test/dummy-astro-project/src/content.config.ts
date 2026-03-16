@@ -16,13 +16,24 @@ const authors = defineCollection({
 });
 
 const articles = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/articles' }),
+  loader: glob({
+    pattern: '**/[^_]*.{md,mdx}',
+    base: './src/content/articles',
+  }),
   schema: ({ image }) =>
     z.object({
-      title: z.string().min(3).max(100).describe('This is the title of the article'),
+      title: z
+        .string()
+        .min(3)
+        .max(100)
+        .describe('This is the title of the article'),
       slug: z.string().min(3).max(50).optional(),
       draft: z.boolean().default(false),
-      description: z.string().max(200).describe('A brief description of the article').optional(),
+      description: z
+        .string()
+        .max(200)
+        .describe('A brief description of the article')
+        .optional(),
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
       cover: image().optional(),
@@ -53,7 +64,12 @@ const notes = defineCollection({
       metadata: z
         .object({
           category: z.string().describe('Category for organizing notes'),
-          priority: z.number().min(1).max(5).describe('Priority level from 1-5').optional(),
+          priority: z
+            .number()
+            .min(1)
+            .max(5)
+            .describe('Priority level from 1-5')
+            .optional(),
           deadline: z.coerce.date().optional(),
         })
         .optional(),
@@ -78,7 +94,10 @@ const ideas = defineCollection({
 
 // Schemaless collection for testing schema indicator (no schema defined)
 const schemaless = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/schemaless' }),
+  loader: glob({
+    pattern: '**/[^_]*.{md,mdx}',
+    base: './src/content/schemaless',
+  }),
 });
 
 export const collections = { authors, articles, notes, ideas, schemaless };

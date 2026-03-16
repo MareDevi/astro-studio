@@ -1,1 +1,1 @@
-export { ComponentBuilderDialog } from './ComponentBuilderDialog'
+export { ComponentBuilderDialog } from './ComponentBuilderDialog';

@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react'
-import { listen } from '@tauri-apps/api/event'
-import { useEditorStore } from '../store/editorStore'
-import { useProjectStore } from '../store/projectStore'
-import { useUIStore } from '../store/uiStore'
-import { globalCommandRegistry } from '../lib/editor/commands'
-import { openProjectViaDialog } from '../lib/projects/actions'
-import type { HeadingLevel } from '../lib/editor/markdown/types'
+import { useEffect, useRef } from 'react';
+import { listen } from '@tauri-apps/api/event';
+import { useEditorStore } from '../store/editorStore';
+import { useProjectStore } from '../store/projectStore';
+import { useUIStore } from '../store/uiStore';
+import { globalCommandRegistry } from '../lib/editor/commands';
+import { openProjectViaDialog } from '../lib/projects/actions';
+import type { HeadingLevel } from '../lib/editor/markdown/types';
 
 /**
  * Format menu event mapping for reducing duplication.
@@ -13,7 +13,7 @@ import type { HeadingLevel } from '../lib/editor/markdown/types'
  */
 type FormatCommand =
   | { command: 'toggleBold' | 'toggleItalic' | 'createLink' }
-  | { command: 'formatHeading'; level: HeadingLevel }
+  | { command: 'formatHeading'; level: HeadingLevel };
 
 const FORMAT_EVENT_MAP: Record<string, FormatCommand> = {
   'menu-format-bold': { command: 'toggleBold' },
@@ -27,7 +27,7 @@ const FORMAT_EVENT_MAP: Record<string, FormatCommand> = {
     command: 'formatHeading',
     level: 0 as HeadingLevel,
   },
-}
+};
 
 /**
  * Handles all Tauri menu events from the native macOS menu bar.
@@ -37,92 +37,92 @@ const FORMAT_EVENT_MAP: Record<string, FormatCommand> = {
  */
 export function useMenuEvents(
   createNewFileWithQuery: () => Promise<void>,
-  onOpenPreferences: (open: boolean) => void
+  onOpenPreferences: (open: boolean) => void,
 ) {
   // Use refs to capture latest callbacks without causing effect to re-run
-  const createFileRef = useRef(createNewFileWithQuery)
-  const openPreferencesRef = useRef(onOpenPreferences)
+  const createFileRef = useRef(createNewFileWithQuery);
+  const openPreferencesRef = useRef(onOpenPreferences);
 
   // Update refs when callbacks change
   useEffect(() => {
-    createFileRef.current = createNewFileWithQuery
-    openPreferencesRef.current = onOpenPreferences
-  }, [createNewFileWithQuery, onOpenPreferences])
+    createFileRef.current = createNewFileWithQuery;
+    openPreferencesRef.current = onOpenPreferences;
+  }, [createNewFileWithQuery, onOpenPreferences]);
 
   // Set up listeners once on mount, use refs for callbacks
   useEffect(() => {
-    const unlistenFunctions: Array<() => void> = []
+    const unlistenFunctions: Array<() => void> = [];
 
     const setupListeners = async () => {
       // File operations
       const fileUnlisteners = await Promise.all([
         listen('menu-open-project', () => {
-          void openProjectViaDialog()
+          void openProjectViaDialog();
         }),
         listen('menu-save', () => {
-          const { currentFile, isDirty, saveFile } = useEditorStore.getState()
+          const { currentFile, isDirty, saveFile } = useEditorStore.getState();
           if (currentFile && isDirty) {
-            void saveFile()
+            void saveFile();
           }
         }),
         listen('menu-new-file', () => {
-          const { selectedCollection } = useProjectStore.getState()
+          const { selectedCollection } = useProjectStore.getState();
           if (selectedCollection) {
-            void createFileRef.current()
+            void createFileRef.current();
           }
         }),
-      ])
+      ]);
 
       // View operations
       const viewUnlisteners = await Promise.all([
         listen('menu-toggle-sidebar', () => {
-          useUIStore.getState().toggleSidebar()
+          useUIStore.getState().toggleSidebar();
         }),
         listen('menu-toggle-frontmatter', () => {
-          useUIStore.getState().toggleFrontmatterPanel()
+          useUIStore.getState().toggleFrontmatterPanel();
         }),
         listen('menu-toggle-preview', () => {
-          useUIStore.getState().togglePreview()
+          useUIStore.getState().togglePreview();
         }),
-      ])
+      ]);
 
       // Format operations (using map-based approach)
       const formatUnlisteners = await Promise.all(
         Object.entries(FORMAT_EVENT_MAP).map(([eventName, formatCmd]) =>
           listen(eventName, () => {
-            const { currentFile } = useEditorStore.getState()
+            const { currentFile } = useEditorStore.getState();
             if (currentFile) {
               if (formatCmd.command === 'formatHeading') {
-                globalCommandRegistry.execute('formatHeading', formatCmd.level)
+                globalCommandRegistry.execute('formatHeading', formatCmd.level);
               } else {
-                globalCommandRegistry.execute(formatCmd.command)
+                globalCommandRegistry.execute(formatCmd.command);
               }
             }
-          })
-        )
-      )
+          }),
+        ),
+      );
 
       // Preferences
       const preferencesUnlistener = await listen('menu-preferences', () => {
-        openPreferencesRef.current(true)
-      })
+        openPreferencesRef.current(true);
+      });
 
       unlistenFunctions.push(
         ...fileUnlisteners,
         ...viewUnlisteners,
         ...formatUnlisteners,
-        preferencesUnlistener
-      )
-    }
+        preferencesUnlistener,
+      );
+    };
 
-    void setupListeners()
+    void setupListeners();
 
     return () => {
-      unlistenFunctions.forEach(unlisten => {
+      unlistenFunctions.forEach((unlisten) => {
         if (unlisten && typeof unlisten === 'function') {
-          unlisten()
+          unlisten();
         }
-      })
-    }
-  }, []) // Empty deps - set up once on mount, use refs for callbacks
+      });
+    };
+  }, []); // Empty deps - set up once on mount, use refs for callbacks
 }

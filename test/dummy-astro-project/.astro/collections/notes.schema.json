@@ -36,11 +36,7 @@
       "anyOf": [
         {
           "type": "string",
-          "enum": [
-            "draft",
-            "review",
-            "published"
-          ]
+          "enum": ["draft", "review", "published"]
         },
         {
           "type": "null"
@@ -91,9 +87,7 @@
           "format": "date-time"
         }
       },
-      "required": [
-        "category"
-      ],
+      "required": ["category"],
       "additionalProperties": false
     },
     "coverImage": {
@@ -113,9 +107,6 @@
       "type": "string"
     }
   },
-  "required": [
-    "title",
-    "draft"
-  ],
+  "required": ["title", "draft"],
   "additionalProperties": false
 }

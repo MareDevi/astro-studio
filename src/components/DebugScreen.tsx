@@ -1,34 +1,37 @@
-import React from 'react'
-import { EditorView, keymap, drawSelection } from '@codemirror/view'
-import { EditorState } from '@codemirror/state'
-import { defaultKeymap, history, historyKeymap } from '@codemirror/commands'
+import React from 'react';
+import { EditorView, keymap, drawSelection } from '@codemirror/view';
+import { EditorState } from '@codemirror/state';
+import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
 import {
   closeBrackets,
   closeBracketsKeymap,
   snippet,
-} from '@codemirror/autocomplete'
-import { syntaxHighlighting, defaultHighlightStyle } from '@codemirror/language'
-import { markdown } from '@codemirror/lang-markdown'
+} from '@codemirror/autocomplete';
+import {
+  syntaxHighlighting,
+  defaultHighlightStyle,
+} from '@codemirror/language';
+import { markdown } from '@codemirror/lang-markdown';
 
 export const DebugScreen: React.FC = () => {
-  const editorRef = React.useRef<HTMLDivElement>(null)
-  const viewRef = React.useRef<EditorView | null>(null)
+  const editorRef = React.useRef<HTMLDivElement>(null);
+  const viewRef = React.useRef<EditorView | null>(null);
 
   React.useEffect(() => {
-    if (!editorRef.current || viewRef.current) return
+    if (!editorRef.current || viewRef.current) return;
 
     const extensions = [
       history(),
       drawSelection(),
       EditorState.allowMultipleSelections.of(true),
       EditorView.clickAddsSelectionRange.of(
-        event => event.metaKey || event.ctrlKey
+        (event) => event.metaKey || event.ctrlKey,
       ),
       markdown(),
       closeBrackets(),
       syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
       keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap]),
-    ]
+    ];
 
     const startState = EditorState.create({
       doc: '# Snippet Test\n\nClick the button above to insert a Callout component.\n\n',
@@ -44,26 +47,26 @@ export const DebugScreen: React.FC = () => {
           },
         }),
       ],
-    })
+    });
 
     const view = new EditorView({
       state: startState,
       parent: editorRef.current,
-    })
+    });
 
-    viewRef.current = view
+    viewRef.current = view;
 
     return () => {
-      view.destroy()
-      viewRef.current = null
-    }
-  }, [])
+      view.destroy();
+      viewRef.current = null;
+    };
+  }, []);
 
   const insertSnippet = (snippetTemplate: string, view: EditorView) => {
-    const range = view.state.selection.main
-    snippet(snippetTemplate)(view, null, range.from, range.to)
-    view.focus()
-  }
+    const range = view.state.selection.main;
+    snippet(snippetTemplate)(view, null, range.from, range.to);
+    view.focus();
+  };
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -77,8 +80,8 @@ export const DebugScreen: React.FC = () => {
               if (viewRef.current) {
                 insertSnippet(
                   '<Callout type="${warning}" title="${}" icon="${}">${}</Callout>',
-                  viewRef.current
-                )
+                  viewRef.current,
+                );
               }
             }}
           >
@@ -91,5 +94,5 @@ export const DebugScreen: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

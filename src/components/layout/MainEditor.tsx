@@ -1,14 +1,14 @@
-import React from 'react'
-import { useEditorStore } from '../../store/editorStore'
-import { useUIStore } from '../../store/uiStore'
-import { Editor } from '../editor'
-import { openProjectViaDialog } from '../../lib/projects/actions'
-import { Button } from '../ui/button'
-import { useProjectStore } from '@/store/projectStore'
+import type React from 'react';
+import { useEditorStore } from '../../store/editorStore';
+import { useUIStore } from '../../store/uiStore';
+import { Editor } from '../editor';
+import { openProjectViaDialog } from '../../lib/projects/actions';
+import { Button } from '../ui/button';
+import { useProjectStore } from '@/store/projectStore';
 
 // Welcome screen component for better organization
 const WelcomeScreen: React.FC = () => {
-  const projectPath = useProjectStore(state => state.projectPath)
+  const projectPath = useProjectStore((state) => state.projectPath);
   return (
     <div className="flex items-center justify-center h-full">
       <div className="text-center text-muted-foreground flex flex-col gap-4">
@@ -29,13 +29,15 @@ const WelcomeScreen: React.FC = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export const MainEditor: React.FC = () => {
   // PERFORMANCE FIX: Use specific selector instead of currentFile object to avoid cascade
-  const hasCurrentFile = useEditorStore(state => !!state.currentFile)
-  const typewriterModeEnabled = useUIStore(state => state.typewriterModeEnabled)
+  const hasCurrentFile = useEditorStore((state) => !!state.currentFile);
+  const typewriterModeEnabled = useUIStore(
+    (state) => state.typewriterModeEnabled,
+  );
 
   return (
     <div className="flex flex-col h-full">
@@ -45,5 +47,5 @@ export const MainEditor: React.FC = () => {
         {hasCurrentFile ? <Editor /> : <WelcomeScreen />}
       </div>
     </div>
-  )
-}
+  );
+};

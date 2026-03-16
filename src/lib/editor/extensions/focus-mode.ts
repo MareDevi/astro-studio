@@ -18,43 +18,43 @@
  * (see src/components/editor/editor.css).
  */
 
-import { StateField, StateEffect, Transaction } from '@codemirror/state'
+import { StateField, StateEffect, type Transaction } from '@codemirror/state';
 import {
   EditorView,
   Decoration,
-  DecorationSet,
+  type DecorationSet,
   ViewPlugin,
-  ViewUpdate,
-} from '@codemirror/view'
-import type { Range } from '@codemirror/state'
-import { findCurrentSentence } from '../sentence-detection'
+  type ViewUpdate,
+} from '@codemirror/view';
+import type { Range } from '@codemirror/state';
+import { findCurrentSentence } from '../sentence-detection';
 
 /** State effect to toggle focus mode on or off. Dispatch with `true` to enable, `false` to disable. */
-export const toggleFocusMode = StateEffect.define<boolean>()
+export const toggleFocusMode = StateEffect.define<boolean>();
 
 /** State field tracking whether focus mode is enabled and the current sentence boundaries. */
 export const focusModeState = StateField.define<{
-  enabled: boolean
-  currentSentence: { from: number; to: number } | null
+  enabled: boolean;
+  currentSentence: { from: number; to: number } | null;
 }>({
   create() {
-    return { enabled: false, currentSentence: null }
+    return { enabled: false, currentSentence: null };
   },
 
   update(value, tr) {
-    let newValue = value
+    let newValue = value;
 
     // Handle focus mode toggle effects
     for (const effect of tr.effects) {
       if (effect.is(toggleFocusMode)) {
-        newValue = { ...newValue, enabled: effect.value }
+        newValue = { ...newValue, enabled: effect.value };
         // If enabling focus mode, immediately set the current sentence
         if (effect.value) {
           const currentSentence = findCurrentSentence(
             tr.state,
-            tr.state.selection.main.head
-          )
-          newValue = { ...newValue, currentSentence }
+            tr.state.selection.main.head,
+          );
+          newValue = { ...newValue, currentSentence };
         }
       }
     }
@@ -63,36 +63,36 @@ export const focusModeState = StateField.define<{
     if ((tr.selection || tr.docChanged) && newValue.enabled) {
       const currentSentence = findCurrentSentence(
         tr.state,
-        tr.state.selection.main.head
-      )
-      newValue = { ...newValue, currentSentence }
+        tr.state.selection.main.head,
+      );
+      newValue = { ...newValue, currentSentence };
     }
 
-    return newValue
+    return newValue;
   },
-})
+});
 
 /** State field that provides decorations to dim text outside the current sentence. */
 export const focusModeDecorations = StateField.define<DecorationSet>({
   create() {
-    return Decoration.none
+    return Decoration.none;
   },
 
   update(decorations: DecorationSet, tr: Transaction) {
-    const focusState = tr.state.field(focusModeState)
+    const focusState = tr.state.field(focusModeState);
 
     if (!focusState.enabled || !focusState.currentSentence) {
-      return Decoration.none
+      return Decoration.none;
     }
 
     // Performance: Only update if selection changed or document changed
     if (!tr.selection && !tr.docChanged) {
-      return decorations.map(tr.changes)
+      return decorations.map(tr.changes);
     }
 
-    const marks: Range<Decoration>[] = []
-    const doc = tr.state.doc
-    const currentSentence = focusState.currentSentence
+    const marks: Range<Decoration>[] = [];
+    const doc = tr.state.doc;
+    const currentSentence = focusState.currentSentence;
 
     // Create decorations for all text except the current sentence
     // We need to handle three cases:
@@ -105,9 +105,9 @@ export const focusModeDecorations = StateField.define<DecorationSet>({
       marks.push(
         Decoration.mark({ class: 'cm-focus-dimmed' }).range(
           0,
-          currentSentence.from
-        )
-      )
+          currentSentence.from,
+        ),
+      );
     }
 
     // Dim everything after the current sentence
@@ -115,16 +115,16 @@ export const focusModeDecorations = StateField.define<DecorationSet>({
       marks.push(
         Decoration.mark({ class: 'cm-focus-dimmed' }).range(
           currentSentence.to,
-          doc.length
-        )
-      )
+          doc.length,
+        ),
+      );
     }
 
-    return Decoration.set(marks, true)
+    return Decoration.set(marks, true);
   },
 
-  provide: f => EditorView.decorations.from(f),
-})
+  provide: (f) => EditorView.decorations.from(f),
+});
 
 /** ViewPlugin that coordinates focus mode updates. State changes are handled by the state fields. */
 export const focusModePlugin = ViewPlugin.fromClass(
@@ -135,10 +135,10 @@ export const focusModePlugin = ViewPlugin.fromClass(
       // Plugin automatically updates via state fields
       // Could add additional logic here if needed
     }
-  }
-)
+  },
+);
 
 /** Creates the combined focus mode extension. Include this in your editor's extensions array. */
 export function createFocusModeExtension() {
-  return [focusModeState, focusModeDecorations, focusModePlugin]
+  return [focusModeState, focusModeDecorations, focusModePlugin];
 }

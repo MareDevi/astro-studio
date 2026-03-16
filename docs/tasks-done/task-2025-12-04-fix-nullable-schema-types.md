@@ -264,7 +264,7 @@ fn test_parse_anyof_nullable_number_array() {
 
 ```bash
 cd src-tauri && cargo test schema_merger
-pnpm run check:all
+bun run check:all
 ```
 
 ## Future Consideration: Nullable Objects
@@ -624,7 +624,7 @@ describe('isFrontmatterDirty tracking', () => {
 
 **Integration:**
 
-- [ ] `pnpm run check:all` passes
+- [ ] `bun run check:all` passes
 - [ ] Manual testing with real Astro project confirms both fixes
 
 ---

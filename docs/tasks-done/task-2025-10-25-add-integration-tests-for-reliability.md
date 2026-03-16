@@ -286,16 +286,16 @@ vi.mock('../../lib/toast', () => ({
 
 ```bash
 # Run all tests (including new integration tests)
-pnpm run test
+bun run test
 
 # Run integration tests only
-pnpm run test -- integration.test
+bun run test -- integration.test
 
 # Run specific suite
-pnpm run test -- editorStore.integration
+bun run test -- editorStore.integration
 
 # Run with coverage
-pnpm run test -- --coverage
+bun run test -- --coverage
 ```
 
 ## Success Criteria

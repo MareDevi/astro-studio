@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   CommandDialog,
   CommandEmpty,
@@ -7,27 +7,27 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '../ui/command'
-import { useCommandPalette } from '../../hooks/useCommandPalette'
+} from '../ui/command';
+import { useCommandPalette } from '../../hooks/useCommandPalette';
 
 /**
  * Command palette component with Cmd+P shortcut
  * Provides quick access to application commands
  */
 export function CommandPalette() {
-  const { open, setOpen, commandGroups, executeCommand } = useCommandPalette()
+  const { open, setOpen, commandGroups, executeCommand } = useCommandPalette();
 
   // Custom filter function that only searches command labels
   const customFilter = React.useCallback((value: string, search: string) => {
     // Extract the label from the value (format: "id:label")
-    const label = value.split(':')[1] || value
+    const label = value.split(':')[1] || value;
 
     // Case-insensitive search on label only
     if (label.toLowerCase().includes(search.toLowerCase())) {
-      return 1
+      return 1;
     }
-    return 0
-  }, [])
+    return 0;
+  }, []);
 
   return (
     <CommandDialog
@@ -45,8 +45,8 @@ export function CommandPalette() {
         {commandGroups.map((group, groupIndex) => (
           <React.Fragment key={group.heading}>
             <CommandGroup heading={group.heading}>
-              {group.commands.map(command => {
-                const Icon = command.icon
+              {group.commands.map((command) => {
+                const Icon = command.icon;
                 return (
                   <CommandItem
                     key={command.id}
@@ -64,7 +64,7 @@ export function CommandPalette() {
                       )}
                     </div>
                   </CommandItem>
-                )
+                );
               })}
             </CommandGroup>
             {/* Add separator between groups (except for the last group) */}
@@ -73,5 +73,5 @@ export function CommandPalette() {
         ))}
       </CommandList>
     </CommandDialog>
-  )
+  );
 }

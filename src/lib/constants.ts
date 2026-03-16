@@ -5,4 +5,4 @@ export const ASTRO_PATHS = {
   ASSETS_DIR: 'src/assets',
   COMPONENTS_DIR: 'src/components',
   MDX_COMPONENTS_DIR: 'src/components/mdx',
-} as const
+} as const;

@@ -1,4 +1,4 @@
-import type { PosConfig } from './types'
+import type { PosConfig } from './types';
 
 /**
  * Configuration for all parts of speech types.
@@ -32,4 +32,4 @@ export const POS_CONFIGS: PosConfig[] = [
     className: 'cm-pos-conjunction',
     settingKey: 'conjunctions',
   },
-]
+];

@@ -25,7 +25,7 @@
  * This is intentional and scoped to specific elements we control.
  */
 
-import { EditorView } from '@codemirror/view'
+import { EditorView } from '@codemirror/view';
 
 /**
  * Create the editor theme extension
@@ -142,5 +142,5 @@ export const createEditorTheme = () => {
     '.cm-codeblock-only': {
       borderRadius: '2px',
     },
-  })
-}
+  });
+};

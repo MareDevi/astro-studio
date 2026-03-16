@@ -24,11 +24,7 @@
         "type": "string"
       }
     },
-    "required": [
-      "id",
-      "name",
-      "email"
-    ],
+    "required": ["id", "name", "email"],
     "additionalProperties": false
   }
 }

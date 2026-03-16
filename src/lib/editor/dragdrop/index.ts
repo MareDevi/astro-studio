@@ -22,13 +22,16 @@ export {
   handleTauriFileDrop,
   parseFileDropPayload,
   isDropWithinElement,
-} from './handlers'
+} from './handlers';
 export {
   processDroppedFile,
   processDroppedFiles,
   isImageFile,
   extractFilename,
   formatAsMarkdown,
-} from './fileProcessing'
-export { validateDropContext, buildFallbackMarkdownForPaths } from './edgeCases'
-export type { FileDropPayload, ProcessedFile, DropResult } from './types'
+} from './fileProcessing';
+export {
+  validateDropContext,
+  buildFallbackMarkdownForPaths,
+} from './edgeCases';
+export type { FileDropPayload, ProcessedFile, DropResult } from './types';

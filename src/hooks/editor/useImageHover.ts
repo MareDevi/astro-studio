@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from 'react'
-import { EditorView } from '@codemirror/view'
-import { findImageUrlsAndPathsInText } from '../../lib/editor/urls/detection'
+import { useState, useEffect, useCallback } from 'react';
+import type { EditorView } from '@codemirror/view';
+import { findImageUrlsAndPathsInText } from '../../lib/editor/urls/detection';
 
 export interface HoveredImage {
-  url: string
-  from: number
-  to: number
+  url: string;
+  from: number;
+  to: number;
 }
 
 /**
@@ -17,15 +17,15 @@ export interface HoveredImage {
  */
 export const useImageHover = (
   view: EditorView | null,
-  isAltPressed: boolean
+  isAltPressed: boolean,
 ): HoveredImage | null => {
-  const [hoveredImage, setHoveredImage] = useState<HoveredImage | null>(null)
+  const [hoveredImage, setHoveredImage] = useState<HoveredImage | null>(null);
 
   const handleMouseMove = useCallback(
     (event: MouseEvent) => {
       if (!view || !isAltPressed) {
-        setHoveredImage(null)
-        return
+        setHoveredImage(null);
+        return;
       }
 
       try {
@@ -33,81 +33,81 @@ export const useImageHover = (
         const pos = view.posAtCoords({
           x: event.clientX,
           y: event.clientY,
-        })
+        });
 
         if (pos === null) {
-          setHoveredImage(null)
-          return
+          setHoveredImage(null);
+          return;
         }
 
         // Get the line containing this position
-        const line = view.state.doc.lineAt(pos)
-        const lineText = line.text
-        const lineStart = line.from
+        const line = view.state.doc.lineAt(pos);
+        const lineText = line.text;
+        const lineStart = line.from;
 
         // Find all image URLs and paths in this line
-        const imageUrls = findImageUrlsAndPathsInText(lineText, lineStart)
+        const imageUrls = findImageUrlsAndPathsInText(lineText, lineStart);
 
         // Check if cursor is within any image URL range
         const hoveredUrl = imageUrls.find(
-          urlMatch => pos >= urlMatch.from && pos <= urlMatch.to
-        )
+          (urlMatch) => pos >= urlMatch.from && pos <= urlMatch.to,
+        );
 
         if (hoveredUrl) {
           // Only update if the URL changed (avoid re-renders on position changes)
-          setHoveredImage(prev => {
+          setHoveredImage((prev) => {
             if (prev?.url === hoveredUrl.url) {
-              return prev // Same URL, don't create new object
+              return prev; // Same URL, don't create new object
             }
             return {
               url: hoveredUrl.url,
               from: hoveredUrl.from,
               to: hoveredUrl.to,
-            }
-          })
+            };
+          });
         } else {
-          setHoveredImage(null)
+          setHoveredImage(null);
         }
       } catch {
         // Silently fail if position is out of bounds
-        setHoveredImage(null)
+        setHoveredImage(null);
       }
     },
-    [view, isAltPressed]
-  )
+    [view, isAltPressed],
+  );
 
   useEffect(() => {
-    if (!view) return
+    if (!view) return;
 
     // Get the editor DOM element
-    const editorDom = view.dom
+    const editorDom = view.dom;
 
     // Add mouse move listener
-    editorDom.addEventListener('mousemove', handleMouseMove)
+    editorDom.addEventListener('mousemove', handleMouseMove);
 
     return () => {
-      editorDom.removeEventListener('mousemove', handleMouseMove)
-    }
-  }, [view, handleMouseMove])
+      editorDom.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [view, handleMouseMove]);
 
   // Clear on mouse leave
   useEffect(() => {
-    if (!view) return
+    if (!view) return;
 
-    const editorDom = view.dom
+    const editorDom = view.dom;
 
     const handleMouseLeave = () => {
-      setHoveredImage(null)
-    }
+      setHoveredImage(null);
+    };
 
-    editorDom.addEventListener('mouseleave', handleMouseLeave)
+    editorDom.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      editorDom.removeEventListener('mouseleave', handleMouseLeave)
-    }
-  }, [view])
+      editorDom.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, [view]);
 
   // Return null if Alt is not pressed, otherwise return the hovered image
   // This ensures the image preview disappears immediately when Alt is released
-  return isAltPressed ? hoveredImage : null
-}
+  return isAltPressed ? hoveredImage : null;
+};

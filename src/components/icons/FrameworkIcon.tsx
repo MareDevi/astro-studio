@@ -1,6 +1,6 @@
 interface FrameworkIconProps {
-  framework: 'astro' | 'react' | 'vue' | 'svelte'
-  className?: string
+  framework: 'astro' | 'react' | 'vue' | 'svelte';
+  className?: string;
 }
 
 export function FrameworkIcon({
@@ -28,7 +28,7 @@ export function FrameworkIcon({
         <path d="M16.074 16.86c-.72.616-2.157.95-3.123.95-1.022 0-1.71-.304-2.292-.98l-3.74 6.043c-.253.397-.623.625-1.042.625-.738 0-1.337-.589-1.337-1.315 0-.143.023-.287.082-.43l6.854-16.767c.117-.285.293-.476.513-.608.22-.132.477-.199.752-.199.275 0 .532.067.752.199.22.132.396.323.513.608l6.854 16.767c.059.143.082.287.082.43 0 .726-.599 1.315-1.337 1.315-.42 0-.79-.228-1.042-.625l-3.74-6.043zm-.635-5.785L12 3.59l-3.439 7.485h6.878z" />
       </svg>
     ),
-  }
+  };
 
-  return icons[framework]
+  return icons[framework];
 }

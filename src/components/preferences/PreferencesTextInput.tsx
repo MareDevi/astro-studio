@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
-import { Input } from '@/components/ui/input'
+import type React from 'react';
+import { useState } from 'react';
+import { Input } from '@/components/ui/input';
 
-interface PreferencesTextInputProps extends Omit<
-  React.ComponentProps<typeof Input>,
-  'value' | 'onChange'
-> {
-  value: string
-  onCommit: (value: string) => void
+interface PreferencesTextInputProps
+  extends Omit<React.ComponentProps<typeof Input>, 'value' | 'onChange'> {
+  value: string;
+  onCommit: (value: string) => void;
 }
 
 /**
@@ -22,35 +21,35 @@ export const PreferencesTextInput: React.FC<PreferencesTextInputProps> = ({
   onCommit,
   ...inputProps
 }) => {
-  const [localValue, setLocalValue] = useState(storeValue)
-  const [prevStoreValue, setPrevStoreValue] = useState(storeValue)
+  const [localValue, setLocalValue] = useState(storeValue);
+  const [prevStoreValue, setPrevStoreValue] = useState(storeValue);
 
   // Sync from store when it changes externally (e.g., initial load, reset)
   if (storeValue !== prevStoreValue) {
-    setPrevStoreValue(storeValue)
-    setLocalValue(storeValue)
+    setPrevStoreValue(storeValue);
+    setLocalValue(storeValue);
   }
 
   const commitIfChanged = () => {
     if (localValue !== storeValue) {
-      onCommit(localValue)
+      onCommit(localValue);
     }
-  }
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      commitIfChanged()
-      e.currentTarget.blur()
+      commitIfChanged();
+      e.currentTarget.blur();
     }
-  }
+  };
 
   return (
     <Input
       {...inputProps}
       value={localValue}
-      onChange={e => setLocalValue(e.target.value)}
+      onChange={(e) => setLocalValue(e.target.value)}
       onBlur={commitIfChanged}
       onKeyDown={handleKeyDown}
     />
-  )
-}
+  );
+};

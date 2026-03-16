@@ -1,10 +1,10 @@
-import React from 'react'
-import { useShallow } from 'zustand/react/shallow'
-import { useEditorStore } from '../../../store/editorStore'
-import { useProjectStore } from '../../../store/projectStore'
-import { useUIStore } from '../../../store/uiStore'
-import { useCreateFile } from '../../../hooks/useCreateFile'
-import { Button } from '../../ui/button'
+import type React from 'react';
+import { useShallow } from 'zustand/react/shallow';
+import { useEditorStore } from '../../../store/editorStore';
+import { useProjectStore } from '../../../store/projectStore';
+import { useUIStore } from '../../../store/uiStore';
+import { useCreateFile } from '../../../hooks/useCreateFile';
+import { Button } from '../../ui/button';
 import {
   Save,
   PanelRight,
@@ -16,14 +16,14 @@ import {
   Pilcrow,
   MonitorPlay,
   GitBranch,
-} from 'lucide-react'
-import { cn } from '../../../lib/utils'
+} from 'lucide-react';
+import { cn } from '../../../lib/utils';
 
 interface TitleBarToolbarProps {
   /** Window controls for the left side (e.g., macOS traffic lights) */
-  leftSlot?: React.ReactNode
+  leftSlot?: React.ReactNode;
   /** Window controls for the right side (e.g., Windows minimize/maximize/close) */
-  rightSlot?: React.ReactNode
+  rightSlot?: React.ReactNode;
 }
 
 /**
@@ -34,44 +34,50 @@ export const TitleBarToolbar: React.FC<TitleBarToolbarProps> = ({
   leftSlot,
   rightSlot,
 }) => {
-  const currentFile = useEditorStore(useShallow(state => state.currentFile))
-  const saveFile = useEditorStore(state => state.saveFile)
-  const isDirty = useEditorStore(state => state.isDirty)
+  const currentFile = useEditorStore(useShallow((state) => state.currentFile));
+  const saveFile = useEditorStore((state) => state.saveFile);
+  const isDirty = useEditorStore((state) => state.isDirty);
 
-  const projectPath = useProjectStore(state => state.projectPath)
-  const selectedCollection = useProjectStore(state => state.selectedCollection)
+  const projectPath = useProjectStore((state) => state.projectPath);
+  const selectedCollection = useProjectStore(
+    (state) => state.selectedCollection,
+  );
 
   const toggleFrontmatterPanel = useUIStore(
-    state => state.toggleFrontmatterPanel
-  )
+    (state) => state.toggleFrontmatterPanel,
+  );
   const frontmatterPanelVisible = useUIStore(
-    state => state.frontmatterPanelVisible
-  )
-  const toggleSidebar = useUIStore(state => state.toggleSidebar)
-  const sidebarVisible = useUIStore(state => state.sidebarVisible)
-  const focusModeEnabled = useUIStore(state => state.focusModeEnabled)
-  const toggleFocusMode = useUIStore(state => state.toggleFocusMode)
-  const typewriterModeEnabled = useUIStore(state => state.typewriterModeEnabled)
-  const toggleTypewriterMode = useUIStore(state => state.toggleTypewriterMode)
-  const togglePreview = useUIStore(state => state.togglePreview)
-  const previewVisible = useUIStore(state => state.previewVisible)
-  const toggleGitPanel = useUIStore(state => state.toggleGitPanel)
-  const gitPanelVisible = useUIStore(state => state.gitPanelVisible)
+    (state) => state.frontmatterPanelVisible,
+  );
+  const toggleSidebar = useUIStore((state) => state.toggleSidebar);
+  const sidebarVisible = useUIStore((state) => state.sidebarVisible);
+  const focusModeEnabled = useUIStore((state) => state.focusModeEnabled);
+  const toggleFocusMode = useUIStore((state) => state.toggleFocusMode);
+  const typewriterModeEnabled = useUIStore(
+    (state) => state.typewriterModeEnabled,
+  );
+  const toggleTypewriterMode = useUIStore(
+    (state) => state.toggleTypewriterMode,
+  );
+  const togglePreview = useUIStore((state) => state.togglePreview);
+  const previewVisible = useUIStore((state) => state.previewVisible);
+  const toggleGitPanel = useUIStore((state) => state.toggleGitPanel);
+  const gitPanelVisible = useUIStore((state) => state.gitPanelVisible);
   const distractionFreeBarsHidden = useUIStore(
-    state => state.distractionFreeBarsHidden
-  )
-  const showBars = useUIStore(state => state.showBars)
+    (state) => state.distractionFreeBarsHidden,
+  );
+  const showBars = useUIStore((state) => state.showBars);
 
-  const { createNewFile } = useCreateFile()
+  const { createNewFile } = useCreateFile();
 
   const handleSave = () => {
     if (currentFile && isDirty) {
-      void saveFile()
+      void saveFile();
     }
-  }
+  };
 
   const bothPanelsHidden =
-    !sidebarVisible && !frontmatterPanelVisible && !gitPanelVisible
+    !sidebarVisible && !frontmatterPanelVisible && !gitPanelVisible;
 
   return (
     <div
@@ -80,7 +86,7 @@ export const TitleBarToolbar: React.FC<TitleBarToolbarProps> = ({
         bothPanelsHidden
           ? 'bg-[var(--editor-color-background)] border-transparent'
           : 'bg-gray-50 dark:bg-black border-border',
-        distractionFreeBarsHidden && bothPanelsHidden && 'opacity-0'
+        distractionFreeBarsHidden && bothPanelsHidden && 'opacity-0',
       )}
       data-tauri-drag-region
       onMouseEnter={showBars}
@@ -139,7 +145,7 @@ export const TitleBarToolbar: React.FC<TitleBarToolbarProps> = ({
           <Eye
             className={cn(
               'size-4',
-              focusModeEnabled && 'text-blue-500 dark:text-blue-400'
+              focusModeEnabled && 'text-blue-500 dark:text-blue-400',
             )}
           />
         </Button>
@@ -163,7 +169,7 @@ export const TitleBarToolbar: React.FC<TitleBarToolbarProps> = ({
           <Pilcrow
             className={cn(
               'size-4',
-              typewriterModeEnabled && 'text-blue-500 dark:text-blue-400'
+              typewriterModeEnabled && 'text-blue-500 dark:text-blue-400',
             )}
           />
         </Button>
@@ -178,7 +184,7 @@ export const TitleBarToolbar: React.FC<TitleBarToolbarProps> = ({
           <MonitorPlay
             className={cn(
               'size-4',
-              previewVisible && 'text-blue-500 dark:text-blue-400'
+              previewVisible && 'text-blue-500 dark:text-blue-400',
             )}
           />
         </Button>
@@ -193,7 +199,7 @@ export const TitleBarToolbar: React.FC<TitleBarToolbarProps> = ({
           <GitBranch
             className={cn(
               'size-4',
-              gitPanelVisible && 'text-blue-500 dark:text-blue-400'
+              gitPanelVisible && 'text-blue-500 dark:text-blue-400',
             )}
           />
         </Button>
@@ -230,5 +236,5 @@ export const TitleBarToolbar: React.FC<TitleBarToolbarProps> = ({
         {rightSlot}
       </div>
     </div>
-  )
-}
+  );
+};

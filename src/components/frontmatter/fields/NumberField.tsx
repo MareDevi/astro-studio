@@ -1,15 +1,15 @@
-import React from 'react'
-import { useEditorStore } from '../../../store/editorStore'
-import { getNestedValue } from '../../../lib/object-utils'
-import { Input } from '../../ui/input'
-import { valueToString } from '../utils'
-import { FieldWrapper } from './FieldWrapper'
-import type { FieldProps } from '../../../types/common'
-import type { SchemaField } from '../../../lib/schema'
+import type React from 'react';
+import { useEditorStore } from '../../../store/editorStore';
+import { getNestedValue } from '../../../lib/object-utils';
+import { Input } from '../../ui/input';
+import { valueToString } from '../utils';
+import { FieldWrapper } from './FieldWrapper';
+import type { FieldProps } from '../../../types/common';
+import type { SchemaField } from '../../../lib/schema';
 
 interface NumberFieldProps extends FieldProps {
-  placeholder?: string
-  field?: SchemaField
+  placeholder?: string;
+  field?: SchemaField;
 }
 
 export const NumberField: React.FC<NumberFieldProps> = ({
@@ -19,10 +19,12 @@ export const NumberField: React.FC<NumberFieldProps> = ({
   required,
   field,
 }) => {
-  const value = useEditorStore(state => getNestedValue(state.frontmatter, name))
+  const value = useEditorStore((state) =>
+    getNestedValue(state.frontmatter, name),
+  );
   const updateFrontmatterField = useEditorStore(
-    state => state.updateFrontmatterField
-  )
+    (state) => state.updateFrontmatterField,
+  );
 
   return (
     <FieldWrapper
@@ -39,11 +41,11 @@ export const NumberField: React.FC<NumberFieldProps> = ({
         type="number"
         placeholder={placeholder || `Enter ${label.toLowerCase()}...`}
         value={valueToString(value)}
-        onChange={e => {
-          const numValue = e.target.value ? Number(e.target.value) : undefined
-          updateFrontmatterField(name, numValue)
+        onChange={(e) => {
+          const numValue = e.target.value ? Number(e.target.value) : undefined;
+          updateFrontmatterField(name, numValue);
         }}
       />
     </FieldWrapper>
-  )
-}
+  );
+};

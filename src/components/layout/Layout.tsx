@@ -1,206 +1,209 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react'
-import { useShallow } from 'zustand/react/shallow'
-import { useUIStore } from '../../store/uiStore'
-import { useTheme } from '../../lib/theme-provider'
-import { useProjectStore } from '../../store/projectStore'
-import { UnifiedTitleBar } from './unified-title-bar'
-import { LeftSidebar } from './LeftSidebar'
-import { MainEditor } from './MainEditor'
-import { RightSidebar } from './RightSidebar'
-import { FrontmatterPanel } from '../frontmatter'
-import { GitPanel } from '../git/GitPanel'
-import { PreviewPanel } from '../preview/PreviewPanel'
-import { CommandPalette } from '../command-palette'
-import { ComponentBuilderDialog } from '../component-builder'
-import { ContentLinkerDialog } from '../content-linker'
-import { Toaster } from '../ui/sonner'
-import { PreferencesDialog } from '../preferences'
-import { useProjectInitialization } from '../../hooks/useProjectInitialization'
-import { useRustToastBridge } from '../../hooks/useRustToastBridge'
-import { useEditorFocusTracking } from '../../hooks/useEditorFocusTracking'
-import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts'
-import { useMenuEvents } from '../../hooks/useMenuEvents'
-import { useDOMEventListeners } from '../../hooks/useDOMEventListeners'
-import { useEditorFileContent } from '../../hooks/useEditorFileContent'
-import { useFileChangeHandler } from '../../hooks/useFileChangeHandler'
-import { useEditorActions } from '../../hooks/editor/useEditorActions'
-import { useCreateFile } from '../../hooks/useCreateFile'
-import { useSquareCornersEffect } from '../../hooks/useSquareCornersEffect'
-import { useEditorStore } from '../../store/editorStore'
-import { focusEditor } from '../../lib/focus-utils'
-import { LAYOUT_SIZES } from '../../lib/layout-constants'
+import type React from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
+import { useShallow } from 'zustand/react/shallow';
+import { useUIStore } from '../../store/uiStore';
+import { useTheme } from '../../lib/theme-provider';
+import { useProjectStore } from '../../store/projectStore';
+import { UnifiedTitleBar } from './unified-title-bar';
+import { LeftSidebar } from './LeftSidebar';
+import { MainEditor } from './MainEditor';
+import { RightSidebar } from './RightSidebar';
+import { FrontmatterPanel } from '../frontmatter';
+import { GitPanel } from '../git/GitPanel';
+import { PreviewPanel } from '../preview/PreviewPanel';
+import { CommandPalette } from '../command-palette';
+import { ComponentBuilderDialog } from '../component-builder';
+import { ContentLinkerDialog } from '../content-linker';
+import { Toaster } from '../ui/sonner';
+import { PreferencesDialog } from '../preferences';
+import { useProjectInitialization } from '../../hooks/useProjectInitialization';
+import { useRustToastBridge } from '../../hooks/useRustToastBridge';
+import { useEditorFocusTracking } from '../../hooks/useEditorFocusTracking';
+import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts';
+import { useMenuEvents } from '../../hooks/useMenuEvents';
+import { useDOMEventListeners } from '../../hooks/useDOMEventListeners';
+import { useEditorFileContent } from '../../hooks/useEditorFileContent';
+import { useFileChangeHandler } from '../../hooks/useFileChangeHandler';
+import { useEditorActions } from '../../hooks/editor/useEditorActions';
+import { useCreateFile } from '../../hooks/useCreateFile';
+import { useSquareCornersEffect } from '../../hooks/useSquareCornersEffect';
+import { useEditorStore } from '../../store/editorStore';
+import { focusEditor } from '../../lib/focus-utils';
+import { LAYOUT_SIZES } from '../../lib/layout-constants';
 import {
   ResizablePanelGroup,
   ResizablePanel,
   ResizableHandle,
   type PanelImperativeHandle,
-} from '../ui/resizable'
+} from '../ui/resizable';
 
 export const Layout: React.FC = () => {
   // UI state - use selector syntax for consistency
-  const sidebarVisible = useUIStore(state => state.sidebarVisible)
+  const sidebarVisible = useUIStore((state) => state.sidebarVisible);
   const frontmatterPanelVisible = useUIStore(
-    state => state.frontmatterPanelVisible
-  )
-  const gitPanelVisible = useUIStore(state => state.gitPanelVisible)
-  const previewVisible = useUIStore(state => state.previewVisible)
+    (state) => state.frontmatterPanelVisible,
+  );
+  const gitPanelVisible = useUIStore((state) => state.gitPanelVisible);
+  const previewVisible = useUIStore((state) => state.previewVisible);
 
-  const { setTheme } = useTheme()
+  const { setTheme } = useTheme();
 
   // Extract specific nested values for useEffect dependencies
-  const theme = useProjectStore(state => state.globalSettings?.general?.theme)
+  const theme = useProjectStore(
+    (state) => state.globalSettings?.general?.theme,
+  );
   const headingColor = useProjectStore(
-    useShallow(state => state.globalSettings?.appearance?.headingColor) // headingColor is an object with .light and .dark
-  )
+    useShallow((state) => state.globalSettings?.appearance?.headingColor), // headingColor is an object with .light and .dark
+  );
   const editorBaseFontSize = useProjectStore(
-    state => state.globalSettings?.appearance?.editorBaseFontSize
-  )
+    (state) => state.globalSettings?.appearance?.editorBaseFontSize,
+  );
   const fonts = useProjectStore(
-    state => state.globalSettings?.appearance?.fonts
-  )
+    (state) => state.globalSettings?.appearance?.fonts,
+  );
 
-  const [preferencesOpen, setPreferencesOpen] = useState(false)
+  const [preferencesOpen, setPreferencesOpen] = useState(false);
 
   // Left sidebar uses collapsible panel with imperative API for drag-to-collapse UX.
   // Preview and right sidebar use conditional rendering to avoid
   // react-resizable-panels space redistribution loops between collapsible siblings.
-  const leftPanelRef = useRef<PanelImperativeHandle>(null)
+  const leftPanelRef = useRef<PanelImperativeHandle>(null);
 
   // Suppress benign ResizeObserver errors from panel resizing (dev-only to avoid hiding issues in production)
   useEffect(() => {
     // Only attach this handler in development to avoid masking real ResizeObserver issues in production
     if (!import.meta.env.DEV) {
-      return
+      return;
     }
 
     const handleError = (event: ErrorEvent) => {
       if (event.message?.includes('ResizeObserver loop')) {
-        event.stopImmediatePropagation()
+        event.stopImmediatePropagation();
       }
-    }
-    window.addEventListener('error', handleError)
-    return () => window.removeEventListener('error', handleError)
-  }, [])
+    };
+    window.addEventListener('error', handleError);
+    return () => window.removeEventListener('error', handleError);
+  }, []);
 
   // Sync left sidebar visibility with panel collapse state
   useEffect(() => {
     if (sidebarVisible) {
-      leftPanelRef.current?.expand()
+      leftPanelRef.current?.expand();
     } else {
-      leftPanelRef.current?.collapse()
+      leftPanelRef.current?.collapse();
     }
-  }, [sidebarVisible])
+  }, [sidebarVisible]);
 
   // Sync drag-to-collapse back to the store for left sidebar
   const handleLeftPanelResize = useCallback(
     (size: { asPercentage: number }) => {
-      const isCollapsed = size.asPercentage === 0
+      const isCollapsed = size.asPercentage === 0;
       const { sidebarVisible: current, setSidebarVisible } =
-        useUIStore.getState()
-      if (isCollapsed && current) setSidebarVisible(false)
-      if (!isCollapsed && !current) setSidebarVisible(true)
+        useUIStore.getState();
+      if (isCollapsed && current) setSidebarVisible(false);
+      if (!isCollapsed && !current) setSidebarVisible(true);
     },
-    []
-  )
+    [],
+  );
 
   const handleSetPreferencesOpen = useCallback((open: boolean) => {
-    setPreferencesOpen(open)
+    setPreferencesOpen(open);
     if (!open) {
       setTimeout(() => {
-        focusEditor()
-      }, 100)
+        focusEditor();
+      }, 100);
     }
-  }, [])
+  }, []);
 
   // Get editor actions (Hybrid Action Hooks pattern)
-  const { saveFile } = useEditorActions()
-  const { createNewFile: createNewFileWithQuery } = useCreateFile()
+  const { saveFile } = useEditorActions();
+  const { createNewFile: createNewFileWithQuery } = useCreateFile();
 
   // Register auto-save callback with store
   useEffect(() => {
-    useEditorStore.getState().setAutoSaveCallback(saveFile)
+    useEditorStore.getState().setAutoSaveCallback(saveFile);
     return () => {
-      useEditorStore.getState().setAutoSaveCallback(null)
-    }
-  }, [saveFile])
+      useEditorStore.getState().setAutoSaveCallback(null);
+    };
+  }, [saveFile]);
 
   // Compose all decomposed hooks
-  useProjectInitialization()
-  useRustToastBridge()
-  useEditorFocusTracking()
-  useKeyboardShortcuts(handleSetPreferencesOpen)
-  useMenuEvents(createNewFileWithQuery, handleSetPreferencesOpen)
-  useSquareCornersEffect()
-  useDOMEventListeners(createNewFileWithQuery, handleSetPreferencesOpen)
+  useProjectInitialization();
+  useRustToastBridge();
+  useEditorFocusTracking();
+  useKeyboardShortcuts(handleSetPreferencesOpen);
+  useMenuEvents(createNewFileWithQuery, handleSetPreferencesOpen);
+  useSquareCornersEffect();
+  useDOMEventListeners(createNewFileWithQuery, handleSetPreferencesOpen);
 
   // Enable query-based file loading
-  useEditorFileContent()
+  useEditorFileContent();
 
   // Enable file change detection
-  useFileChangeHandler()
+  useFileChangeHandler();
 
   // Sync stored theme preference with theme provider on app load
   useEffect(() => {
     if (theme) {
-      setTheme(theme)
+      setTheme(theme);
     }
-  }, [theme, setTheme])
+  }, [theme, setTheme]);
 
   // Update heading color CSS variables when appearance settings change
   useEffect(() => {
-    const root = window.document.documentElement
-    const isDark = root.classList.contains('dark')
+    const root = window.document.documentElement;
+    const isDark = root.classList.contains('dark');
 
     if (headingColor) {
-      const color = isDark ? headingColor.dark : headingColor.light
-      root.style.setProperty('--editor-color-heading', color)
+      const color = isDark ? headingColor.dark : headingColor.light;
+      root.style.setProperty('--editor-color-heading', color);
     }
-  }, [headingColor])
+  }, [headingColor]);
 
   // Also update heading color when theme changes (system theme changes)
   useEffect(() => {
-    const root = window.document.documentElement
+    const root = window.document.documentElement;
 
     if (headingColor) {
       const observer = new MutationObserver(() => {
-        const isDark = root.classList.contains('dark')
-        const color = isDark ? headingColor.dark : headingColor.light
-        root.style.setProperty('--editor-color-heading', color)
-      })
+        const isDark = root.classList.contains('dark');
+        const color = isDark ? headingColor.dark : headingColor.light;
+        root.style.setProperty('--editor-color-heading', color);
+      });
 
-      observer.observe(root, { attributes: true, attributeFilter: ['class'] })
+      observer.observe(root, { attributes: true, attributeFilter: ['class'] });
 
-      return () => observer.disconnect()
+      return () => observer.disconnect();
     }
-  }, [headingColor])
+  }, [headingColor]);
 
   // Apply editor base font size CSS variable
   useEffect(() => {
-    const root = window.document.documentElement
-    const size = editorBaseFontSize ?? 18
-    root.style.setProperty('--editor-base-font-size', `${size}px`)
-  }, [editorBaseFontSize])
+    const root = window.document.documentElement;
+    const size = editorBaseFontSize ?? 18;
+    root.style.setProperty('--editor-base-font-size', `${size}px`);
+  }, [editorBaseFontSize]);
 
   // Apply fonts from preferences
   useEffect(() => {
     if (fonts) {
-      const root = window.document.documentElement
+      const root = window.document.documentElement;
       if (fonts.interface) {
-        root.style.setProperty('--font-interface', fonts.interface)
+        root.style.setProperty('--font-interface', fonts.interface);
       }
       if (fonts.editorBody) {
-        root.style.setProperty('--editor-font-family-body', fonts.editorBody)
+        root.style.setProperty('--editor-font-family-body', fonts.editorBody);
         // Also set italic version (assuming it exists or can be fallback)
         root.style.setProperty(
           '--editor-font-family-body-italic',
-          fonts.editorBody
-        )
+          fonts.editorBody,
+        );
       }
       if (fonts.editorCode) {
-        root.style.setProperty('--editor-font-family-mono', fonts.editorCode)
+        root.style.setProperty('--editor-font-family-mono', fonts.editorCode);
       }
     }
-  }, [fonts])
+  }, [fonts]);
 
   return (
     <div className="h-screen w-screen bg-[var(--editor-color-background)] flex flex-col overflow-hidden">
@@ -284,5 +287,5 @@ export const Layout: React.FC = () => {
       />
       <Toaster />
     </div>
-  )
-}
+  );
+};

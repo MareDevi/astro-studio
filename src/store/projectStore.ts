@@ -1,47 +1,49 @@
-import { create } from 'zustand'
-import { commands } from '@/lib/bindings'
-import { listen, type UnlistenFn } from '@tauri-apps/api/event'
-import { error as logError, info, debug } from '@tauri-apps/plugin-log'
-import { toast } from '../lib/toast'
-import { ASTRO_PATHS } from '../lib/constants'
-import { formatErrorForLogging } from '../lib/diagnostics'
+import { create } from 'zustand';
+import { commands } from '@/lib/bindings';
+import { listen, type UnlistenFn } from '@tauri-apps/api/event';
+import { error as logError, info, debug } from '@tauri-apps/plugin-log';
+import { toast } from '../lib/toast';
+import { ASTRO_PATHS } from '../lib/constants';
+import { formatErrorForLogging } from '../lib/diagnostics';
 import {
   projectRegistryManager,
-  GlobalSettings,
-  ProjectSettings,
-  DeepPartial,
-} from '../lib/project-registry'
-import { useEditorStore } from './editorStore'
-import { queryClient } from '../lib/query-client'
-import { queryKeys } from '../lib/query-keys'
+  type GlobalSettings,
+  type ProjectSettings,
+  type DeepPartial,
+} from '../lib/project-registry';
+import { useEditorStore } from './editorStore';
+import { queryClient } from '../lib/query-client';
+import { queryKeys } from '../lib/query-keys';
 
 interface ProjectState {
   // Core identifiers
-  projectPath: string | null
-  currentProjectId: string | null
-  selectedCollection: string | null
-  currentSubdirectory: string | null // Relative path from collection root, e.g., "2024/january"
+  projectPath: string | null;
+  currentProjectId: string | null;
+  selectedCollection: string | null;
+  currentSubdirectory: string | null; // Relative path from collection root, e.g., "2024/january"
 
   // Settings
-  globalSettings: GlobalSettings | null
-  currentProjectSettings: ProjectSettings | null
+  globalSettings: GlobalSettings | null;
+  currentProjectSettings: ProjectSettings | null;
 
   // Event listener cleanup functions
-  _unlistenFileChanged: UnlistenFn | null
-  _unlistenSchemaChanged: UnlistenFn | null
+  _unlistenFileChanged: UnlistenFn | null;
+  _unlistenSchemaChanged: UnlistenFn | null;
 
   // Actions
-  setProject: (path: string) => void
-  setSelectedCollection: (collection: string | null) => void
-  setCurrentSubdirectory: (subdirectory: string | null) => void
-  navigateUp: () => void // Go up one level in directory hierarchy
-  navigateToRoot: () => void // Go to collection root (clear subdirectory)
-  loadPersistedProject: () => Promise<void>
-  initializeProjectRegistry: () => Promise<void>
-  updateGlobalSettings: (settings: DeepPartial<GlobalSettings>) => Promise<void>
-  updateProjectSettings: (settings: Partial<ProjectSettings>) => Promise<void>
-  startFileWatcher: () => Promise<void>
-  stopFileWatcher: () => Promise<void>
+  setProject: (path: string) => void;
+  setSelectedCollection: (collection: string | null) => void;
+  setCurrentSubdirectory: (subdirectory: string | null) => void;
+  navigateUp: () => void; // Go up one level in directory hierarchy
+  navigateToRoot: () => void; // Go to collection root (clear subdirectory)
+  loadPersistedProject: () => Promise<void>;
+  initializeProjectRegistry: () => Promise<void>;
+  updateGlobalSettings: (
+    settings: DeepPartial<GlobalSettings>,
+  ) => Promise<void>;
+  updateProjectSettings: (settings: Partial<ProjectSettings>) => Promise<void>;
+  startFileWatcher: () => Promise<void>;
+  stopFileWatcher: () => Promise<void>;
 }
 
 export const useProjectStore = create<ProjectState>((set, get) => ({
@@ -60,25 +62,25 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
     void (async () => {
       try {
         await info(
-          `Astro Editor [PROJECT_SETUP] Starting project setup: ${path}`
-        )
+          `Astro Editor [PROJECT_SETUP] Starting project setup: ${path}`,
+        );
 
         // Close any currently open file when switching projects
-        useEditorStore.getState().closeCurrentFile()
+        useEditorStore.getState().closeCurrentFile();
 
         // Register the project and get its ID
-        await info(`Astro Editor [PROJECT_SETUP] Registering project: ${path}`)
-        const projectId = await projectRegistryManager.registerProject(path)
+        await info(`Astro Editor [PROJECT_SETUP] Registering project: ${path}`);
+        const projectId = await projectRegistryManager.registerProject(path);
         await debug(
-          `Astro Editor [PROJECT_SETUP] Project ID generated: ${projectId}`
-        )
+          `Astro Editor [PROJECT_SETUP] Project ID generated: ${projectId}`,
+        );
 
         // Load project settings
         await info(
-          `Astro Editor [PROJECT_SETUP] Loading project settings for: ${projectId}`
-        )
+          `Astro Editor [PROJECT_SETUP] Loading project settings for: ${projectId}`,
+        );
         const projectSettings =
-          await projectRegistryManager.getEffectiveSettings(projectId)
+          await projectRegistryManager.getEffectiveSettings(projectId);
 
         set({
           projectPath: path,
@@ -86,16 +88,16 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
           currentProjectSettings: projectSettings,
           selectedCollection: null, // Reset collection when switching projects
           currentSubdirectory: null, // Reset subdirectory when switching projects
-        })
+        });
 
         // Project persistence is now handled by the project registry system
 
-        await info(`Astro Editor [PROJECT_SETUP] Starting file watcher`)
-        await get().startFileWatcher()
+        await info(`Astro Editor [PROJECT_SETUP] Starting file watcher`);
+        await get().startFileWatcher();
 
         await info(
-          `Astro Editor [PROJECT_SETUP] Project setup completed successfully: ${projectId}`
-        )
+          `Astro Editor [PROJECT_SETUP] Project setup completed successfully: ${projectId}`,
+        );
       } catch (error) {
         const errorMsg = formatErrorForLogging(
           'PROJECT_SETUP',
@@ -104,69 +106,69 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
             projectPath: path,
             step: 'Project Setup',
             error: error instanceof Error ? error : String(error),
-          }
-        )
+          },
+        );
 
         toast.error('Failed to set project', {
           description:
             error instanceof Error ? error.message : 'Unknown error occurred',
-        })
-        await logError(errorMsg)
+        });
+        await logError(errorMsg);
       }
-    })()
+    })();
   },
 
   setSelectedCollection: (collection: string | null) => {
     set({
       selectedCollection: collection,
       currentSubdirectory: null, // Always reset when switching collections
-    })
+    });
   },
 
   setCurrentSubdirectory: (subdirectory: string | null) => {
-    set({ currentSubdirectory: subdirectory })
+    set({ currentSubdirectory: subdirectory });
   },
 
   navigateUp: () => {
-    const { currentSubdirectory } = get()
+    const { currentSubdirectory } = get();
     if (!currentSubdirectory) {
       // Already at collection root, go to collections list
-      set({ selectedCollection: null })
+      set({ selectedCollection: null });
     } else {
       // Go to parent directory
-      const parts = currentSubdirectory.split('/')
-      parts.pop() // Remove last segment
+      const parts = currentSubdirectory.split('/');
+      parts.pop(); // Remove last segment
       set({
         currentSubdirectory: parts.length > 0 ? parts.join('/') : null,
-      })
+      });
     }
   },
 
   navigateToRoot: () => {
-    set({ currentSubdirectory: null })
+    set({ currentSubdirectory: null });
   },
 
   startFileWatcher: async () => {
-    const { projectPath, currentProjectSettings } = get()
-    if (!projectPath) return
+    const { projectPath, currentProjectSettings } = get();
+    if (!projectPath) return;
 
     try {
       // Use path override if configured
       const contentDirectory =
-        currentProjectSettings?.pathOverrides?.contentDirectory
+        currentProjectSettings?.pathOverrides?.contentDirectory;
 
       if (contentDirectory && contentDirectory !== ASTRO_PATHS.CONTENT_DIR) {
         const result = await commands.startWatchingProjectWithContentDir(
           projectPath,
-          contentDirectory
-        )
+          contentDirectory,
+        );
         if (result.status === 'error') {
-          throw new Error(result.error)
+          throw new Error(result.error);
         }
       } else {
-        const result = await commands.startWatchingProject(projectPath)
+        const result = await commands.startWatchingProject(projectPath);
         if (result.status === 'error') {
-          throw new Error(result.error)
+          throw new Error(result.error);
         }
       }
 
@@ -181,103 +183,103 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
           window.dispatchEvent(
             new CustomEvent('file-changed', {
               detail: event.payload,
-            })
-          )
-        }
-      )
+            }),
+          );
+        },
+      );
 
       // Listen for schema change events (config.ts or .schema.json files)
       const unlistenSchemaChanged = await listen('schema-changed', () => {
         // Invalidate collections query to re-parse schemas
         void queryClient.invalidateQueries({
           queryKey: queryKeys.collections(projectPath),
-        })
-      })
+        });
+      });
 
       // Store the unlisten functions for cleanup
       set({
         _unlistenFileChanged: unlistenFileChanged,
         _unlistenSchemaChanged: unlistenSchemaChanged,
-      })
+      });
     } catch (error) {
       const errorMsg = formatErrorForLogging(
         'PROJECT_SETUP',
         'File watcher failed to start',
-        { projectPath, error: error instanceof Error ? error : String(error) }
-      )
+        { projectPath, error: error instanceof Error ? error : String(error) },
+      );
 
       toast.warning('File watcher failed to start', {
         description: 'Changes to files may not be automatically detected.',
-      })
-      await logError(errorMsg)
+      });
+      await logError(errorMsg);
     }
   },
 
   stopFileWatcher: async () => {
-    const { projectPath, _unlistenFileChanged, _unlistenSchemaChanged } = get()
-    if (!projectPath) return
+    const { projectPath, _unlistenFileChanged, _unlistenSchemaChanged } = get();
+    if (!projectPath) return;
 
     try {
       // Clean up event listeners first
       if (_unlistenFileChanged) {
-        _unlistenFileChanged()
+        _unlistenFileChanged();
       }
       if (_unlistenSchemaChanged) {
-        _unlistenSchemaChanged()
+        _unlistenSchemaChanged();
       }
       set({
         _unlistenFileChanged: null,
         _unlistenSchemaChanged: null,
-      })
+      });
 
-      const result = await commands.stopWatchingProject(projectPath)
+      const result = await commands.stopWatchingProject(projectPath);
       if (result.status === 'error') {
-        throw new Error(result.error)
+        throw new Error(result.error);
       }
     } catch (error) {
       const errorMsg = formatErrorForLogging(
         'PROJECT_SETUP',
         'Failed to stop file watcher',
-        { projectPath, error: error instanceof Error ? error : String(error) }
-      )
+        { projectPath, error: error instanceof Error ? error : String(error) },
+      );
 
       toast.warning('Failed to stop file watcher', {
         description: 'File watcher may still be running in the background.',
-      })
-      await logError(errorMsg)
+      });
+      await logError(errorMsg);
     }
   },
 
   loadPersistedProject: async () => {
     try {
-      await get().initializeProjectRegistry()
+      await get().initializeProjectRegistry();
 
       // Try to load the last opened project from registry
-      const lastProjectId = projectRegistryManager.getLastOpenedProjectId()
+      const lastProjectId = projectRegistryManager.getLastOpenedProjectId();
       if (lastProjectId) {
         // Get project metadata from registry (not from project data)
-        const registry = projectRegistryManager.getRegistry()
-        const projectMetadata = registry.projects[lastProjectId]
+        const registry = projectRegistryManager.getRegistry();
+        const projectMetadata = registry.projects[lastProjectId];
 
         if (projectMetadata) {
           try {
             // Verify the project path still exists before setting it
-            const result = await commands.scanProject(projectMetadata.path)
+            const result = await commands.scanProject(projectMetadata.path);
             if (result.status === 'error') {
-              throw new Error(result.error)
+              throw new Error(result.error);
             }
             // If no error, the project path is valid, so restore it
-            get().setProject(projectMetadata.path)
+            get().setProject(projectMetadata.path);
           } catch (error) {
             toast.info('Previous project no longer available', {
               description: 'The last opened project could not be found.',
-            })
+            });
             // eslint-disable-next-line no-console
             console.warn(
               'Saved project path no longer valid:',
               projectMetadata.path,
-              error
-            )
+              error,
+            );
           }
         }
       }
@@ -285,27 +287,27 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
       // Project persistence is now fully handled by the file-based project registry
       // Clean up any legacy localStorage entries to prevent conflicts
       try {
-        localStorage.removeItem('astro-editor-last-project')
+        localStorage.removeItem('astro-editor-last-project');
       } catch {
         // Ignore errors - localStorage cleanup is optional
       }
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.warn('Failed to load persisted project:', error)
+      console.warn('Failed to load persisted project:', error);
     }
   },
 
   initializeProjectRegistry: async () => {
     try {
       await info(
-        'Astro Editor [PROJECT_REGISTRY] Initializing project registry'
-      )
-      await projectRegistryManager.initialize()
-      const globalSettings = projectRegistryManager.getGlobalSettings()
-      set({ globalSettings })
+        'Astro Editor [PROJECT_REGISTRY] Initializing project registry',
+      );
+      await projectRegistryManager.initialize();
+      const globalSettings = projectRegistryManager.getGlobalSettings();
+      set({ globalSettings });
       await info(
-        'Astro Editor [PROJECT_REGISTRY] Project registry initialized successfully'
-      )
+        'Astro Editor [PROJECT_REGISTRY] Project registry initialized successfully',
+      );
     } catch (error) {
       const errorMsg = formatErrorForLogging(
         'PROJECT_REGISTRY',
@@ -313,81 +315,81 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
         {
           error: error instanceof Error ? error : String(error),
           step: 'Registry Initialization',
-        }
-      )
+        },
+      );
 
       toast.error('Failed to initialize project registry', {
         description:
           error instanceof Error ? error.message : 'Unknown error occurred',
-      })
-      await logError(errorMsg)
+      });
+      await logError(errorMsg);
 
       // Don't throw - allow app to continue without registry if needed
       await info(
-        'Astro Editor [PROJECT_REGISTRY] Continuing without registry - some features may be limited'
-      )
+        'Astro Editor [PROJECT_REGISTRY] Continuing without registry - some features may be limited',
+      );
     }
   },
 
   updateGlobalSettings: async (settings: DeepPartial<GlobalSettings>) => {
     try {
-      await projectRegistryManager.updateGlobalSettings(settings)
-      const updatedSettings = projectRegistryManager.getGlobalSettings()
-      set({ globalSettings: updatedSettings })
+      await projectRegistryManager.updateGlobalSettings(settings);
+      const updatedSettings = projectRegistryManager.getGlobalSettings();
+      set({ globalSettings: updatedSettings });
     } catch (error) {
       toast.error('Failed to update global settings', {
         description:
           error instanceof Error ? error.message : 'Unknown error occurred',
-      })
-      await logError(`Failed to update global settings: ${String(error)}`)
+      });
+      await logError(`Failed to update global settings: ${String(error)}`);
     }
   },
 
   updateProjectSettings: async (settings: Partial<ProjectSettings>) => {
-    const { currentProjectId, projectPath, selectedCollection } = get()
+    const { currentProjectId, projectPath, selectedCollection } = get();
     if (!currentProjectId) {
-      toast.error('No project is currently open')
-      return
+      toast.error('No project is currently open');
+      return;
     }
 
     try {
       // Check if path overrides are changing
-      const pathOverridesChanged = !!settings.pathOverrides
+      const pathOverridesChanged = !!settings.pathOverrides;
 
       // If path overrides are changing and a file is open, handle gracefully
       if (pathOverridesChanged) {
-        const { currentFile } = useEditorStore.getState()
+        const { currentFile } = useEditorStore.getState();
         if (currentFile) {
           // Auto-save current file before settings change
           await info(
-            'Astro Editor [PREFERENCES] Path settings changing while file is open - auto-saving'
-          )
+            'Astro Editor [PREFERENCES] Path settings changing while file is open - auto-saving',
+          );
           try {
-            await useEditorStore.getState().saveFile()
+            await useEditorStore.getState().saveFile();
           } catch (saveError) {
             await logError(
-              `Astro Editor [PREFERENCES] Failed to auto-save before settings change: ${String(saveError)}`
-            )
+              `Astro Editor [PREFERENCES] Failed to auto-save before settings change: ${String(saveError)}`,
+            );
           }
 
           // Show warning toast
           toast.warning('Path settings changed', {
             description:
               'The current file has been saved. Please reopen it to continue editing.',
-          })
+          });
 
           // Close the current file to prevent save issues
-          useEditorStore.getState().closeCurrentFile()
+          useEditorStore.getState().closeCurrentFile();
         }
       }
 
       await projectRegistryManager.updateProjectSettings(
         currentProjectId,
-        settings
-      )
+        settings,
+      );
       const updatedSettings =
-        await projectRegistryManager.getEffectiveSettings(currentProjectId)
-      set({ currentProjectSettings: updatedSettings })
+        await projectRegistryManager.getEffectiveSettings(currentProjectId);
+      set({ currentProjectSettings: updatedSettings });
 
       // Invalidate queries when settings change
       if (projectPath) {
@@ -395,7 +397,7 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
         if (settings.pathOverrides) {
           await queryClient.invalidateQueries({
             queryKey: queryKeys.collections(projectPath),
-          })
+          });
 
           // Invalidate directory contents for current collection if any
           // This invalidates all directory scans for this collection (root + all subdirectories)
@@ -407,24 +409,24 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
                 selectedCollection,
                 'directory',
               ],
-            })
+            });
           }
 
           // Restart file watcher with new paths
           await info(
-            'Astro Editor [PREFERENCES] Path overrides changed - restarting file watcher'
-          )
-          await get().stopFileWatcher()
-          await get().startFileWatcher()
+            'Astro Editor [PREFERENCES] Path overrides changed - restarting file watcher',
+          );
+          await get().stopFileWatcher();
+          await get().startFileWatcher();
         }
 
         // If frontmatter mappings changed, invalidate current file to update rendering
         if (settings.frontmatterMappings) {
-          const { currentFile } = useEditorStore.getState()
+          const { currentFile } = useEditorStore.getState();
           if (currentFile) {
             await queryClient.invalidateQueries({
               queryKey: queryKeys.fileContent(projectPath, currentFile.id),
-            })
+            });
           }
         }
       }
@@ -432,11 +434,11 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
       toast.error('Failed to update project settings', {
         description:
           error instanceof Error ? error.message : 'Unknown error occurred',
-      })
-      await logError(`Failed to update project settings: ${String(error)}`)
+      });
+      await logError(`Failed to update project settings: ${String(error)}`);
     }
   },
-}))
+}));
 
 // Components can use direct selectors like:
 // const projectPath = useProjectStore(state => state.projectPath)

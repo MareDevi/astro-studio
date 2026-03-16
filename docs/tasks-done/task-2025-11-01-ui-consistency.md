@@ -225,7 +225,7 @@ After implementation:
 - [ ] Verify status colors (draft, required, warning) display correctly
 - [ ] Check button sizes are visually consistent
 - [ ] Ensure info boxes have uniform appearance
-- [ ] Run `pnpm run check:all`
+- [ ] Run `bun run check:all`
 - [ ] Visual regression check of preferences panes
 - [ ] Visual regression check of editor UI
 

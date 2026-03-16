@@ -637,7 +637,7 @@ console.log('[PERF] useHookName HOOK EXECUTE')
 ### 6.2 Run Quality Checks
 
 ```bash
-pnpm run check:all
+bun run check:all
 ```
 
 Ensure no type errors or lint issues introduced.
@@ -1055,7 +1055,7 @@ Add these checks to all PR reviews:
   - useCommandPalette.ts: selector syntax
   - useEffectiveSettings.ts: `useShallow` for currentProjectSettings
 - [x] **Phase 4 (React.memo) evaluated** - Not needed after Phases 1-3
-- [x] **`pnpm run check:all` passes** - All TypeScript, lint, format, Rust, and tests passing
+- [x] **`bun run check:all` passes** - All TypeScript, lint, format, Rust, and tests passing
 - [x] **Console logging added** (with eslint-disable for manual testing)
 
 ### 🚧 Remaining Tasks (TODO before merge to main)

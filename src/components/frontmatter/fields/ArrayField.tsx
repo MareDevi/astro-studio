@@ -1,15 +1,15 @@
-import React from 'react'
-import { useEditorStore } from '../../../store/editorStore'
-import { getNestedValue } from '../../../lib/object-utils'
-import { TagInput, type Tag } from '../../ui/tag-input'
-import { tagsToStringArray } from '../utils'
-import { FieldWrapper } from './FieldWrapper'
-import { FieldType } from '../../../lib/schema'
-import type { FieldProps } from '../../../types/common'
-import type { SchemaField } from '../../../lib/schema'
+import React from 'react';
+import { useEditorStore } from '../../../store/editorStore';
+import { getNestedValue } from '../../../lib/object-utils';
+import { TagInput, type Tag } from '../../ui/tag-input';
+import { tagsToStringArray } from '../utils';
+import { FieldWrapper } from './FieldWrapper';
+import { FieldType } from '../../../lib/schema';
+import type { FieldProps } from '../../../types/common';
+import type { SchemaField } from '../../../lib/schema';
 
 interface ArrayFieldProps extends FieldProps {
-  field?: SchemaField
+  field?: SchemaField;
 }
 
 export const ArrayField: React.FC<ArrayFieldProps> = ({
@@ -18,19 +18,21 @@ export const ArrayField: React.FC<ArrayFieldProps> = ({
   required,
   field,
 }) => {
-  const value = useEditorStore(state => getNestedValue(state.frontmatter, name))
+  const value = useEditorStore((state) =>
+    getNestedValue(state.frontmatter, name),
+  );
   const updateFrontmatterField = useEditorStore(
-    state => state.updateFrontmatterField
-  )
+    (state) => state.updateFrontmatterField,
+  );
 
   // Check if this is a number array
   const isNumberArray =
-    field?.subType === FieldType.Number || field?.subType === FieldType.Integer
+    field?.subType === FieldType.Number || field?.subType === FieldType.Integer;
 
   // Convert frontmatter array to tags
-  const currentValue = value
+  const currentValue = value;
   const tags = React.useMemo(() => {
-    if (!Array.isArray(currentValue)) return []
+    if (!Array.isArray(currentValue)) return [];
 
     // For number arrays, convert numbers to strings
     if (isNumberArray) {
@@ -39,43 +41,43 @@ export const ArrayField: React.FC<ArrayFieldProps> = ({
         .map((num, index) => ({
           id: `${name}-${num}-${index}`,
           text: String(num),
-        }))
+        }));
     }
 
     // For string arrays
     return currentValue.every(
-      (item): item is string => typeof item === 'string'
+      (item): item is string => typeof item === 'string',
     )
       ? currentValue.map((str, index) => ({
           id: `${name}-${str}-${index}`,
           text: str,
         }))
-      : []
-  }, [currentValue, isNumberArray, name])
+      : [];
+  }, [currentValue, isNumberArray, name]);
 
   const handleTagsChange = React.useCallback(
     (newTags: Tag[]) => {
       if (isNumberArray) {
         // Convert tags to numbers, filter out invalid numbers
         const numberArray = newTags
-          .map(tag => Number(tag.text))
-          .filter(num => !isNaN(num))
+          .map((tag) => Number(tag.text))
+          .filter((num) => !isNaN(num));
 
         updateFrontmatterField(
           name,
-          numberArray.length > 0 ? numberArray : undefined
-        )
+          numberArray.length > 0 ? numberArray : undefined,
+        );
       } else {
         // Keep as strings
-        const stringArray = tagsToStringArray(newTags)
+        const stringArray = tagsToStringArray(newTags);
         updateFrontmatterField(
           name,
-          stringArray.length > 0 ? stringArray : undefined
-        )
+          stringArray.length > 0 ? stringArray : undefined,
+        );
       }
     },
-    [isNumberArray, name, updateFrontmatterField]
-  )
+    [isNumberArray, name, updateFrontmatterField],
+  );
 
   return (
     <FieldWrapper
@@ -94,5 +96,5 @@ export const ArrayField: React.FC<ArrayFieldProps> = ({
         onTagsChange={handleTagsChange}
       />
     </FieldWrapper>
-  )
-}
+  );
+};

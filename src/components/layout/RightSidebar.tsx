@@ -1,7 +1,7 @@
-import React from 'react'
+import type React from 'react';
 
 interface RightSidebarProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export const RightSidebar: React.FC<RightSidebarProps> = ({ children }) => {
@@ -9,5 +9,5 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({ children }) => {
     <div className="h-full flex flex-col bg-background border-l border-border overflow-hidden min-w-0">
       {children}
     </div>
-  )
-}
+  );
+};

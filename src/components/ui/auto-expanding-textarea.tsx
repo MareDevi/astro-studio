@@ -1,13 +1,11 @@
-import * as React from 'react'
-import { cn } from '@/lib/utils'
-import TextareaAutosize from 'react-textarea-autosize'
+import * as React from 'react';
+import { cn } from '@/lib/utils';
+import TextareaAutosize from 'react-textarea-autosize';
 
-export interface AutoExpandingTextareaProps extends Omit<
-  React.ComponentProps<'textarea'>,
-  'style'
-> {
-  minRows?: number
-  maxRows?: number
+export interface AutoExpandingTextareaProps
+  extends Omit<React.ComponentProps<'textarea'>, 'style'> {
+  minRows?: number;
+  maxRows?: number;
 }
 
 const AutoExpandingTextarea = React.forwardRef<
@@ -30,13 +28,13 @@ const AutoExpandingTextarea = React.forwardRef<
         // Default text size, allow className to override
         'text-base md:text-sm',
         // Custom className comes last to override defaults
-        className
+        className,
       )}
       {...props}
     />
-  )
-})
+  );
+});
 
-AutoExpandingTextarea.displayName = 'AutoExpandingTextarea'
+AutoExpandingTextarea.displayName = 'AutoExpandingTextarea';
 
-export { AutoExpandingTextarea }
+export { AutoExpandingTextarea };

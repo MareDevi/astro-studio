@@ -1,6 +1,6 @@
-import { EditorView } from '@codemirror/view'
-import { EditorSelection } from '@codemirror/state'
-import { MarkdownLinkMatch } from './types'
+import type { EditorView } from '@codemirror/view';
+import { EditorSelection } from '@codemirror/state';
+import type { MarkdownLinkMatch } from './types';
 
 /**
  * Toggle markdown formatting around selected text
@@ -9,15 +9,15 @@ import { MarkdownLinkMatch } from './types'
  * @returns true if the command was handled
  */
 export const toggleMarkdown = (view: EditorView, marker: string): boolean => {
-  const { state } = view
-  const { from, to } = state.selection.main
-  const selectedText = state.sliceDoc(from, to)
+  const { state } = view;
+  const { from, to } = state.selection.main;
+  const selectedText = state.sliceDoc(from, to);
 
   // Check if selection is already wrapped with this marker
-  const beforeStart = Math.max(0, from - marker.length)
-  const afterEnd = Math.min(state.doc.length, to + marker.length)
-  const beforeText = state.sliceDoc(beforeStart, from)
-  const afterText = state.sliceDoc(to, afterEnd)
+  const beforeStart = Math.max(0, from - marker.length);
+  const afterEnd = Math.min(state.doc.length, to + marker.length);
+  const beforeText = state.sliceDoc(beforeStart, from);
+  const afterText = state.sliceDoc(to, afterEnd);
 
   if (beforeText.endsWith(marker) && afterText.startsWith(marker)) {
     // Remove existing markers
@@ -28,23 +28,23 @@ export const toggleMarkdown = (view: EditorView, marker: string): boolean => {
       ],
       selection: EditorSelection.range(
         beforeStart,
-        beforeStart + selectedText.length
+        beforeStart + selectedText.length,
       ),
-    })
+    });
   } else {
     // Add markers
-    const newText = `${marker}${selectedText}${marker}`
+    const newText = `${marker}${selectedText}${marker}`;
     view.dispatch({
       changes: { from, to, insert: newText },
       selection: EditorSelection.range(
         from + marker.length,
-        to + marker.length
+        to + marker.length,
       ),
-    })
+    });
   }
 
-  return true
-}
+  return true;
+};
 
 /**
  * Parse markdown links from a line of text
@@ -52,17 +52,17 @@ export const toggleMarkdown = (view: EditorView, marker: string): boolean => {
  * @returns Array of markdown link matches
  */
 export const parseMarkdownLinks = (lineText: string): MarkdownLinkMatch[] => {
-  const matches: MarkdownLinkMatch[] = []
-  const linkRegex = /\[([^\]]*)\]\(([^)]*)\)/g
-  let match
+  const matches: MarkdownLinkMatch[] = [];
+  const linkRegex = /\[([^\]]*)\]\(([^)]*)\)/g;
+  let match;
 
   while ((match = linkRegex.exec(lineText)) !== null) {
-    const linkStart = match.index
-    const linkEnd = match.index + match[0].length
-    const linkText = match[1] || ''
-    const linkUrl = match[2] || ''
-    const urlStart = match.index + linkText.length + 3 // after "]("
-    const urlEnd = linkEnd - 1 // before ")"
+    const linkStart = match.index;
+    const linkEnd = match.index + match[0].length;
+    const linkText = match[1] || '';
+    const linkUrl = match[2] || '';
+    const urlStart = match.index + linkText.length + 3; // after "]("
+    const urlEnd = linkEnd - 1; // before ")"
 
     matches.push({
       linkText,
@@ -71,11 +71,11 @@ export const parseMarkdownLinks = (lineText: string): MarkdownLinkMatch[] => {
       linkEnd,
       urlStart,
       urlEnd,
-    })
+    });
   }
 
-  return matches
-}
+  return matches;
+};
 
 /**
  * Create or modify markdown link at cursor position
@@ -83,16 +83,16 @@ export const parseMarkdownLinks = (lineText: string): MarkdownLinkMatch[] => {
  * @returns true if the command was handled
  */
 export const createMarkdownLink = (view: EditorView): boolean => {
-  const { state } = view
-  const { from, to } = state.selection.main
-  const selectedText = state.sliceDoc(from, to)
+  const { state } = view;
+  const { from, to } = state.selection.main;
+  const selectedText = state.sliceDoc(from, to);
 
   // Check if cursor is inside an existing markdown link
-  const lineText = state.doc.lineAt(from).text
-  const lineStart = state.doc.lineAt(from).from
-  const posInLine = from - lineStart
+  const lineText = state.doc.lineAt(from).text;
+  const lineStart = state.doc.lineAt(from).from;
+  const posInLine = from - lineStart;
 
-  const linkMatches = parseMarkdownLinks(lineText)
+  const linkMatches = parseMarkdownLinks(lineText);
 
   // Find if cursor is within any existing link
   for (const match of linkMatches) {
@@ -101,31 +101,31 @@ export const createMarkdownLink = (view: EditorView): boolean => {
       view.dispatch({
         selection: EditorSelection.range(
           lineStart + match.urlStart,
-          lineStart + match.urlEnd
+          lineStart + match.urlEnd,
         ),
-      })
-      return true
+      });
+      return true;
     }
   }
 
   if (selectedText.trim()) {
     // If text is selected, create link with text as anchor and cursor in URL position
-    const linkText = `[${selectedText}]()`
+    const linkText = `[${selectedText}]()`;
     view.dispatch({
       changes: { from, to, insert: linkText },
       selection: EditorSelection.range(
         from + selectedText.length + 3,
-        from + selectedText.length + 3
+        from + selectedText.length + 3,
       ),
-    })
+    });
   } else {
     // If no text selected, create empty link template with cursor on text
-    const linkText = `[text]()`
+    const linkText = `[text]()`;
     view.dispatch({
       changes: { from, to, insert: linkText },
       selection: EditorSelection.range(from + 1, from + 5),
-    })
+    });
   }
 
-  return true
-}
+  return true;
+};

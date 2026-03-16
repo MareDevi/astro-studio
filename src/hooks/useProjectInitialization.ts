@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { useProjectStore } from '../store/projectStore'
+import { useEffect } from 'react';
+import { useProjectStore } from '../store/projectStore';
 
 /**
  * Loads the persisted project on mount.
@@ -9,6 +9,6 @@ import { useProjectStore } from '../store/projectStore'
  */
 export function useProjectInitialization() {
   useEffect(() => {
-    void useProjectStore.getState().loadPersistedProject()
-  }, [])
+    void useProjectStore.getState().loadPersistedProject();
+  }, []);
 }

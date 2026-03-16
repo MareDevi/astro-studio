@@ -37,39 +37,39 @@
  *    - Editor styling, line wrapping
  */
 
-import { EditorView, dropCursor, drawSelection } from '@codemirror/view'
-import { markdown } from '@codemirror/lang-markdown'
-import { syntaxHighlighting } from '@codemirror/language'
-import { history } from '@codemirror/commands'
-import { closeBrackets } from '@codemirror/autocomplete'
-import { EditorState } from '@codemirror/state'
-import { markdownStyleExtension, comprehensiveHighlightStyle } from '../syntax'
-import { altKeyState, urlHoverPlugin, handleUrlClick } from '../urls'
-import { handlePaste } from '../paste'
-import { createKeymapExtensions, type KeymapHandlers } from './keymap'
-import { createEditorTheme } from './theme'
-import { createFocusModeExtension } from './focus-mode'
-import { createCopyeditModeExtension } from './copyedit-mode'
-import { createTypewriterModeExtension } from './typewriter-mode'
-import { hangingHeadersExtension } from './hanging-headers'
-import { syntaxMarkDecorationsExtension } from './syntax-mark-decorations'
-import { codeBlockBackgroundExtension } from './code-block-background'
-import { blockquoteStyleExtension } from './blockquote-style'
+import { EditorView, dropCursor, drawSelection } from '@codemirror/view';
+import { markdown } from '@codemirror/lang-markdown';
+import { syntaxHighlighting } from '@codemirror/language';
+import { history } from '@codemirror/commands';
+import { closeBrackets } from '@codemirror/autocomplete';
+import { EditorState } from '@codemirror/state';
+import { markdownStyleExtension, comprehensiveHighlightStyle } from '../syntax';
+import { altKeyState, urlHoverPlugin, handleUrlClick } from '../urls';
+import { handlePaste } from '../paste';
+import { createKeymapExtensions, type KeymapHandlers } from './keymap';
+import { createEditorTheme } from './theme';
+import { createFocusModeExtension } from './focus-mode';
+import { createCopyeditModeExtension } from './copyedit-mode';
+import { createTypewriterModeExtension } from './typewriter-mode';
+import { hangingHeadersExtension } from './hanging-headers';
+import { syntaxMarkDecorationsExtension } from './syntax-mark-decorations';
+import { codeBlockBackgroundExtension } from './code-block-background';
+import { blockquoteStyleExtension } from './blockquote-style';
 
 /**
  * Configuration for creating editor extensions
  */
 export interface ExtensionConfig {
-  onFocus: () => void
-  onBlur: () => void
-  keymapHandlers?: KeymapHandlers
+  onFocus: () => void;
+  onBlur: () => void;
+  keymapHandlers?: KeymapHandlers;
 }
 
 /**
  * Create all editor extensions
  */
 export const createExtensions = (config: ExtensionConfig) => {
-  const { onFocus, onBlur, keymapHandlers } = config
+  const { onFocus, onBlur, keymapHandlers } = config;
 
   const extensions = [
     // Core functionality
@@ -80,7 +80,7 @@ export const createExtensions = (config: ExtensionConfig) => {
     closeBrackets(),
     EditorState.allowMultipleSelections.of(true),
     EditorView.clickAddsSelectionRange.of(
-      event => event.metaKey || event.ctrlKey
+      (event) => event.metaKey || event.ctrlKey,
     ),
 
     // Language support
@@ -99,17 +99,17 @@ export const createExtensions = (config: ExtensionConfig) => {
       click: (event, view) => {
         // Handle Alt+Click for URL opening
         if (event.altKey) {
-          void handleUrlClick(view, event)
+          void handleUrlClick(view, event);
         }
-        return false // Let default handling proceed
+        return false; // Let default handling proceed
       },
       focus: () => {
-        onFocus()
-        return false
+        onFocus();
+        return false;
       },
       blur: () => {
-        onBlur()
-        return false
+        onBlur();
+        return false;
       },
     }),
 
@@ -127,7 +127,7 @@ export const createExtensions = (config: ExtensionConfig) => {
     // Theme and styling
     createEditorTheme(),
     EditorView.lineWrapping,
-  ]
+  ];
 
-  return extensions
-}
+  return extensions;
+};

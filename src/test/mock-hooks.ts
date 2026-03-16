@@ -1,5 +1,5 @@
-import { vi } from 'vitest'
-import { mockCollections, mockFiles, mockFileContent } from './test-utils'
+import { vi } from 'vitest';
+import { mockCollections, mockFiles, mockFileContent } from './test-utils';
 
 // Mock for useCollectionsQuery
 export const mockUseCollectionsQuery = vi.fn(() => ({
@@ -8,7 +8,7 @@ export const mockUseCollectionsQuery = vi.fn(() => ({
   isError: false,
   error: null,
   refetch: vi.fn(),
-}))
+}));
 
 // Mock for useCollectionFilesQuery
 export const mockUseCollectionFilesQuery = vi.fn(() => ({
@@ -17,7 +17,7 @@ export const mockUseCollectionFilesQuery = vi.fn(() => ({
   isError: false,
   error: null,
   refetch: vi.fn(),
-}))
+}));
 
 // Mock for useFileContentQuery
 export const mockUseFileContentQuery = vi.fn(() => ({
@@ -26,7 +26,7 @@ export const mockUseFileContentQuery = vi.fn(() => ({
   isError: false,
   error: null,
   refetch: vi.fn(),
-}))
+}));
 
 // Mock for useSaveFileMutation
 export const mockUseSaveFileMutation = vi.fn(() => ({
@@ -35,7 +35,7 @@ export const mockUseSaveFileMutation = vi.fn(() => ({
   isPending: false,
   isError: false,
   error: null,
-}))
+}));
 
 // Mock for useCreateFileMutation
 export const mockUseCreateFileMutation = vi.fn(() => ({
@@ -44,7 +44,7 @@ export const mockUseCreateFileMutation = vi.fn(() => ({
   isPending: false,
   isError: false,
   error: null,
-}))
+}));
 
 // Mock for useRenameFileMutation
 export const mockUseRenameFileMutation = vi.fn(() => ({
@@ -53,7 +53,7 @@ export const mockUseRenameFileMutation = vi.fn(() => ({
   isPending: false,
   isError: false,
   error: null,
-}))
+}));
 
 // Mock for useDeleteFileMutation
 export const mockUseDeleteFileMutation = vi.fn(() => ({
@@ -62,4 +62,4 @@ export const mockUseDeleteFileMutation = vi.fn(() => ({
   isPending: false,
   isError: false,
   error: null,
-}))
+}));

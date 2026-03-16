@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
-import { CommandPalette } from './CommandPalette'
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { CommandPalette } from './CommandPalette';
 
 // Mock the useCommandPalette hook
 vi.mock('../../hooks/useCommandPalette', () => ({
@@ -33,24 +33,24 @@ vi.mock('../../hooks/useCommandPalette', () => ({
     ],
     executeCommand: vi.fn(),
   })),
-}))
+}));
 
 describe('CommandPalette', () => {
   beforeEach(() => {
-    vi.clearAllMocks()
-  })
+    vi.clearAllMocks();
+  });
 
   it('renders the command palette component', () => {
-    render(<CommandPalette />)
+    render(<CommandPalette />);
 
     // The component should render without crashing
-    expect(document.body).toBeInTheDocument()
-  })
+    expect(document.body).toBeInTheDocument();
+  });
 
   it('renders with closed state by default', () => {
-    render(<CommandPalette />)
+    render(<CommandPalette />);
 
     // Since the dialog is closed by default, it should not be visible
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-  })
-})
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+});

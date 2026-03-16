@@ -37,10 +37,10 @@
 | `specta`       | =2.0.0-rc.22 | rc.22  | Keep     | Still RC, no stable 2.0 yet     |
 | `tauri-specta` | =2.0.0-rc.21 | rc.21  | Keep     | Still RC, no stable 2.0 yet     |
 
-### pnpm Overrides
+### bun Overrides
 
 ```json
-"pnpm": {
+"bun": {
   "overrides": {
     "@lezer/common": "^1.5.0"
   }

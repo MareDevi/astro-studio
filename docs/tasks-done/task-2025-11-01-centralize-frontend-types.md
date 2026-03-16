@@ -494,13 +494,13 @@ Since we're deleting `store/index.ts`, update all files importing types from `@/
 
 ```bash
 # Check TypeScript compilation
-pnpm run type-check
+bun run type-check
 
 # Run tests
-pnpm run test:run
+bun run test:run
 
 # Full check (includes linting, Rust checks, etc.)
-pnpm run check:all
+bun run check:all
 ```
 
 Manual testing:
@@ -523,11 +523,11 @@ Manual testing:
 - [ ] No type guards added (following YAGNI principle)
 
 **Quality gates**:
-- [ ] TypeScript compilation succeeds: `pnpm run type-check`
-- [ ] All tests pass: `pnpm run test:run`
-- [ ] Linting passes: `pnpm run lint`
+- [ ] TypeScript compilation succeeds: `bun run type-check`
+- [ ] All tests pass: `bun run test:run`
+- [ ] Linting passes: `bun run lint`
 - [ ] Rust checks pass: `cd src-tauri && cargo check`
-- [ ] Full validation: `pnpm run check:all`
+- [ ] Full validation: `bun run check:all`
 
 **Manual testing**:
 - [ ] Can open a project

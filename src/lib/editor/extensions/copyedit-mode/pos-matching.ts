@@ -8,7 +8,7 @@ import type {
   CompromiseMatch,
   MatchRange,
   PosConfig,
-} from './types'
+} from './types';
 
 /**
  * Check if a position is within a code block or frontmatter
@@ -16,51 +16,51 @@ import type {
 export function isExcludedContent(
   text: string,
   from: number,
-  to: number
+  to: number,
 ): boolean {
   // Check if inside fenced code block (```...```)
-  const fencedCodeBlocks = text.matchAll(/```[\s\S]*?```/g)
+  const fencedCodeBlocks = text.matchAll(/```[\s\S]*?```/g);
   for (const match of fencedCodeBlocks) {
     if (
       match.index !== undefined &&
       from >= match.index &&
       to <= match.index + match[0].length
     ) {
-      return true
+      return true;
     }
   }
 
   // Check if inside inline code (`...`)
-  const inlineCodeBlocks = text.matchAll(/`[^`\n]+`/g)
+  const inlineCodeBlocks = text.matchAll(/`[^`\n]+`/g);
   for (const match of inlineCodeBlocks) {
     if (
       match.index !== undefined &&
       from >= match.index &&
       to <= match.index + match[0].length
     ) {
-      return true
+      return true;
     }
   }
 
   // Check if inside frontmatter (---...---)
-  const frontmatterMatch = text.match(/^---[\s\S]*?---/)
+  const frontmatterMatch = text.match(/^---[\s\S]*?---/);
   if (frontmatterMatch && from < frontmatterMatch[0].length) {
-    return true
+    return true;
   }
 
   // Check if inside link syntax [text](url)
-  const linkMatches = text.matchAll(/\[([^\]]+)\]\([^)]+\)/g)
+  const linkMatches = text.matchAll(/\[([^\]]+)\]\([^)]+\)/g);
   for (const match of linkMatches) {
     if (
       match.index !== undefined &&
       from >= match.index &&
       to <= match.index + match[0].length
     ) {
-      return true
+      return true;
     }
   }
 
-  return false
+  return false;
 }
 
 /**
@@ -70,17 +70,17 @@ export function isExcludedContent(
 export function isRangeBeingEdited(
   from: number,
   to: number,
-  cursorPosition: number
+  cursorPosition: number,
 ): boolean {
-  if (cursorPosition === -1) return false
+  if (cursorPosition === -1) return false;
 
   // Exclude decorations that contain the cursor or are very close to it
   // This prevents interference when editing within or near decorated words
-  const buffer = 2 // Small buffer around cursor
+  const buffer = 2; // Small buffer around cursor
   return (
     (cursorPosition >= from - buffer && cursorPosition <= to + buffer) ||
     (from <= cursorPosition && to >= cursorPosition)
-  )
+  );
 }
 
 /**
@@ -89,21 +89,21 @@ export function isRangeBeingEdited(
  */
 export function buildExclusionSet(
   doc: CompromiseDocument,
-  exclusionTags: string[]
+  exclusionTags: string[],
 ): Set<string> {
-  const exclusions = new Set<string>()
+  const exclusions = new Set<string>();
 
   for (const tag of exclusionTags) {
-    const matches = doc.match(tag)
+    const matches = doc.match(tag);
     matches.forEach((match: CompromiseMatch) => {
-      const matchText = match.text()
+      const matchText = match.text();
       if (matchText) {
-        exclusions.add(matchText.toLowerCase())
+        exclusions.add(matchText.toLowerCase());
       }
-    })
+    });
   }
 
-  return exclusions
+  return exclusions;
 }
 
 /**
@@ -114,46 +114,46 @@ export function getMatchRanges(
   doc: CompromiseDocument,
   tag: string,
   text: string,
-  exclusions: Set<string>
+  exclusions: Set<string>,
 ): MatchRange[] {
-  const ranges: MatchRange[] = []
-  const matches = doc.match(tag)
+  const ranges: MatchRange[] = [];
+  const matches = doc.match(tag);
 
   matches.forEach((match: CompromiseMatch) => {
-    const matchText = match.text()
+    const matchText = match.text();
     if (
       !matchText ||
       matchText.trim().length === 0 ||
       exclusions.has(matchText.toLowerCase())
     ) {
-      return
+      return;
     }
 
     // Try to get offset from Compromise first
-    const offset = match.offset
+    const offset = match.offset;
     if (offset && offset.start >= 0 && offset.length > 0) {
       ranges.push({
         from: offset.start,
         to: offset.start + offset.length,
         text: matchText,
-      })
+      });
     } else {
       // Fallback: find all occurrences with word boundary checking
-      const escapedText = matchText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-      const wordBoundaryRegex = new RegExp(`\\b${escapedText}\\b`, 'g')
-      const regexMatches = Array.from(text.matchAll(wordBoundaryRegex))
+      const escapedText = matchText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const wordBoundaryRegex = new RegExp(`\\b${escapedText}\\b`, 'g');
+      const regexMatches = Array.from(text.matchAll(wordBoundaryRegex));
 
       for (const regexMatch of regexMatches) {
         ranges.push({
           from: regexMatch.index,
           to: regexMatch.index + regexMatch[0].length,
           text: matchText,
-        })
+        });
       }
     }
-  })
+  });
 
-  return ranges
+  return ranges;
 }
 
 /**
@@ -163,32 +163,32 @@ export function isValidRange(
   range: MatchRange,
   text: string,
   cursorPosition: number,
-  processedRanges: Set<string>
+  processedRanges: Set<string>,
 ): boolean {
-  const { from, to } = range
-  const rangeKey = `${from}-${to}`
+  const { from, to } = range;
+  const rangeKey = `${from}-${to}`;
 
   // Check bounds
   if (from < 0 || to > text.length || from >= to) {
-    return false
+    return false;
   }
 
   // Check for duplicate
   if (processedRanges.has(rangeKey)) {
-    return false
+    return false;
   }
 
   // Check for excluded content
   if (isExcludedContent(text, from, to)) {
-    return false
+    return false;
   }
 
   // Check for cursor proximity
   if (isRangeBeingEdited(from, to, cursorPosition)) {
-    return false
+    return false;
   }
 
-  return true
+  return true;
 }
 
 /**
@@ -200,22 +200,22 @@ export function processPosType(
   text: string,
   config: PosConfig,
   cursorPosition: number,
-  processedRanges: Set<string>
+  processedRanges: Set<string>,
 ): MatchRange[] {
   // Build exclusion set if needed
   const exclusions = config.exclusionTags
     ? buildExclusionSet(doc, config.exclusionTags)
-    : new Set<string>()
+    : new Set<string>();
 
   // Get all potential match ranges
-  const ranges = getMatchRanges(doc, config.tag, text, exclusions)
+  const ranges = getMatchRanges(doc, config.tag, text, exclusions);
 
   // Filter to valid ranges and mark as processed
-  const validRanges: MatchRange[] = []
+  const validRanges: MatchRange[] = [];
   for (const range of ranges) {
     if (isValidRange(range, text, cursorPosition, processedRanges)) {
-      validRanges.push(range)
-      processedRanges.add(`${range.from}-${range.to}`)
+      validRanges.push(range);
+      processedRanges.add(`${range.from}-${range.to}`);
     } else if (
       import.meta.env.DEV &&
       (range.from < 0 || range.to > text.length || range.from >= range.to)
@@ -225,9 +225,9 @@ export function processPosType(
         from: range.from,
         to: range.to,
         matchText: range.text,
-      })
+      });
     }
   }
 
-  return validRanges
+  return validRanges;
 }

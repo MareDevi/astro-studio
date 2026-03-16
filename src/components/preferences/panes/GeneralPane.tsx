@@ -1,35 +1,36 @@
-import React, { useCallback } from 'react'
+import type React from 'react';
+import { useCallback } from 'react';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Field,
   FieldLabel,
   FieldDescription,
   FieldContent,
-} from '@/components/ui/field'
-import { usePreferences } from '../../../hooks/usePreferences'
-import { useTheme } from '../../../lib/theme-provider'
-import { SettingsSection } from '../SettingsSection'
-import { PreferencesTextInput } from '../PreferencesTextInput'
-import { FontSelector } from '../FontSelector'
+} from '@/components/ui/field';
+import { usePreferences } from '../../../hooks/usePreferences';
+import { useTheme } from '../../../lib/theme-provider';
+import { SettingsSection } from '../SettingsSection';
+import { PreferencesTextInput } from '../PreferencesTextInput';
+import { FontSelector } from '../FontSelector';
 
 export const GeneralPane: React.FC = () => {
-  const { globalSettings, updateGlobal } = usePreferences()
-  const { setTheme } = useTheme()
+  const { globalSettings, updateGlobal } = usePreferences();
+  const { setTheme } = useTheme();
 
   const handleFontChange = useCallback(
     (type: 'interface' | 'editorBody' | 'editorCode', value: string) => {
-      void updateGlobal({ appearance: { fonts: { [type]: value } } })
+      void updateGlobal({ appearance: { fonts: { [type]: value } } });
     },
-    [updateGlobal]
-  )
+    [updateGlobal],
+  );
 
   const handleResetFont = useCallback(
     (type: 'interface' | 'editorBody' | 'editorCode') => {
@@ -37,64 +38,66 @@ export const GeneralPane: React.FC = () => {
         interface: 'system-ui, -apple-system, sans-serif',
         editorBody: 'iA Writer Duo',
         editorCode: 'iA Writer Mono',
-      }
-      handleFontChange(type, defaults[type])
+      };
+      handleFontChange(type, defaults[type]);
     },
-    [handleFontChange]
-  )
+    [handleFontChange],
+  );
 
   const handleThemeChange = useCallback(
     (value: 'light' | 'dark' | 'system') => {
-      setTheme(value)
-      void updateGlobal({ general: { theme: value } })
+      setTheme(value);
+      void updateGlobal({ general: { theme: value } });
     },
-    [setTheme, updateGlobal]
-  )
+    [setTheme, updateGlobal],
+  );
 
   const handleDefaultFileTypeChange = useCallback(
     (value: string) => {
-      void updateGlobal({ general: { defaultFileType: value as 'md' | 'mdx' } })
+      void updateGlobal({
+        general: { defaultFileType: value as 'md' | 'mdx' },
+      });
     },
-    [updateGlobal]
-  )
+    [updateGlobal],
+  );
 
   const handleHeadingColorChange = useCallback(
     (mode: 'light' | 'dark', color: string) => {
-      void updateGlobal({ appearance: { headingColor: { [mode]: color } } })
+      void updateGlobal({ appearance: { headingColor: { [mode]: color } } });
     },
-    [updateGlobal]
-  )
+    [updateGlobal],
+  );
 
   const handleResetHeadingColor = useCallback(
     (mode: 'light' | 'dark') => {
-      const defaultColor = mode === 'light' ? '#191919' : '#cccccc'
-      handleHeadingColorChange(mode, defaultColor)
+      const defaultColor = mode === 'light' ? '#191919' : '#cccccc';
+      handleHeadingColorChange(mode, defaultColor);
     },
-    [handleHeadingColorChange]
-  )
+    [handleHeadingColorChange],
+  );
 
   const handleAutoSaveDelayChange = useCallback(
     (value: string) => {
-      void updateGlobal({ general: { autoSaveDelay: parseInt(value, 10) } })
+      void updateGlobal({ general: { autoSaveDelay: parseInt(value, 10) } });
     },
-    [updateGlobal]
-  )
+    [updateGlobal],
+  );
 
-  const DEFAULT_EDITOR_BASE_FONT_SIZE = 18
+  const DEFAULT_EDITOR_BASE_FONT_SIZE = 18;
 
   const handleEditorBaseFontSizeChange = useCallback(
     (value: string) => {
-      const parsed = parseInt(value, 10)
-      if (isNaN(parsed)) return
-      const size = Math.max(1, Math.min(30, parsed))
-      void updateGlobal({ appearance: { editorBaseFontSize: size } })
+      const parsed = parseInt(value, 10);
+      if (isNaN(parsed)) return;
+      const size = Math.max(1, Math.min(30, parsed));
+      void updateGlobal({ appearance: { editorBaseFontSize: size } });
     },
-    [updateGlobal]
-  )
+    [updateGlobal],
+  );
 
   const handleResetEditorBaseFontSize = useCallback(() => {
-    handleEditorBaseFontSizeChange(String(DEFAULT_EDITOR_BASE_FONT_SIZE))
-  }, [handleEditorBaseFontSizeChange])
+    handleEditorBaseFontSizeChange(String(DEFAULT_EDITOR_BASE_FONT_SIZE));
+  }, [handleEditorBaseFontSizeChange]);
 
   return (
     <div className="space-y-6">
@@ -114,7 +117,7 @@ export const GeneralPane: React.FC = () => {
           <FieldContent>
             <PreferencesTextInput
               value={globalSettings?.general?.ideCommand ?? ''}
-              onCommit={value =>
+              onCommit={(value) =>
                 void updateGlobal({ general: { ideCommand: value } })
               }
               placeholder="e.g., code, cursor, /usr/local/bin/nvim"
@@ -182,7 +185,7 @@ export const GeneralPane: React.FC = () => {
                 value={
                   globalSettings?.appearance?.headingColor?.light || '#191919'
                 }
-                onChange={e =>
+                onChange={(e) =>
                   handleHeadingColorChange('light', e.target.value)
                 }
                 className="w-20 h-9 cursor-pointer rounded-md border border-input bg-transparent"
@@ -210,7 +213,9 @@ export const GeneralPane: React.FC = () => {
                 value={
                   globalSettings?.appearance?.headingColor?.dark || '#cccccc'
                 }
-                onChange={e => handleHeadingColorChange('dark', e.target.value)}
+                onChange={(e) =>
+                  handleHeadingColorChange('dark', e.target.value)
+                }
                 className="w-20 h-9 cursor-pointer rounded-md border border-input bg-transparent"
               />
               <Button
@@ -239,7 +244,7 @@ export const GeneralPane: React.FC = () => {
                   globalSettings?.appearance?.editorBaseFontSize ??
                   DEFAULT_EDITOR_BASE_FONT_SIZE
                 }
-                onChange={e => handleEditorBaseFontSizeChange(e.target.value)}
+                onChange={(e) => handleEditorBaseFontSizeChange(e.target.value)}
                 className="w-20"
               />
               <span className="text-sm text-muted-foreground">px</span>
@@ -263,7 +268,7 @@ export const GeneralPane: React.FC = () => {
             <div className="flex items-center gap-2 w-full max-w-md">
               <FontSelector
                 value={globalSettings?.appearance?.fonts?.interface}
-                onChange={value => handleFontChange('interface', value)}
+                onChange={(value) => handleFontChange('interface', value)}
                 placeholder="Select interface font..."
                 defaultFonts={['system-ui', '-apple-system', 'sans-serif']}
               />
@@ -287,7 +292,7 @@ export const GeneralPane: React.FC = () => {
             <div className="flex items-center gap-2 w-full max-w-md">
               <FontSelector
                 value={globalSettings?.appearance?.fonts?.editorBody}
-                onChange={value => handleFontChange('editorBody', value)}
+                onChange={(value) => handleFontChange('editorBody', value)}
                 placeholder="Select editor body font..."
                 defaultFonts={['iA Writer Duo', 'iA Writer Mono', 'monospace']}
               />
@@ -311,7 +316,7 @@ export const GeneralPane: React.FC = () => {
             <div className="flex items-center gap-2 w-full max-w-md">
               <FontSelector
                 value={globalSettings?.appearance?.fonts?.editorCode}
-                onChange={value => handleFontChange('editorCode', value)}
+                onChange={(value) => handleFontChange('editorCode', value)}
                 placeholder="Select editor code font..."
                 defaultFonts={['iA Writer Mono', 'monospace']}
               />
@@ -355,5 +360,5 @@ export const GeneralPane: React.FC = () => {
         </Field>
       </SettingsSection>
     </div>
-  )
-}
+  );
+};

@@ -1,25 +1,25 @@
 // Common types used across the application
 
 export interface BaseComponentProps {
-  className?: string
+  className?: string;
 }
 
 export interface FieldProps extends BaseComponentProps {
-  name: string
-  label: string
-  required?: boolean
+  name: string;
+  label: string;
+  required?: boolean;
 }
 
 export interface InputFieldProps extends FieldProps {
-  placeholder?: string
-  value?: string
-  onChange?: (value: string) => void
+  placeholder?: string;
+  value?: string;
+  onChange?: (value: string) => void;
 }
 
 export interface SelectFieldProps extends FieldProps {
-  options: string[]
-  value?: string
-  onChange?: (value: string | undefined) => void
+  options: string[];
+  value?: string;
+  onChange?: (value: string | undefined) => void;
 }
 
 // Common patterns for form field handling
@@ -30,27 +30,27 @@ export type FieldValue =
   | Date
   | string[]
   | undefined
-  | null
+  | null;
 
 // File system related types
 export interface FileSystemEntry {
-  path: string
-  name: string
-  lastModified?: number
+  path: string;
+  name: string;
+  lastModified?: number;
 }
 
 // Common event handler types
-export type ClickHandler = () => void
-export type ChangeHandler<T = string> = (value: T) => void
+export type ClickHandler = () => void;
+export type ChangeHandler<T = string> = (value: T) => void;
 
 // UI state types
 export interface PanelVisibility {
-  sidebarVisible: boolean
-  frontmatterPanelVisible: boolean
+  sidebarVisible: boolean;
+  frontmatterPanelVisible: boolean;
 }
 
 // Collection-related types extending store types
 export interface CollectionMeta {
-  fieldCount: number
-  hasSchema: boolean
+  fieldCount: number;
+  hasSchema: boolean;
 }

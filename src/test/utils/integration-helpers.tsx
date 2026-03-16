@@ -1,6 +1,6 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { act } from '@testing-library/react'
-import type { ReactNode } from 'react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { act } from '@testing-library/react';
+import type { ReactNode } from 'react';
 
 /**
  * Setup function for integration tests that need QueryClient
@@ -17,18 +17,18 @@ export function setupEditorIntegrationTest() {
         retry: false,
       },
     },
-  })
+  });
 
   const wrapper = ({ children }: { children: ReactNode }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  )
+  );
 
   // Reset Tauri mocks before each test
   if (globalThis.mockTauri) {
-    globalThis.mockTauri.reset()
+    globalThis.mockTauri.reset();
   }
 
-  return { queryClient, wrapper }
+  return { queryClient, wrapper };
 }
 
 /**
@@ -57,16 +57,16 @@ export function setupEditorIntegrationTest() {
 export async function simulateContinuousTyping(
   setContent: (content: string) => void,
   durationMs: number,
-  intervalMs: number
+  intervalMs: number,
 ): Promise<void> {
-  const iterations = Math.floor(durationMs / intervalMs)
+  const iterations = Math.floor(durationMs / intervalMs);
 
   for (let i = 0; i < iterations; i++) {
     act(() => {
-      setContent(`content ${i}`)
-    })
+      setContent(`content ${i}`);
+    });
     // Use real timers to test actual auto-save timing
-    await new Promise(resolve => setTimeout(resolve, intervalMs))
+    await new Promise((resolve) => setTimeout(resolve, intervalMs));
   }
 }
 
@@ -81,14 +81,14 @@ export async function simulateContinuousTyping(
 export async function waitForCondition(
   condition: () => boolean,
   timeout = 5000,
-  interval = 100
+  interval = 100,
 ): Promise<void> {
-  const startTime = Date.now()
+  const startTime = Date.now();
 
   while (!condition()) {
     if (Date.now() - startTime > timeout) {
-      throw new Error(`Condition not met within ${timeout}ms timeout`)
+      throw new Error(`Condition not met within ${timeout}ms timeout`);
     }
-    await new Promise(resolve => setTimeout(resolve, interval))
+    await new Promise((resolve) => setTimeout(resolve, interval));
   }
 }

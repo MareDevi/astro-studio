@@ -1,14 +1,14 @@
-import { listen } from '@tauri-apps/api/event'
-import { toast } from './toast'
+import { listen } from '@tauri-apps/api/event';
+import { toast } from './toast';
 
 /**
  * Types for Rust-to-frontend toast events
  */
 export interface RustToastEvent {
-  type: 'success' | 'error' | 'warning' | 'info'
-  message: string
-  description?: string
-  duration?: number
+  type: 'success' | 'error' | 'warning' | 'info';
+  message: string;
+  description?: string;
+  duration?: number;
 }
 
 /**
@@ -41,37 +41,37 @@ export interface RustToastEvent {
 export const initializeRustToastBridge = async () => {
   try {
     // Listen for toast events from Rust
-    const unlisten = await listen<RustToastEvent>('rust-toast', event => {
-      const { type, message, description, duration } = event.payload
+    const unlisten = await listen<RustToastEvent>('rust-toast', (event) => {
+      const { type, message, description, duration } = event.payload;
 
       switch (type) {
         case 'success':
-          toast.success(message, { description, duration })
-          break
+          toast.success(message, { description, duration });
+          break;
         case 'error':
-          toast.error(message, { description, duration })
-          break
+          toast.error(message, { description, duration });
+          break;
         case 'warning':
-          toast.warning(message, { description, duration })
-          break
+          toast.warning(message, { description, duration });
+          break;
         case 'info':
-          toast.info(message, { description, duration })
-          break
+          toast.info(message, { description, duration });
+          break;
         default:
-          toast.message(message, { description, duration })
+          toast.message(message, { description, duration });
       }
-    })
+    });
 
     // Return cleanup function
-    return unlisten
+    return unlisten;
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error('Failed to initialize Rust toast bridge:', error)
-    return () => {} // Return empty cleanup function
+    console.error('Failed to initialize Rust toast bridge:', error);
+    return () => {}; // Return empty cleanup function
   }
-}
+};
 
 /**
  * Cleanup function type for TypeScript
  */
-export type RustToastBridgeCleanup = () => void
+export type RustToastBridgeCleanup = () => void;

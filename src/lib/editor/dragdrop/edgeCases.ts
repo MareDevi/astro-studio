@@ -2,7 +2,7 @@ import {
   extractFilename,
   isImageFile,
   formatAsMarkdown,
-} from './fileProcessing'
+} from './fileProcessing';
 
 /**
  * Build fallback markdown for file paths when project context is unavailable
@@ -11,15 +11,15 @@ import {
  */
 export const buildFallbackMarkdownForPaths = (filePaths: string[]): string => {
   const fallbackText = filePaths
-    .map(filePath => {
-      const filename = extractFilename(filePath)
-      const isImage = isImageFile(filename)
-      return formatAsMarkdown(filename, filePath, isImage)
+    .map((filePath) => {
+      const filename = extractFilename(filePath);
+      const isImage = isImageFile(filename);
+      return formatAsMarkdown(filename, filePath, isImage);
     })
-    .join('\n')
+    .join('\n');
 
-  return fallbackText
-}
+  return fallbackText;
+};
 
 /**
  * Validate that we have the necessary context for file processing
@@ -29,22 +29,22 @@ export const buildFallbackMarkdownForPaths = (filePaths: string[]): string => {
  */
 export const validateDropContext = (
   projectPath: string | null,
-  currentFile: { collection: string } | null
+  currentFile: { collection: string } | null,
 ): {
-  canProceed: boolean
-  reason?: 'no-project' | 'no-file' | 'no-collection'
+  canProceed: boolean;
+  reason?: 'no-project' | 'no-file' | 'no-collection';
 } => {
   if (!projectPath) {
-    return { canProceed: false, reason: 'no-project' }
+    return { canProceed: false, reason: 'no-project' };
   }
 
   if (!currentFile) {
-    return { canProceed: false, reason: 'no-file' }
+    return { canProceed: false, reason: 'no-file' };
   }
 
   if (!currentFile.collection) {
-    return { canProceed: false, reason: 'no-collection' }
+    return { canProceed: false, reason: 'no-collection' };
   }
 
-  return { canProceed: true }
-}
+  return { canProceed: true };
+};

@@ -12,7 +12,7 @@ git checkout main
 git pull origin main
 
 # Run the prepare-release script
-pnpm run prepare-release
+bun run prepare-release
 ```
 
 The script will:
@@ -22,14 +22,14 @@ The script will:
 3. Prompt for confirmation — press Enter to accept, or type a different version
 4. Run `check:all` to verify everything passes
 5. Update version in `package.json`, `Cargo.toml`, and `tauri.conf.json`
-6. Run `pnpm install` to update the lockfile
+6. Run `bun install` to update the lockfile
 7. Run a final `cargo check`
 8. Optionally execute the git commands for you (commit, tag, push)
 
 You can also pass a version directly to skip the prompt:
 
 ```bash
-pnpm run prepare-release v2.0.0
+bun run prepare-release v2.0.0
 ```
 
 ### Step 2: Publish the Draft Release
@@ -141,7 +141,7 @@ The Rust command `fetch_release_notes` (`src-tauri/src/commands/updater.rs`) cal
 
 **Build fails:**
 - Verify `TAURI_PRIVATE_KEY` and other secrets are set in repo settings
-- Check that all tests pass locally: `pnpm run check:all`
+- Check that all tests pass locally: `bun run check:all`
 
 **Auto-update doesn't work:**
 - Verify the updater endpoint URL in `tauri.conf.json` points to the correct repo

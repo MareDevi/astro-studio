@@ -1,72 +1,72 @@
-import { Layout } from './components/layout'
-import { ThemeProvider } from './lib/theme-provider'
-import { check } from '@tauri-apps/plugin-updater'
-import { info, error } from '@tauri-apps/plugin-log'
-import { listen } from '@tauri-apps/api/event'
-import { commands } from '@/lib/bindings'
-import { useEffect } from 'react'
-import { UpdateDialog } from '@/components/update-dialog'
-import { useUpdateStore } from '@/store/updateStore'
-import './App.css'
+import { Layout } from './components/layout';
+import { ThemeProvider } from './lib/theme-provider';
+import { check } from '@tauri-apps/plugin-updater';
+import { info, error } from '@tauri-apps/plugin-log';
+import { listen } from '@tauri-apps/api/event';
+import { commands } from '@/lib/bindings';
+import { useEffect } from 'react';
+import { UpdateDialog } from '@/components/update-dialog';
+import { useUpdateStore } from '@/store/updateStore';
+import './App.css';
 
 async function fetchAndSetReleaseNotes(
   currentVersion: string,
-  newVersion: string
+  newVersion: string,
 ) {
-  const store = useUpdateStore.getState()
+  const store = useUpdateStore.getState();
   try {
-    const result = await commands.fetchReleaseNotes(currentVersion, newVersion)
+    const result = await commands.fetchReleaseNotes(currentVersion, newVersion);
     if (result.status === 'ok') {
-      store.setReleaseNotes(result.data)
+      store.setReleaseNotes(result.data);
     } else {
-      store.setReleaseNotesError()
+      store.setReleaseNotesError();
     }
   } catch {
-    store.setReleaseNotesError()
+    store.setReleaseNotesError();
   }
 }
 
 async function checkForUpdates(manual: boolean): Promise<void> {
   if (manual) {
-    useUpdateStore.getState().setChecking()
+    useUpdateStore.getState().setChecking();
   }
 
   try {
-    const update = await check()
+    const update = await check();
 
     if (update) {
-      await info(`Update available: ${update.version}`)
+      await info(`Update available: ${update.version}`);
 
       // Re-read store after await to get fresh skippedVersion
-      const { skippedVersion } = useUpdateStore.getState()
+      const { skippedVersion } = useUpdateStore.getState();
 
       // For automatic checks, skip if user has skipped this version
       if (!manual && skippedVersion === update.version) {
-        await info(`Skipping version ${update.version} (user skipped)`)
-        return
+        await info(`Skipping version ${update.version} (user skipped)`);
+        return;
       }
 
-      const currentVersion = update.currentVersion
+      const currentVersion = update.currentVersion;
       useUpdateStore
         .getState()
-        .setAvailable(update, update.version, currentVersion)
+        .setAvailable(update, update.version, currentVersion);
 
       // Fetch release notes in the background
-      void fetchAndSetReleaseNotes(currentVersion, update.version)
+      void fetchAndSetReleaseNotes(currentVersion, update.version);
     } else {
-      await info('No updates available')
+      await info('No updates available');
 
       if (manual) {
-        const result = await commands.getAppVersion()
-        const version = result.status === 'ok' ? result.data : 'unknown'
-        useUpdateStore.getState().setNoUpdate(version)
+        const result = await commands.getAppVersion();
+        const version = result.status === 'ok' ? result.data : 'unknown';
+        useUpdateStore.getState().setNoUpdate(version);
       }
     }
   } catch (err) {
-    await error(`Update check failed: ${String(err)}`)
+    await error(`Update check failed: ${String(err)}`);
 
     if (manual) {
-      useUpdateStore.getState().setError(`Update check failed: ${String(err)}`)
+      useUpdateStore.getState().setError(`Update check failed: ${String(err)}`);
     }
   }
 }
@@ -74,25 +74,25 @@ async function checkForUpdates(manual: boolean): Promise<void> {
 function App() {
   useEffect(() => {
     // Check for updates 5 seconds after app loads (silently)
-    const timer = setTimeout(() => void checkForUpdates(false), 5000)
+    const timer = setTimeout(() => void checkForUpdates(false), 5000);
 
     // Listen for manual update check from menu
     const unlistenPromise = listen('menu-check-updates', () => {
-      void checkForUpdates(true)
-    })
+      void checkForUpdates(true);
+    });
 
     return () => {
-      clearTimeout(timer)
-      void unlistenPromise.then(unlisten => unlisten())
-    }
-  }, [])
+      clearTimeout(timer);
+      void unlistenPromise.then((unlisten) => unlisten());
+    };
+  }, []);
 
   return (
     <ThemeProvider defaultTheme="system" storageKey="astro-editor-theme">
       <Layout />
       <UpdateDialog />
     </ThemeProvider>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 // Vue Composition API with defineProps
 const props = defineProps<{
-  title: string
-  subtitle?: string
-  variant?: 'default' | 'featured'
-}>()
+  title: string;
+  subtitle?: string;
+  variant?: 'default' | 'featured';
+}>();
 </script>
 
 <template>

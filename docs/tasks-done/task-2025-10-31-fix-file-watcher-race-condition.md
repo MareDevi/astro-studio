@@ -658,7 +658,7 @@ The original task's solution now works as designed because queries exist to inva
 - [ ] Performance profiling (React DevTools)
 
 ### Phase 5: Cleanup
-- [ ] Run `pnpm run check:all`
+- [ ] Run `bun run check:all`
 - [ ] Update documentation if needed
 - [ ] Mark Task 1 checklist items as complete
 

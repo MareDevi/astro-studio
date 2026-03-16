@@ -5,8 +5,8 @@
  * with proper three-tier fallback (collection → project → defaults)
  */
 
-import { ProjectSettings, CollectionSettings } from './types'
-import { ASTRO_PATHS } from '../constants'
+import type { ProjectSettings, CollectionSettings } from './types';
+import { ASTRO_PATHS } from '../constants';
 
 /**
  * Get effective content directory path for a collection
@@ -22,25 +22,25 @@ import { ASTRO_PATHS } from '../constants'
  */
 export function getEffectiveContentDirectory(
   projectSettings?: ProjectSettings | null,
-  collectionName?: string | null
+  collectionName?: string | null,
 ): string {
   // If collection is specified, check for collection-specific override
   if (collectionName && projectSettings?.collections) {
     const collectionSettings = projectSettings.collections.find(
-      c => c.name === collectionName
-    )
+      (c) => c.name === collectionName,
+    );
     if (collectionSettings?.settings.pathOverrides?.contentDirectory) {
-      return collectionSettings.settings.pathOverrides.contentDirectory
+      return collectionSettings.settings.pathOverrides.contentDirectory;
     }
   }
 
   // Fall back to project-level override
   if (projectSettings?.pathOverrides?.contentDirectory) {
-    return projectSettings.pathOverrides.contentDirectory
+    return projectSettings.pathOverrides.contentDirectory;
   }
 
   // Fall back to default
-  return ASTRO_PATHS.CONTENT_DIR
+  return ASTRO_PATHS.CONTENT_DIR;
 }
 
 /**
@@ -57,25 +57,25 @@ export function getEffectiveContentDirectory(
  */
 export function getEffectiveAssetsDirectory(
   projectSettings?: ProjectSettings | null,
-  collectionName?: string | null
+  collectionName?: string | null,
 ): string {
   // If collection is specified, check for collection-specific override
   if (collectionName && projectSettings?.collections) {
     const collectionSettings = projectSettings.collections.find(
-      c => c.name === collectionName
-    )
+      (c) => c.name === collectionName,
+    );
     if (collectionSettings?.settings.pathOverrides?.assetsDirectory) {
-      return collectionSettings.settings.pathOverrides.assetsDirectory
+      return collectionSettings.settings.pathOverrides.assetsDirectory;
     }
   }
 
   // Fall back to project-level override
   if (projectSettings?.pathOverrides?.assetsDirectory) {
-    return projectSettings.pathOverrides.assetsDirectory
+    return projectSettings.pathOverrides.assetsDirectory;
   }
 
   // Fall back to default
-  return ASTRO_PATHS.ASSETS_DIR
+  return ASTRO_PATHS.ASSETS_DIR;
 }
 
 /**
@@ -91,15 +91,15 @@ export function getEffectiveAssetsDirectory(
  * @returns Effective MDX components directory path (relative to project root)
  */
 export function getEffectiveMdxComponentsDirectory(
-  projectSettings?: ProjectSettings | null
+  projectSettings?: ProjectSettings | null,
 ): string {
   // Fall back to project-level override
   if (projectSettings?.pathOverrides?.mdxComponentsDirectory) {
-    return projectSettings.pathOverrides.mdxComponentsDirectory
+    return projectSettings.pathOverrides.mdxComponentsDirectory;
   }
 
   // Fall back to default
-  return ASTRO_PATHS.MDX_COMPONENTS_DIR
+  return ASTRO_PATHS.MDX_COMPONENTS_DIR;
 }
 
 /**
@@ -116,12 +116,12 @@ export function getEffectiveMdxComponentsDirectory(
  */
 export function getEffectiveFrontmatterMappings(
   projectSettings?: ProjectSettings | null,
-  collectionName?: string | null
+  collectionName?: string | null,
 ): {
-  publishedDate: string | string[]
-  title: string
-  description: string
-  draft: string
+  publishedDate: string | string[];
+  title: string;
+  description: string;
+  draft: string;
 } {
   // Define defaults
   const defaults = {
@@ -129,14 +129,14 @@ export function getEffectiveFrontmatterMappings(
     title: 'title',
     description: 'description',
     draft: 'draft',
-  }
+  };
 
   // If collection is specified, check for collection-specific overrides
-  let collectionSettings: CollectionSettings | undefined
+  let collectionSettings: CollectionSettings | undefined;
   if (collectionName && projectSettings?.collections) {
     collectionSettings = projectSettings.collections.find(
-      c => c.name === collectionName
-    )
+      (c) => c.name === collectionName,
+    );
   }
 
   return {
@@ -156,7 +156,7 @@ export function getEffectiveFrontmatterMappings(
       collectionSettings?.settings.frontmatterMappings?.draft ||
       projectSettings?.frontmatterMappings?.draft ||
       defaults.draft,
-  }
+  };
 }
 
 /**
@@ -170,23 +170,23 @@ export function getEffectiveFrontmatterMappings(
  */
 export function getEffectivePathOverrides(
   projectSettings?: ProjectSettings | null,
-  collectionName?: string | null
+  collectionName?: string | null,
 ): {
-  contentDirectory: string
-  assetsDirectory: string
-  mdxComponentsDirectory: string
+  contentDirectory: string;
+  assetsDirectory: string;
+  mdxComponentsDirectory: string;
 } {
   return {
     contentDirectory: getEffectiveContentDirectory(
       projectSettings,
-      collectionName
+      collectionName,
     ),
     assetsDirectory: getEffectiveAssetsDirectory(
       projectSettings,
-      collectionName
+      collectionName,
     ),
     mdxComponentsDirectory: getEffectiveMdxComponentsDirectory(projectSettings),
-  }
+  };
 }
 
 /**
@@ -200,25 +200,25 @@ export function getEffectivePathOverrides(
  */
 export function getEffectiveCollectionSettings(
   projectSettings?: ProjectSettings | null,
-  collectionName?: string | null
+  collectionName?: string | null,
 ): {
   pathOverrides: {
-    contentDirectory: string
-    assetsDirectory: string
-    mdxComponentsDirectory: string
-  }
+    contentDirectory: string;
+    assetsDirectory: string;
+    mdxComponentsDirectory: string;
+  };
   frontmatterMappings: {
-    publishedDate: string | string[]
-    title: string
-    description: string
-    draft: string
-  }
+    publishedDate: string | string[];
+    title: string;
+    description: string;
+    draft: string;
+  };
 } {
   return {
     pathOverrides: getEffectivePathOverrides(projectSettings, collectionName),
     frontmatterMappings: getEffectiveFrontmatterMappings(
       projectSettings,
-      collectionName
+      collectionName,
     ),
-  }
+  };
 }

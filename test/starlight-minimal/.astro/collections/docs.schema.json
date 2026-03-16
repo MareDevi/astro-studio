@@ -60,9 +60,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "tag"
-        ],
+        "required": ["tag"],
         "additionalProperties": false
       }
     },
@@ -84,10 +82,7 @@
               "maximum": 6
             }
           },
-          "required": [
-            "minHeadingLevel",
-            "maxHeadingLevel"
-          ],
+          "required": ["minHeadingLevel", "maxHeadingLevel"],
           "additionalProperties": false
         },
         {}
@@ -96,10 +91,7 @@
     "template": {
       "default": "doc",
       "type": "string",
-      "enum": [
-        "doc",
-        "splash"
-      ]
+      "enum": ["doc", "splash"]
     },
     "hero": {
       "type": "object",
@@ -123,10 +115,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "alt",
-                "file"
-              ],
+              "required": ["alt", "file"],
               "additionalProperties": false
             },
             {
@@ -143,11 +132,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "alt",
-                "dark",
-                "light"
-              ],
+              "required": ["alt", "dark", "light"],
               "additionalProperties": false
             },
             {}
@@ -168,11 +153,7 @@
               "variant": {
                 "default": "primary",
                 "type": "string",
-                "enum": [
-                  "primary",
-                  "secondary",
-                  "minimal"
-                ]
+                "enum": ["primary", "secondary", "minimal"]
               },
               "icon": {},
               "attrs": {
@@ -195,18 +176,12 @@
                 }
               }
             },
-            "required": [
-              "text",
-              "link",
-              "variant"
-            ],
+            "required": ["text", "link", "variant"],
             "additionalProperties": false
           }
         }
       },
-      "required": [
-        "actions"
-      ],
+      "required": ["actions"],
       "additionalProperties": false
     },
     "lastUpdated": {
@@ -303,10 +278,7 @@
           }
         }
       },
-      "required": [
-        "hidden",
-        "attrs"
-      ],
+      "required": ["hidden", "attrs"],
       "additionalProperties": false
     },
     "banner": {
@@ -316,9 +288,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "content"
-      ],
+      "required": ["content"],
       "additionalProperties": false
     },
     "pagefind": {

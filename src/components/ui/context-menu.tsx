@@ -1,57 +1,57 @@
-import { Menu, MenuItem, PredefinedMenuItem } from '@tauri-apps/api/menu'
-import { LogicalPosition } from '@tauri-apps/api/dpi'
-import { commands } from '@/lib/bindings'
-import { remove } from '@tauri-apps/plugin-fs'
-import { openPath } from '@tauri-apps/plugin-opener'
-import { ask } from '@tauri-apps/plugin-dialog'
-import type { FileEntry } from '@/types'
-import { useProjectStore } from '../../store/projectStore'
-import { openInIde } from '../../lib/ide'
-import { getTitle } from '@/lib/files/sorting'
-import { getPlatform } from '@/hooks/usePlatform'
-import { getPlatformString } from '@/lib/platform-strings'
+import { Menu, MenuItem, PredefinedMenuItem } from '@tauri-apps/api/menu';
+import { LogicalPosition } from '@tauri-apps/api/dpi';
+import { commands } from '@/lib/bindings';
+import { remove } from '@tauri-apps/plugin-fs';
+import { openPath } from '@tauri-apps/plugin-opener';
+import { ask } from '@tauri-apps/plugin-dialog';
+import type { FileEntry } from '@/types';
+import { useProjectStore } from '../../store/projectStore';
+import { openInIde } from '../../lib/ide';
+import { getTitle } from '@/lib/files/sorting';
+import { getPlatform } from '@/hooks/usePlatform';
+import { getPlatformString } from '@/lib/platform-strings';
 
 interface ContextMenuOptions {
-  file: FileEntry
-  position: { x: number; y: number }
-  onRefresh?: () => void
-  onRename?: (file: FileEntry) => void
+  file: FileEntry;
+  position: { x: number; y: number };
+  onRefresh?: () => void;
+  onRename?: (file: FileEntry) => void;
 }
 
 export class FileContextMenu {
   private static async showConfirmationDialog(
-    fileName: string
+    fileName: string,
   ): Promise<boolean> {
     return ask(`Are you sure you want to delete "${fileName}"?`, {
       title: 'Delete File',
       kind: 'warning',
-    })
+    });
   }
 
   private static getIdeCommand(): string | null {
     try {
       // Access global settings directly from the store
-      const { globalSettings } = useProjectStore.getState()
-      return globalSettings?.general?.ideCommand || null
+      const { globalSettings } = useProjectStore.getState();
+      return globalSettings?.general?.ideCommand || null;
     } catch {
-      return null
+      return null;
     }
   }
 
   private static generateDuplicatePath(originalPath: string): string {
-    const lastSlashIndex = originalPath.lastIndexOf('/')
-    const directory = originalPath.substring(0, lastSlashIndex)
-    const fileName = originalPath.substring(lastSlashIndex + 1)
+    const lastSlashIndex = originalPath.lastIndexOf('/');
+    const directory = originalPath.substring(0, lastSlashIndex);
+    const fileName = originalPath.substring(lastSlashIndex + 1);
 
-    const lastDotIndex = fileName.lastIndexOf('.')
+    const lastDotIndex = fileName.lastIndexOf('.');
     if (lastDotIndex === -1) {
       // No extension
-      return `${directory}/${fileName}-1`
+      return `${directory}/${fileName}-1`;
     }
 
-    const nameWithoutExt = fileName.substring(0, lastDotIndex)
-    const extension = fileName.substring(lastDotIndex)
-    return `${directory}/${nameWithoutExt}-1${extension}`
+    const nameWithoutExt = fileName.substring(0, lastDotIndex);
+    const extension = fileName.substring(lastDotIndex);
+    return `${directory}/${nameWithoutExt}-1${extension}`;
   }
 
   static async show({
@@ -62,20 +62,21 @@ export class FileContextMenu {
   }: ContextMenuOptions): Promise<void> {
     try {
       // Get current IDE setting from global preferences
-      const ideCommand = FileContextMenu.getIdeCommand()
+      const ideCommand = FileContextMenu.getIdeCommand();
 
       // Get project path and settings from store
-      const { projectPath, currentProjectSettings } = useProjectStore.getState()
+      const { projectPath, currentProjectSettings } =
+        useProjectStore.getState();
       if (!projectPath) {
-        throw new Error('No project path available')
+        throw new Error('No project path available');
       }
 
       // Get title field from settings (defaults to 'title')
       const titleField =
-        currentProjectSettings?.frontmatterMappings?.title || 'title'
+        currentProjectSettings?.frontmatterMappings?.title || 'title';
 
       // Create menu items
-      const currentPlatform = getPlatform()
+      const currentPlatform = getPlatform();
       const revealItem = await MenuItem.new({
         id: 'reveal-in-finder',
         text: getPlatformString('revealInFileManager', currentPlatform),
@@ -85,16 +86,16 @@ export class FileContextMenu {
               // Get the directory containing the file
               const directory = file.path.substring(
                 0,
-                file.path.lastIndexOf('/')
-              )
-              await openPath(directory)
+                file.path.lastIndexOf('/'),
+              );
+              await openPath(directory);
             } catch (error) {
               // eslint-disable-next-line no-console
-              console.error('Failed to reveal in file manager:', error)
+              console.error('Failed to reveal in file manager:', error);
             }
-          })()
+          })();
         },
-      })
+      });
 
       const copyPathItem = await MenuItem.new({
         id: 'copy-path',
@@ -102,17 +103,17 @@ export class FileContextMenu {
         action: () => {
           void (async () => {
             try {
-              const result = await commands.copyTextToClipboard(file.path)
+              const result = await commands.copyTextToClipboard(file.path);
               if (result.status === 'error') {
-                throw new Error(result.error)
+                throw new Error(result.error);
               }
             } catch (error) {
               // eslint-disable-next-line no-console
-              console.error('Failed to copy path:', error)
+              console.error('Failed to copy path:', error);
             }
-          })()
+          })();
         },
-      })
+      });
 
       const duplicateItem = await MenuItem.new({
         id: 'duplicate-file',
@@ -121,42 +122,45 @@ export class FileContextMenu {
           void (async () => {
             try {
               const duplicatePath = FileContextMenu.generateDuplicatePath(
-                file.path
-              )
+                file.path,
+              );
 
               // Read the original file content
-              const readResult = await commands.readFile(file.path, projectPath)
+              const readResult = await commands.readFile(
+                file.path,
+                projectPath,
+              );
               if (readResult.status === 'error') {
-                throw new Error(readResult.error)
+                throw new Error(readResult.error);
               }
 
               // Parse the duplicate path into directory and filename
-              const lastSlashIndex = duplicatePath.lastIndexOf('/')
-              const directory = duplicatePath.substring(0, lastSlashIndex)
-              const filename = duplicatePath.substring(lastSlashIndex + 1)
+              const lastSlashIndex = duplicatePath.lastIndexOf('/');
+              const directory = duplicatePath.substring(0, lastSlashIndex);
+              const filename = duplicatePath.substring(lastSlashIndex + 1);
 
               // Create the duplicate file
               const createResult = await commands.createFile(
                 directory,
                 filename,
                 readResult.data,
-                projectPath
-              )
+                projectPath,
+              );
               if (createResult.status === 'error') {
-                throw new Error(createResult.error)
+                throw new Error(createResult.error);
               }
 
               // Refresh the file list if callback is provided
               if (onRefresh) {
-                onRefresh()
+                onRefresh();
               }
             } catch (error) {
               // eslint-disable-next-line no-console
-              console.error('Failed to duplicate file:', error)
+              console.error('Failed to duplicate file:', error);
             }
-          })()
+          })();
         },
-      })
+      });
 
       const renameItem = await MenuItem.new({
         id: 'rename-file',
@@ -164,14 +168,14 @@ export class FileContextMenu {
         action: () => {
           try {
             if (onRename) {
-              onRename(file)
+              onRename(file);
             }
           } catch (error) {
             // eslint-disable-next-line no-console
-            console.error('Failed to initiate rename:', error)
+            console.error('Failed to initiate rename:', error);
           }
         },
-      })
+      });
 
       // Create "Open in IDE" menu item if IDE is configured
       const openInIdeItem = ideCommand
@@ -179,15 +183,15 @@ export class FileContextMenu {
             id: 'open-in-ide',
             text: 'Open in IDE',
             action: () => {
-              void openInIde(file.path, ideCommand)
+              void openInIde(file.path, ideCommand);
             },
           })
-        : null
+        : null;
 
       const separator = await PredefinedMenuItem.new({
         text: 'separator',
         item: 'Separator',
-      })
+      });
 
       const deleteItem = await MenuItem.new({
         id: 'delete-file',
@@ -195,23 +199,23 @@ export class FileContextMenu {
         action: () => {
           void (async () => {
             try {
-              const fileName = getTitle(file, titleField)
+              const fileName = getTitle(file, titleField);
               const confirmed =
-                await FileContextMenu.showConfirmationDialog(fileName)
+                await FileContextMenu.showConfirmationDialog(fileName);
               if (confirmed) {
-                await remove(file.path)
+                await remove(file.path);
                 // Refresh the file list if callback is provided
                 if (onRefresh) {
-                  onRefresh()
+                  onRefresh();
                 }
               }
             } catch (error) {
               // eslint-disable-next-line no-console
-              console.error('Failed to delete file:', error)
+              console.error('Failed to delete file:', error);
             }
-          })()
+          })();
         },
-      })
+      });
 
       // Create and show the context menu
       const menuItems = [
@@ -222,17 +226,17 @@ export class FileContextMenu {
         ...(openInIdeItem ? [openInIdeItem] : []),
         separator,
         deleteItem,
-      ]
+      ];
 
       const menu = await Menu.new({
         items: menuItems,
-      })
+      });
 
       // Show the menu at the specified position
-      await menu.popup(new LogicalPosition(position.x, position.y))
+      await menu.popup(new LogicalPosition(position.x, position.y));
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error('Failed to show context menu:', error)
+      console.error('Failed to show context menu:', error);
     }
   }
 }

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { useShallow } from 'zustand/react/shallow'
-import { openPath } from '@tauri-apps/plugin-opener'
-import { usePreviewStore } from '@/store/previewStore'
-import { useProjectStore } from '@/store/projectStore'
-import { Button } from '@/components/ui/button'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import type React from 'react';
+import { useEffect, useState } from 'react';
+import { useShallow } from 'zustand/react/shallow';
+import { openPath } from '@tauri-apps/plugin-opener';
+import { usePreviewStore } from '@/store/previewStore';
+import { useProjectStore } from '@/store/projectStore';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Play,
   Square,
@@ -12,7 +13,7 @@ import {
   ExternalLink,
   Terminal,
   Loader2,
-} from 'lucide-react'
+} from 'lucide-react';
 
 export const PreviewPanel: React.FC = () => {
   const {
@@ -26,7 +27,7 @@ export const PreviewPanel: React.FC = () => {
     init,
     cleanup,
   } = usePreviewStore(
-    useShallow(state => ({
+    useShallow((state) => ({
       isRunning: state.isRunning,
       isStarting: state.isStarting,
       url: state.url,
@@ -36,23 +37,23 @@ export const PreviewPanel: React.FC = () => {
       clearLogs: state.clearLogs,
       init: state.init,
       cleanup: state.cleanup,
-    }))
-  )
-  const projectPath = useProjectStore(state => state.projectPath)
-  const [showLogs, setShowLogs] = useState(false)
+    })),
+  );
+  const projectPath = useProjectStore((state) => state.projectPath);
+  const [showLogs, setShowLogs] = useState(false);
 
   useEffect(() => {
-    void init()
+    void init();
     return () => {
-      cleanup()
-    }
-  }, [init, cleanup])
+      cleanup();
+    };
+  }, [init, cleanup]);
 
   const handleStart = () => {
     if (projectPath) {
-      void startPreview(projectPath)
+      void startPreview(projectPath);
     }
-  }
+  };
 
   return (
     <div className="h-full flex flex-col bg-[var(--editor-color-background)] border-l overflow-hidden">
@@ -204,7 +205,7 @@ export const PreviewPanel: React.FC = () => {
                 ))}
                 {logs.length === 0 && (
                   <div className="italic opacity-30 py-4 text-center">
-                    No logs yet. Output from pnpm dev will appear here.
+                    No logs yet. Output from bun dev will appear here.
                   </div>
                 )}
               </div>
@@ -213,5 +214,5 @@ export const PreviewPanel: React.FC = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};

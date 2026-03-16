@@ -1,4 +1,4 @@
-import { QueryClient } from '@tanstack/react-query'
+import { QueryClient } from '@tanstack/react-query';
 
 // Create a client with desktop-app-appropriate defaults
 export const queryClient = new QueryClient({
@@ -15,4 +15,4 @@ export const queryClient = new QueryClient({
       gcTime: 10 * 60 * 1000,
     },
   },
-})
+});

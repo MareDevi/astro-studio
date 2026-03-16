@@ -21,16 +21,16 @@
  * ```
  */
 
-export { CommandRegistry, globalCommandRegistry } from './CommandRegistry'
-export { createEditorCommandRegistry } from './editorCommands'
+export { CommandRegistry, globalCommandRegistry } from './CommandRegistry';
+export { createEditorCommandRegistry } from './editorCommands';
 export {
   createMenuCommands,
   updateFormatMenuState,
   exportMenuCommands,
   cleanupMenuCommands,
-} from './menuIntegration'
+} from './menuIntegration';
 export type {
   EditorCommand,
   EditorCommandRegistry,
   CommandOptions,
-} from './types'
+} from './types';

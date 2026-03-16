@@ -1,5 +1,5 @@
-import { MdxComponent } from '../../hooks/queries/useMdxComponentsQuery'
-import { ClientDirective } from '../../store/componentBuilderStore'
+import type { MdxComponent } from '../../hooks/queries/useMdxComponentsQuery';
+import type { ClientDirective } from '../../store/componentBuilderStore';
 
 /**
  * Builds an MDX component snippet string for insertion using CodeMirror's snippet system
@@ -11,42 +11,42 @@ import { ClientDirective } from '../../store/componentBuilderStore'
 export function buildSnippet(
   component: MdxComponent,
   enabledProps: Set<string>,
-  clientDirective: ClientDirective = 'none'
+  clientDirective: ClientDirective = 'none',
 ): string {
-  let placeholderIndex = 1
+  let placeholderIndex = 1;
 
   const propsString = component.props
-    .filter(p => enabledProps.has(p.name))
-    .map(p => {
+    .filter((p) => enabledProps.has(p.name))
+    .map((p) => {
       // For props with specific values (like 'warning' | 'info'), use the first value as default
-      let defaultValue = ''
+      let defaultValue = '';
       if (p.prop_type.includes('|')) {
         // Extract first literal value from union type
-        const firstLiteral = p.prop_type.split('|')[0]?.trim()
+        const firstLiteral = p.prop_type.split('|')[0]?.trim();
         if (firstLiteral?.startsWith("'") && firstLiteral?.endsWith("'")) {
-          defaultValue = firstLiteral.slice(1, -1)
+          defaultValue = firstLiteral.slice(1, -1);
         }
       }
 
       // Make sure defaultValue is always a string
-      return `${p.name}="\${${placeholderIndex++}:${defaultValue || ''}}"`
+      return `${p.name}="\${${placeholderIndex++}:${defaultValue || ''}}"`;
     })
-    .join(' ')
+    .join(' ');
 
   // Add client directive for framework components (not Astro)
   const directiveString =
     component.framework !== 'astro' && clientDirective !== 'none'
       ? clientDirective
-      : ''
+      : '';
 
   // Combine props and directive
-  const allAttrs = [propsString, directiveString].filter(Boolean).join(' ')
+  const allAttrs = [propsString, directiveString].filter(Boolean).join(' ');
 
   if (component.has_slot) {
-    const attrsPrefix = allAttrs ? ' ' + allAttrs : ''
-    return `<${component.name}${attrsPrefix}>\${${placeholderIndex}}</${component.name}>\${}`
+    const attrsPrefix = allAttrs ? ' ' + allAttrs : '';
+    return `<${component.name}${attrsPrefix}>\${${placeholderIndex}}</${component.name}>\${}`;
   }
 
-  const attrsPrefix = allAttrs ? ' ' + allAttrs : ''
-  return `<${component.name}${attrsPrefix} />\${}`
+  const attrsPrefix = allAttrs ? ' ' + allAttrs : '';
+  return `<${component.name}${attrsPrefix} />\${}`;
 }

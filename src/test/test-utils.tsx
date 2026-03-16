@@ -1,12 +1,12 @@
-import React from 'react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { render } from '@testing-library/react'
-import type { RenderOptions } from '@testing-library/react'
+import type React from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { render } from '@testing-library/react';
+import type { RenderOptions } from '@testing-library/react';
 
 // Create a custom render function that includes providers
 export function renderWithProviders(
   ui: React.ReactElement,
-  options?: Omit<RenderOptions, 'wrapper'>
+  options?: Omit<RenderOptions, 'wrapper'>,
 ) {
   // Create a new QueryClient for each test to ensure isolation
   const queryClient = new QueryClient({
@@ -18,18 +18,18 @@ export function renderWithProviders(
         refetchOnWindowFocus: false,
       },
     },
-  })
+  });
 
   function Wrapper({ children }: { children: React.ReactNode }) {
     return (
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    )
+    );
   }
 
   return {
     ...render(ui, { wrapper: Wrapper, ...options }),
     queryClient,
-  }
+  };
 }
 
 // Mock data for tests
@@ -52,7 +52,7 @@ export const mockCollections = [
       fields: [{ name: 'title', type: 'String', optional: false }],
     }),
   },
-]
+];
 
 export const mockFiles = [
   {
@@ -79,7 +79,7 @@ export const mockFiles = [
       draft: true,
     },
   },
-]
+];
 
 export const mockFileContent = {
   frontmatter: {
@@ -91,7 +91,7 @@ export const mockFileContent = {
   raw_frontmatter:
     '---\ntitle: "Test Post"\ndate: "2024-01-01"\ndraft: false\n---',
   imports: '',
-}
+};
 
 // Re-export everything from @testing-library/react
-export * from '@testing-library/react'
+export * from '@testing-library/react';

@@ -1,1 +1,1 @@
-export { EditorViewComponent as Editor } from './Editor'
+export { EditorViewComponent as Editor } from './Editor';

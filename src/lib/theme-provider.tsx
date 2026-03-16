@@ -1,40 +1,41 @@
-import React, {
+import type React from 'react';
+import {
   createContext,
   useContext,
   useEffect,
   useState,
   useMemo,
   useCallback,
-} from 'react'
+} from 'react';
 
-type Theme = 'light' | 'dark' | 'system'
+type Theme = 'light' | 'dark' | 'system';
 
 interface ThemeProviderContext {
-  theme: Theme
-  setTheme: (theme: Theme) => void
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
 }
 
 const initialState: ThemeProviderContext = {
   theme: 'system',
   setTheme: () => null,
-}
+};
 
-const ThemeProviderContext = createContext<ThemeProviderContext>(initialState)
+const ThemeProviderContext = createContext<ThemeProviderContext>(initialState);
 
 export const useTheme = () => {
-  const context = useContext(ThemeProviderContext)
+  const context = useContext(ThemeProviderContext);
 
   if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider')
+    throw new Error('useTheme must be used within a ThemeProvider');
   }
 
-  return context
-}
+  return context;
+};
 
 interface ThemeProviderProps {
-  children: React.ReactNode
-  defaultTheme?: Theme
-  storageKey?: string
+  children: React.ReactNode;
+  defaultTheme?: Theme;
+  storageKey?: string;
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({
@@ -43,56 +44,56 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   storageKey = 'astro-editor-theme',
 }) => {
   const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  )
+    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme,
+  );
 
   useEffect(() => {
-    const root = window.document.documentElement
+    const root = window.document.documentElement;
 
-    root.classList.remove('light', 'dark')
+    root.classList.remove('light', 'dark');
 
     if (theme === 'system') {
       const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
         .matches
         ? 'dark'
-        : 'light'
+        : 'light';
 
-      root.classList.add(systemTheme)
+      root.classList.add(systemTheme);
 
       // Listen for system theme changes
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       const handleChange = () => {
-        root.classList.remove('light', 'dark')
-        const newSystemTheme = mediaQuery.matches ? 'dark' : 'light'
-        root.classList.add(newSystemTheme)
-      }
+        root.classList.remove('light', 'dark');
+        const newSystemTheme = mediaQuery.matches ? 'dark' : 'light';
+        root.classList.add(newSystemTheme);
+      };
 
-      mediaQuery.addEventListener('change', handleChange)
-      return () => mediaQuery.removeEventListener('change', handleChange)
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
     }
 
-    root.classList.add(theme)
-  }, [theme])
+    root.classList.add(theme);
+  }, [theme]);
 
   const handleSetTheme = useCallback(
     (theme: Theme) => {
-      localStorage.setItem(storageKey, theme)
-      setTheme(theme)
+      localStorage.setItem(storageKey, theme);
+      setTheme(theme);
     },
-    [storageKey]
-  )
+    [storageKey],
+  );
 
   const value = useMemo(
     () => ({
       theme,
       setTheme: handleSetTheme,
     }),
-    [theme, handleSetTheme]
-  )
+    [theme, handleSetTheme],
+  );
 
   return (
     <ThemeProviderContext.Provider value={value}>
       {children}
     </ThemeProviderContext.Provider>
-  )
-}
+  );
+};

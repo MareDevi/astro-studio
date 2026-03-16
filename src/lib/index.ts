@@ -2,4 +2,4 @@ export {
   setNestedValue,
   getNestedValue,
   deleteNestedValue,
-} from './object-utils'
+} from './object-utils';

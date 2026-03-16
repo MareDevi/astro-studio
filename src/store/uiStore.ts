@@ -1,52 +1,52 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
 
 export interface CollectionViewState {
-  sortMode: string // 'default' | 'title' | 'filename' | 'date-{field}' | 'order' | 'modified'
-  sortDirection: 'asc' | 'desc'
-  searchQuery: string
-  filterBarExpanded: boolean
+  sortMode: string; // 'default' | 'title' | 'filename' | 'date-{field}' | 'order' | 'modified'
+  sortDirection: 'asc' | 'desc';
+  searchQuery: string;
+  filterBarExpanded: boolean;
 }
 
 interface UIState {
   // Layout state
-  sidebarVisible: boolean
-  frontmatterPanelVisible: boolean
-  gitPanelVisible: boolean
-  previewVisible: boolean
-  focusModeEnabled: boolean
-  typewriterModeEnabled: boolean
-  distractionFreeBarsHidden: boolean
+  sidebarVisible: boolean;
+  frontmatterPanelVisible: boolean;
+  gitPanelVisible: boolean;
+  previewVisible: boolean;
+  focusModeEnabled: boolean;
+  typewriterModeEnabled: boolean;
+  distractionFreeBarsHidden: boolean;
 
   // View filters (per-collection state, ephemeral)
-  draftFilterByCollection: Record<string, boolean>
-  collectionViewState: Record<string, CollectionViewState>
+  draftFilterByCollection: Record<string, boolean>;
+  collectionViewState: Record<string, CollectionViewState>;
 
   // Actions
-  setSidebarVisible: (visible: boolean) => void
-  setFrontmatterPanelVisible: (visible: boolean) => void
-  setGitPanelVisible: (visible: boolean) => void
-  setPreviewVisible: (visible: boolean) => void
-  toggleSidebar: () => void
-  toggleFrontmatterPanel: () => void
-  toggleGitPanel: () => void
-  togglePreview: () => void
-  toggleFocusMode: () => void
-  toggleTypewriterMode: () => void
-  setDistractionFreeBarsHidden: (hidden: boolean) => void
-  handleTypingInEditor: () => void
-  showBars: () => void
-  toggleDraftFilter: (collectionName: string) => void
-  setSquareCorners: (enabled: boolean) => void
+  setSidebarVisible: (visible: boolean) => void;
+  setFrontmatterPanelVisible: (visible: boolean) => void;
+  setGitPanelVisible: (visible: boolean) => void;
+  setPreviewVisible: (visible: boolean) => void;
+  toggleSidebar: () => void;
+  toggleFrontmatterPanel: () => void;
+  toggleGitPanel: () => void;
+  togglePreview: () => void;
+  toggleFocusMode: () => void;
+  toggleTypewriterMode: () => void;
+  setDistractionFreeBarsHidden: (hidden: boolean) => void;
+  handleTypingInEditor: () => void;
+  showBars: () => void;
+  toggleDraftFilter: (collectionName: string) => void;
+  setSquareCorners: (enabled: boolean) => void;
 
   // Collection view state actions
-  getCollectionViewState: (collectionName: string) => CollectionViewState
-  setSortMode: (collectionName: string, mode: string) => void
-  setSortDirection: (collectionName: string, direction: 'asc' | 'desc') => void
-  toggleSortDirection: (collectionName: string) => void
-  setSearchQuery: (collectionName: string, query: string) => void
-  setFilterBarExpanded: (collectionName: string, expanded: boolean) => void
-  toggleFilterBar: (collectionName: string) => void
-  hasActiveFilters: (collectionName: string) => boolean
+  getCollectionViewState: (collectionName: string) => CollectionViewState;
+  setSortMode: (collectionName: string, mode: string) => void;
+  setSortDirection: (collectionName: string, direction: 'asc' | 'desc') => void;
+  toggleSortDirection: (collectionName: string) => void;
+  setSearchQuery: (collectionName: string, query: string) => void;
+  setFilterBarExpanded: (collectionName: string, expanded: boolean) => void;
+  toggleFilterBar: (collectionName: string) => void;
+  hasActiveFilters: (collectionName: string) => boolean;
 }
 
 const DEFAULT_VIEW_STATE: CollectionViewState = {
@@ -54,7 +54,7 @@ const DEFAULT_VIEW_STATE: CollectionViewState = {
   sortDirection: 'desc',
   searchQuery: '',
   filterBarExpanded: false,
-}
+};
 
 export const useUIStore = create<UIState>((set, get) => ({
   // Initial state
@@ -70,99 +70,99 @@ export const useUIStore = create<UIState>((set, get) => ({
 
   // Actions
   setSidebarVisible: (visible: boolean) => {
-    set({ sidebarVisible: visible })
+    set({ sidebarVisible: visible });
   },
 
   setFrontmatterPanelVisible: (visible: boolean) => {
-    set({ frontmatterPanelVisible: visible })
+    set({ frontmatterPanelVisible: visible });
   },
 
   setGitPanelVisible: (visible: boolean) => {
-    set({ gitPanelVisible: visible })
+    set({ gitPanelVisible: visible });
   },
 
   setPreviewVisible: (visible: boolean) => {
-    set({ previewVisible: visible })
+    set({ previewVisible: visible });
   },
 
   toggleSidebar: () => {
-    set(state => ({
+    set((state) => ({
       sidebarVisible: !state.sidebarVisible,
       // Show bars when opening sidebar
       distractionFreeBarsHidden: false,
-    }))
+    }));
   },
 
   toggleFrontmatterPanel: () => {
-    set(state => ({
+    set((state) => ({
       frontmatterPanelVisible: !state.frontmatterPanelVisible,
       gitPanelVisible: false, // Mutual exclusivity for now
       // Show bars when opening frontmatter panel
       distractionFreeBarsHidden: false,
-    }))
+    }));
   },
 
   toggleGitPanel: () => {
-    set(state => ({
+    set((state) => ({
       gitPanelVisible: !state.gitPanelVisible,
       frontmatterPanelVisible: false, // Mutual exclusivity for now
       // Show bars when opening git panel
       distractionFreeBarsHidden: false,
-    }))
+    }));
   },
 
   togglePreview: () => {
-    set(state => ({
+    set((state) => ({
       previewVisible: !state.previewVisible,
       // Show bars when opening preview
       distractionFreeBarsHidden: false,
-    }))
+    }));
   },
 
   toggleFocusMode: () => {
-    set(state => ({ focusModeEnabled: !state.focusModeEnabled }))
+    set((state) => ({ focusModeEnabled: !state.focusModeEnabled }));
   },
 
   toggleTypewriterMode: () => {
-    set(state => ({ typewriterModeEnabled: !state.typewriterModeEnabled }))
+    set((state) => ({ typewriterModeEnabled: !state.typewriterModeEnabled }));
   },
 
   setDistractionFreeBarsHidden: (hidden: boolean) => {
-    set({ distractionFreeBarsHidden: hidden })
+    set({ distractionFreeBarsHidden: hidden });
   },
 
   showBars: () => {
-    set({ distractionFreeBarsHidden: false })
+    set({ distractionFreeBarsHidden: false });
   },
 
   handleTypingInEditor: () => {
-    const { sidebarVisible, frontmatterPanelVisible, previewVisible } = get()
+    const { sidebarVisible, frontmatterPanelVisible, previewVisible } = get();
     // Immediately hide bars if all panels are hidden
     if (!sidebarVisible && !frontmatterPanelVisible && !previewVisible) {
-      set({ distractionFreeBarsHidden: true })
+      set({ distractionFreeBarsHidden: true });
     }
   },
 
   toggleDraftFilter: (collectionName: string) => {
-    set(state => ({
+    set((state) => ({
       draftFilterByCollection: {
         ...state.draftFilterByCollection,
         [collectionName]: !state.draftFilterByCollection[collectionName],
       },
-    }))
+    }));
   },
 
   setSquareCorners: (enabled: boolean) => {
-    document.documentElement.classList.toggle('square-corners', enabled)
+    document.documentElement.classList.toggle('square-corners', enabled);
   },
 
   // Collection view state actions
   getCollectionViewState: (collectionName: string) => {
-    return get().collectionViewState[collectionName] || DEFAULT_VIEW_STATE
+    return get().collectionViewState[collectionName] || DEFAULT_VIEW_STATE;
   },
 
   setSortMode: (collectionName: string, mode: string) => {
-    set(state => ({
+    set((state) => ({
       collectionViewState: {
         ...state.collectionViewState,
         [collectionName]: {
@@ -171,11 +171,11 @@ export const useUIStore = create<UIState>((set, get) => ({
           sortMode: mode,
         },
       },
-    }))
+    }));
   },
 
   setSortDirection: (collectionName: string, direction: 'asc' | 'desc') => {
-    set(state => ({
+    set((state) => ({
       collectionViewState: {
         ...state.collectionViewState,
         [collectionName]: {
@@ -184,19 +184,19 @@ export const useUIStore = create<UIState>((set, get) => ({
           sortDirection: direction,
         },
       },
-    }))
+    }));
   },
 
   toggleSortDirection: (collectionName: string) => {
-    const current = get().getCollectionViewState(collectionName)
+    const current = get().getCollectionViewState(collectionName);
     get().setSortDirection(
       collectionName,
-      current.sortDirection === 'asc' ? 'desc' : 'asc'
-    )
+      current.sortDirection === 'asc' ? 'desc' : 'asc',
+    );
   },
 
   setSearchQuery: (collectionName: string, query: string) => {
-    set(state => ({
+    set((state) => ({
       collectionViewState: {
         ...state.collectionViewState,
         [collectionName]: {
@@ -205,11 +205,11 @@ export const useUIStore = create<UIState>((set, get) => ({
           searchQuery: query,
         },
       },
-    }))
+    }));
   },
 
   setFilterBarExpanded: (collectionName: string, expanded: boolean) => {
-    set(state => ({
+    set((state) => ({
       collectionViewState: {
         ...state.collectionViewState,
         [collectionName]: {
@@ -218,25 +218,25 @@ export const useUIStore = create<UIState>((set, get) => ({
           filterBarExpanded: expanded,
         },
       },
-    }))
+    }));
   },
 
   toggleFilterBar: (collectionName: string) => {
-    const current = get().getCollectionViewState(collectionName)
-    get().setFilterBarExpanded(collectionName, !current.filterBarExpanded)
+    const current = get().getCollectionViewState(collectionName);
+    get().setFilterBarExpanded(collectionName, !current.filterBarExpanded);
   },
 
   hasActiveFilters: (collectionName: string) => {
-    const viewState = get().getCollectionViewState(collectionName)
+    const viewState = get().getCollectionViewState(collectionName);
     const showDraftsOnly =
-      get().draftFilterByCollection[collectionName] || false
+      get().draftFilterByCollection[collectionName] || false;
     return (
       viewState.searchQuery.trim() !== '' ||
       viewState.sortMode !== 'default' ||
       showDraftsOnly
-    )
+    );
   },
-}))
+}));
 
 // Components can use direct selectors like:
 // const sidebarVisible = useUIStore(state => state.sidebarVisible)

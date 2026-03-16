@@ -52,11 +52,6 @@
       "type": "string"
     }
   },
-  "required": [
-    "title",
-    "author",
-    "rating",
-    "draftBookReview"
-  ],
+  "required": ["title", "author", "rating", "draftBookReview"],
   "additionalProperties": false
 }

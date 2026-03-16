@@ -1,14 +1,14 @@
-import { toast as sonnerToast } from 'sonner'
+import { toast as sonnerToast } from 'sonner';
 
 interface ToastOptions {
-  title?: string
-  description?: string
+  title?: string;
+  description?: string;
   action?: {
-    label: string
-    onClick: () => void
-  }
-  duration?: number
-  id?: string
+    label: string;
+    onClick: () => void;
+  };
+  duration?: number;
+  id?: string;
 }
 
 /**
@@ -29,7 +29,7 @@ export const toast = {
       action: options?.action,
       duration: options?.duration,
       id: options?.id,
-    })
+    });
   },
 
   /**
@@ -41,7 +41,7 @@ export const toast = {
       action: options?.action,
       duration: options?.duration || 5000, // Error toasts last longer by default
       id: options?.id,
-    })
+    });
   },
 
   /**
@@ -53,7 +53,7 @@ export const toast = {
       action: options?.action,
       duration: options?.duration || 4000,
       id: options?.id,
-    })
+    });
   },
 
   /**
@@ -65,7 +65,7 @@ export const toast = {
       action: options?.action,
       duration: options?.duration,
       id: options?.id,
-    })
+    });
   },
 
   /**
@@ -77,7 +77,7 @@ export const toast = {
       action: options?.action,
       duration: options?.duration,
       id: options?.id,
-    })
+    });
   },
 
   /**
@@ -88,14 +88,14 @@ export const toast = {
       description: options?.description,
       duration: options?.duration,
       id: options?.id,
-    })
+    });
   },
 
   /**
    * Dismiss a specific toast by ID
    */
   dismiss: (id?: string | number) => {
-    return sonnerToast.dismiss(id)
+    return sonnerToast.dismiss(id);
   },
 
   /**
@@ -104,15 +104,15 @@ export const toast = {
   promise: <T>(
     promise: Promise<T>,
     options: {
-      loading: string
-      success: string | ((result: T) => string)
-      error: string | ((error: Error) => string)
-      description?: string
+      loading: string;
+      success: string | ((result: T) => string);
+      error: string | ((error: Error) => string);
+      description?: string;
       action?: {
-        label: string
-        onClick: () => void
-      }
-    }
+        label: string;
+        onClick: () => void;
+      };
+    },
   ) => {
     return sonnerToast.promise(promise, {
       loading: options.loading,
@@ -120,9 +120,9 @@ export const toast = {
       error: options.error,
       description: options.description,
       action: options.action,
-    })
+    });
   },
-}
+};
 
 // Export individual toast functions for convenience
 export const {
@@ -134,4 +134,4 @@ export const {
   loading,
   dismiss,
   promise,
-} = toast
+} = toast;

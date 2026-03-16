@@ -110,15 +110,15 @@ See [CONTRIBUTING.md](docs/CONTRIBUTING.md) and [developer docs](docs/developer/
 **Quick start:**
 
 ```bash
-pnpm install
-pnpm reset:testdata  # Creates test Astro project
-pnpm run tauri:dev   # Starts dev server
+bun install
+bun reset:testdata  # Creates test Astro project
+bun run tauri:dev   # Starts dev server
 ```
 
 **Development commands:**
 
 ```bash
-pnpm run check:all       # Run all checks (TypeScript, Rust, tests)
-pnpm run fix:all         # Auto-fix linting/formatting issues
-pnpm task:complete <name> # Mark a task as complete (see docs/TASKS.md)
+bun run check:all       # Run all checks (TypeScript, Rust, tests)
+bun run fix:all         # Auto-fix linting/formatting issues
+bun task:complete <name> # Mark a task as complete (see docs/TASKS.md)
 ```

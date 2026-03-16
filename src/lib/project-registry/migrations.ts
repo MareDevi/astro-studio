@@ -4,9 +4,9 @@
  * This module handles migration from v1 to v2 preference structure.
  */
 
-import { error as logError, info } from '@tauri-apps/plugin-log'
-import { GlobalSettings, ProjectData } from './types'
-import { DEFAULT_PROJECT_SETTINGS } from './defaults'
+import { error as logError, info } from '@tauri-apps/plugin-log';
+import type { GlobalSettings, ProjectData } from './types';
+import { DEFAULT_PROJECT_SETTINGS } from './defaults';
 
 /**
  * Migrate global settings from v1 to v2
@@ -18,10 +18,10 @@ import { DEFAULT_PROJECT_SETTINGS } from './defaults'
  * @returns Migrated v2 global settings
  */
 export function migrateGlobalSettingsV1toV2(
-  oldSettings: Record<string, unknown>
+  oldSettings: Record<string, unknown>,
 ): GlobalSettings {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { defaultProjectSettings, version, ...rest } = oldSettings
+  const { defaultProjectSettings, version, ...rest } = oldSettings;
 
   const migratedSettings: GlobalSettings = {
     general: (rest.general as GlobalSettings['general']) || {
@@ -43,9 +43,9 @@ export function migrateGlobalSettingsV1toV2(
       },
     },
     version: 2,
-  }
+  };
 
-  return migratedSettings
+  return migratedSettings;
 }
 
 /**
@@ -58,10 +58,10 @@ export function migrateGlobalSettingsV1toV2(
  * @returns Migrated v2 project data
  */
 export function migrateProjectDataV1toV2(
-  oldProjectData: Record<string, unknown>
+  oldProjectData: Record<string, unknown>,
 ): ProjectData {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { metadata, ...rest } = oldProjectData
+  const { metadata, ...rest } = oldProjectData;
 
   const migratedData: ProjectData = {
     settings: (rest.settings as ProjectData['settings']) || {
@@ -69,54 +69,56 @@ export function migrateProjectDataV1toV2(
     },
     collections: [], // Start with empty collections array
     version: 2,
-  }
+  };
 
-  return migratedData
+  return migratedData;
 }
 
 /**
  * Check if global settings need migration
  */
 export function needsGlobalSettingsMigration(
-  settings: Record<string, unknown>
+  settings: Record<string, unknown>,
 ): boolean {
-  const version = settings.version as number | undefined
-  const hasDefaultProjectSettings = 'defaultProjectSettings' in settings
+  const version = settings.version as number | undefined;
+  const hasDefaultProjectSettings = 'defaultProjectSettings' in settings;
 
   // Needs migration if version is 1 (or missing) AND has defaultProjectSettings
-  return (!version || version === 1) && hasDefaultProjectSettings
+  return (!version || version === 1) && hasDefaultProjectSettings;
 }
 
 /**
  * Check if project data needs migration
  */
 export function needsProjectDataMigration(
-  projectData: Record<string, unknown>
+  projectData: Record<string, unknown>,
 ): boolean {
-  const version = projectData.version as number | undefined
-  const hasMetadata = 'metadata' in projectData
+  const version = projectData.version as number | undefined;
+  const hasMetadata = 'metadata' in projectData;
 
   // Needs migration if version is missing AND has metadata field
-  return !version && hasMetadata
+  return !version && hasMetadata;
 }
 
 /**
  * Migrate global settings with logging
  */
 export async function migrateGlobalSettingsWithLogging(
-  oldSettings: Record<string, unknown>
+  oldSettings: Record<string, unknown>,
 ): Promise<GlobalSettings> {
-  await info('Astro Editor [MIGRATION] Migrating global settings from v1 to v2')
+  await info(
+    'Astro Editor [MIGRATION] Migrating global settings from v1 to v2',
+  );
 
   try {
-    const migrated = migrateGlobalSettingsV1toV2(oldSettings)
-    await info('Astro Editor [MIGRATION] Global settings migration completed')
-    return migrated
+    const migrated = migrateGlobalSettingsV1toV2(oldSettings);
+    await info('Astro Editor [MIGRATION] Global settings migration completed');
+    return migrated;
   } catch (err) {
     await logError(
-      `Astro Editor [MIGRATION] Failed to migrate global settings: ${String(err)}`
-    )
-    throw err
+      `Astro Editor [MIGRATION] Failed to migrate global settings: ${String(err)}`,
+    );
+    throw err;
   }
 }
 
@@ -125,22 +127,22 @@ export async function migrateGlobalSettingsWithLogging(
  */
 export async function migrateProjectDataWithLogging(
   projectId: string,
-  oldProjectData: Record<string, unknown>
+  oldProjectData: Record<string, unknown>,
 ): Promise<ProjectData> {
   await info(
-    `Astro Editor [MIGRATION] Migrating project data for ${projectId} from v1 to v2`
-  )
+    `Astro Editor [MIGRATION] Migrating project data for ${projectId} from v1 to v2`,
+  );
 
   try {
-    const migrated = migrateProjectDataV1toV2(oldProjectData)
+    const migrated = migrateProjectDataV1toV2(oldProjectData);
     await info(
-      `Astro Editor [MIGRATION] Project data migration completed for ${projectId}`
-    )
-    return migrated
+      `Astro Editor [MIGRATION] Project data migration completed for ${projectId}`,
+    );
+    return migrated;
   } catch (err) {
     await logError(
-      `Astro Editor [MIGRATION] Failed to migrate project data for ${projectId}: ${String(err)}`
-    )
-    throw err
+      `Astro Editor [MIGRATION] Failed to migrate project data for ${projectId}: ${String(err)}`,
+    );
+    throw err;
   }
 }

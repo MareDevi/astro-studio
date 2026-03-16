@@ -4,4 +4,4 @@ export {
   resolveUrlPattern,
   buildContentLink,
   resolveTitle,
-} from './link-builder'
+} from './link-builder';

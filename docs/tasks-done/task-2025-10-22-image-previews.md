@@ -180,7 +180,7 @@ To test, run the app and:
 
 **Ready to Test (Full Feature):**
 
-1. Run `pnpm run dev` and open test project
+1. Run `bun run dev` and open test project
 2. Open the test article at `/test/dummy-astro-project/src/content/articles/2025-01-22-image-preview-test.md`
 3. Hold Alt/Option and hover over ANY image path/URL:
    - Remote URL: `https://danny.is/avatar.jpg`

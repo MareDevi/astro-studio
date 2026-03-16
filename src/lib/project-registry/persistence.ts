@@ -4,60 +4,60 @@
  * Handles saving and loading project data using the application support directory
  */
 
-import { commands } from '@/lib/bindings'
-import { error, info } from '@tauri-apps/plugin-log'
-import { ProjectRegistry, GlobalSettings, ProjectData } from './types'
-import { DEFAULT_PROJECT_REGISTRY, DEFAULT_GLOBAL_SETTINGS } from './defaults'
+import { commands } from '@/lib/bindings';
+import { error, info } from '@tauri-apps/plugin-log';
+import type { ProjectRegistry, GlobalSettings, ProjectData } from './types';
+import { DEFAULT_PROJECT_REGISTRY, DEFAULT_GLOBAL_SETTINGS } from './defaults';
 import {
   needsGlobalSettingsMigration,
   needsProjectDataMigration,
   migrateGlobalSettingsWithLogging,
   migrateProjectDataWithLogging,
-} from './migrations'
+} from './migrations';
 
 /**
  * Get the application support directory paths
  */
 async function getAppSupportPaths() {
-  const result = await commands.getAppDataDir()
+  const result = await commands.getAppDataDir();
   if (result.status === 'error') {
-    throw new Error(result.error)
+    throw new Error(result.error);
   }
-  const appDataDir = result.data
+  const appDataDir = result.data;
   return {
     preferencesDir: `${appDataDir}/preferences`,
     projectsDir: `${appDataDir}/preferences/projects`,
     globalSettingsPath: `${appDataDir}/preferences/global-settings.json`,
     projectRegistryPath: `${appDataDir}/preferences/project-registry.json`,
-  }
+  };
 }
 
 /**
  * Ensure preferences directory exists
  */
 async function ensurePreferencesDir() {
-  const { preferencesDir, projectsDir } = await getAppSupportPaths()
+  const { preferencesDir, projectsDir } = await getAppSupportPaths();
 
   try {
     // Use the safer app data file operations that create directories as needed
     const prefResult = await commands.writeAppDataFile(
       `${preferencesDir}/.init`,
-      'directory initialized'
-    )
+      'directory initialized',
+    );
     if (prefResult.status === 'error') {
-      throw new Error(prefResult.error)
+      throw new Error(prefResult.error);
     }
 
     const projResult = await commands.writeAppDataFile(
       `${projectsDir}/.init`,
-      'directory initialized'
-    )
+      'directory initialized',
+    );
     if (projResult.status === 'error') {
-      throw new Error(projResult.error)
+      throw new Error(projResult.error);
     }
   } catch (err) {
-    await error(`Failed to ensure preferences directories: ${String(err)}`)
-    throw err
+    await error(`Failed to ensure preferences directories: ${String(err)}`);
+    throw err;
   }
 }
 
@@ -66,25 +66,25 @@ async function ensurePreferencesDir() {
  */
 export async function loadProjectRegistry(): Promise<ProjectRegistry> {
   try {
-    const { projectRegistryPath } = await getAppSupportPaths()
-    const result = await commands.readAppDataFile(projectRegistryPath)
+    const { projectRegistryPath } = await getAppSupportPaths();
+    const result = await commands.readAppDataFile(projectRegistryPath);
     if (result.status === 'error') {
-      throw new Error(result.error)
+      throw new Error(result.error);
     }
-    const content = result.data
+    const content = result.data;
 
-    const registry = JSON.parse(content) as ProjectRegistry
+    const registry = JSON.parse(content) as ProjectRegistry;
 
     // Validate and migrate if needed
     const finalRegistry = {
       ...DEFAULT_PROJECT_REGISTRY,
       ...registry,
       version: registry.version || 1,
-    }
-    return finalRegistry
+    };
+    return finalRegistry;
   } catch {
     // File doesn't exist or is invalid, return defaults
-    return { ...DEFAULT_PROJECT_REGISTRY }
+    return { ...DEFAULT_PROJECT_REGISTRY };
   }
 }
 
@@ -92,22 +92,22 @@ export async function loadProjectRegistry(): Promise<ProjectRegistry> {
  * Save the project registry to disk
  */
 export async function saveProjectRegistry(
-  registry: ProjectRegistry
+  registry: ProjectRegistry,
 ): Promise<void> {
   try {
-    await ensurePreferencesDir()
-    const { projectRegistryPath } = await getAppSupportPaths()
+    await ensurePreferencesDir();
+    const { projectRegistryPath } = await getAppSupportPaths();
 
     const result = await commands.writeAppDataFile(
       projectRegistryPath,
-      JSON.stringify(registry, null, 2)
-    )
+      JSON.stringify(registry, null, 2),
+    );
     if (result.status === 'error') {
-      throw new Error(result.error)
+      throw new Error(result.error);
     }
   } catch (err) {
-    await error(`Failed to save project registry: ${String(err)}`)
-    throw err
+    await error(`Failed to save project registry: ${String(err)}`);
+    throw err;
   }
 }
 
@@ -116,37 +116,37 @@ export async function saveProjectRegistry(
  */
 export async function loadGlobalSettings(): Promise<GlobalSettings> {
   try {
-    const { globalSettingsPath } = await getAppSupportPaths()
-    const result = await commands.readAppDataFile(globalSettingsPath)
+    const { globalSettingsPath } = await getAppSupportPaths();
+    const result = await commands.readAppDataFile(globalSettingsPath);
     if (result.status === 'error') {
-      throw new Error(result.error)
+      throw new Error(result.error);
     }
-    const content = result.data
+    const content = result.data;
 
-    const rawSettings = JSON.parse(content) as Record<string, unknown>
+    const rawSettings = JSON.parse(content) as Record<string, unknown>;
 
     // Check if migration is needed
     if (needsGlobalSettingsMigration(rawSettings)) {
       await info(
-        'Astro Editor [PREFERENCES] Global settings v1 detected, migrating to v2'
-      )
+        'Astro Editor [PREFERENCES] Global settings v1 detected, migrating to v2',
+      );
 
       // Migrate the settings
       const migratedSettings =
-        await migrateGlobalSettingsWithLogging(rawSettings)
+        await migrateGlobalSettingsWithLogging(rawSettings);
 
       // Save the migrated settings to disk
-      await saveGlobalSettings(migratedSettings)
+      await saveGlobalSettings(migratedSettings);
 
       await info(
-        'Astro Editor [PREFERENCES] Global settings migration completed and saved'
-      )
+        'Astro Editor [PREFERENCES] Global settings migration completed and saved',
+      );
 
-      return migratedSettings
+      return migratedSettings;
     }
 
     // Validate and deep merge to preserve nested objects
-    const settings = rawSettings as Partial<GlobalSettings>
+    const settings = rawSettings as Partial<GlobalSettings>;
     return {
       ...DEFAULT_GLOBAL_SETTINGS,
       ...settings,
@@ -167,11 +167,13 @@ export async function loadGlobalSettings(): Promise<GlobalSettings> {
         },
       },
       version: settings.version || DEFAULT_GLOBAL_SETTINGS.version,
-    }
+    };
   } catch {
     // File doesn't exist or is invalid, return defaults
     // Deep clone to ensure nested objects are preserved
-    return JSON.parse(JSON.stringify(DEFAULT_GLOBAL_SETTINGS)) as GlobalSettings
+    return JSON.parse(
+      JSON.stringify(DEFAULT_GLOBAL_SETTINGS),
+    ) as GlobalSettings;
   }
 }
 
@@ -179,22 +181,22 @@ export async function loadGlobalSettings(): Promise<GlobalSettings> {
  * Save global settings to disk
  */
 export async function saveGlobalSettings(
-  settings: GlobalSettings
+  settings: GlobalSettings,
 ): Promise<void> {
   try {
-    await ensurePreferencesDir()
-    const { globalSettingsPath } = await getAppSupportPaths()
+    await ensurePreferencesDir();
+    const { globalSettingsPath } = await getAppSupportPaths();
 
     const result = await commands.writeAppDataFile(
       globalSettingsPath,
-      JSON.stringify(settings, null, 2)
-    )
+      JSON.stringify(settings, null, 2),
+    );
     if (result.status === 'error') {
-      throw new Error(result.error)
+      throw new Error(result.error);
     }
   } catch (err) {
-    await error(`Failed to save global settings: ${String(err)}`)
-    throw err
+    await error(`Failed to save global settings: ${String(err)}`);
+    throw err;
   }
 }
 
@@ -202,46 +204,46 @@ export async function saveGlobalSettings(
  * Load project-specific data from disk
  */
 export async function loadProjectData(
-  projectId: string
+  projectId: string,
 ): Promise<ProjectData | null> {
   try {
-    const { projectsDir } = await getAppSupportPaths()
-    const projectFilePath = `${projectsDir}/${projectId}.json`
+    const { projectsDir } = await getAppSupportPaths();
+    const projectFilePath = `${projectsDir}/${projectId}.json`;
 
-    const result = await commands.readAppDataFile(projectFilePath)
+    const result = await commands.readAppDataFile(projectFilePath);
     if (result.status === 'error') {
-      throw new Error(result.error)
+      throw new Error(result.error);
     }
-    const content = result.data
+    const content = result.data;
 
-    const rawData = JSON.parse(content) as Record<string, unknown>
+    const rawData = JSON.parse(content) as Record<string, unknown>;
 
     // Check if migration is needed
     if (needsProjectDataMigration(rawData)) {
       await info(
-        `Astro Editor [PREFERENCES] Project data v1 detected for ${projectId}, migrating to v2`
-      )
+        `Astro Editor [PREFERENCES] Project data v1 detected for ${projectId}, migrating to v2`,
+      );
 
       // Migrate the project data
       const migratedData = await migrateProjectDataWithLogging(
         projectId,
-        rawData
-      )
+        rawData,
+      );
 
       // Save the migrated data to disk
-      await saveProjectData(projectId, migratedData)
+      await saveProjectData(projectId, migratedData);
 
       await info(
-        `Astro Editor [PREFERENCES] Project data migration completed and saved for ${projectId}`
-      )
+        `Astro Editor [PREFERENCES] Project data migration completed and saved for ${projectId}`,
+      );
 
-      return migratedData
+      return migratedData;
     }
 
-    return rawData as Partial<ProjectData> as ProjectData
+    return rawData as Partial<ProjectData> as ProjectData;
   } catch {
     // File doesn't exist or is invalid
-    return null
+    return null;
   }
 }
 
@@ -250,22 +252,22 @@ export async function loadProjectData(
  */
 export async function saveProjectData(
   projectId: string,
-  data: ProjectData
+  data: ProjectData,
 ): Promise<void> {
   try {
-    await ensurePreferencesDir()
-    const { projectsDir } = await getAppSupportPaths()
-    const projectFilePath = `${projectsDir}/${projectId}.json`
+    await ensurePreferencesDir();
+    const { projectsDir } = await getAppSupportPaths();
+    const projectFilePath = `${projectsDir}/${projectId}.json`;
 
     const result = await commands.writeAppDataFile(
       projectFilePath,
-      JSON.stringify(data, null, 2)
-    )
+      JSON.stringify(data, null, 2),
+    );
     if (result.status === 'error') {
-      throw new Error(result.error)
+      throw new Error(result.error);
     }
   } catch (err) {
-    await error(`Failed to save project data: ${String(err)}`)
-    throw err
+    await error(`Failed to save project data: ${String(err)}`);
+    throw err;
   }
 }

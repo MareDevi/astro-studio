@@ -1,24 +1,25 @@
-import React, { useState } from 'react'
-import { useEditorStore } from '../../../store/editorStore'
-import { getNestedValue } from '../../../lib/object-utils'
-import { useProjectStore } from '../../../store/projectStore'
-import { FieldWrapper } from './FieldWrapper'
-import { ImageThumbnail } from './ImageThumbnail'
-import { FileUploadButton } from '../../tauri'
+import type React from 'react';
+import { useState } from 'react';
+import { useEditorStore } from '../../../store/editorStore';
+import { getNestedValue } from '../../../lib/object-utils';
+import { useProjectStore } from '../../../store/projectStore';
+import { FieldWrapper } from './FieldWrapper';
+import { ImageThumbnail } from './ImageThumbnail';
+import { FileUploadButton } from '../../tauri';
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
-} from '../../ui/input-group'
-import { processFileToAssets, IMAGE_EXTENSIONS } from '../../../lib/files'
-import { getCollectionSettings } from '../../../lib/project-registry'
-import { X, Loader2, Edit3, Check } from 'lucide-react'
-import type { FieldProps } from '../../../types/common'
-import type { SchemaField } from '../../../lib/schema'
+} from '../../ui/input-group';
+import { processFileToAssets, IMAGE_EXTENSIONS } from '../../../lib/files';
+import { getCollectionSettings } from '../../../lib/project-registry';
+import { X, Loader2, Edit3, Check } from 'lucide-react';
+import type { FieldProps } from '../../../types/common';
+import type { SchemaField } from '../../../lib/schema';
 
 interface ImageFieldProps extends FieldProps {
-  field?: SchemaField
+  field?: SchemaField;
 }
 
 export const ImageField: React.FC<ImageFieldProps> = ({
@@ -27,40 +28,42 @@ export const ImageField: React.FC<ImageFieldProps> = ({
   required,
   field,
 }) => {
-  const value = useEditorStore(state => getNestedValue(state.frontmatter, name))
+  const value = useEditorStore((state) =>
+    getNestedValue(state.frontmatter, name),
+  );
   const updateFrontmatterField = useEditorStore(
-    state => state.updateFrontmatterField
-  )
-  const [isLoading, setIsLoading] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
-  const [editValue, setEditValue] = useState('')
+    (state) => state.updateFrontmatterField,
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState('');
 
-  const stringValue = typeof value === 'string' ? value : ''
+  const stringValue = typeof value === 'string' ? value : '';
   // When editing, show edit value; otherwise show current value
-  const displayValue = isEditing ? editValue : stringValue
+  const displayValue = isEditing ? editValue : stringValue;
 
   const handleFileSelect = async (filePath: string) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
-    const { projectPath, currentProjectSettings } = useProjectStore.getState()
-    const { currentFile } = useEditorStore.getState()
-    const collection = currentFile?.collection
+    const { projectPath, currentProjectSettings } = useProjectStore.getState();
+    const { currentFile } = useEditorStore.getState();
+    const collection = currentFile?.collection;
 
     // Capture the starting file ID to detect file switches during async operation
-    const startingFileId = currentFile?.id
+    const startingFileId = currentFile?.id;
 
     try {
       // Validate context
       if (!projectPath || !currentFile || !collection) {
-        throw new Error('No project or collection context available')
+        throw new Error('No project or collection context available');
       }
 
       // Get path preference (defaults to true if not set)
       const effectiveSettings = getCollectionSettings(
         currentProjectSettings,
-        collection
-      )
-      const useRelativePaths = effectiveSettings.useRelativeAssetPaths
+        collection,
+      );
+      const useRelativePaths = effectiveSettings.useRelativeAssetPaths;
 
       // Use shared utility with 'only-if-outside-project' strategy
       const result = await processFileToAssets({
@@ -71,23 +74,23 @@ export const ImageField: React.FC<ImageFieldProps> = ({
         copyStrategy: 'only-if-outside-project',
         currentFilePath: currentFile.path,
         useRelativePaths,
-      })
+      });
 
       // CRITICAL: Check if the user switched files during the async operation
       // If they did, DO NOT update frontmatter (would corrupt the new file)
-      const { currentFile: currentFileNow } = useEditorStore.getState()
+      const { currentFile: currentFileNow } = useEditorStore.getState();
       if (currentFileNow?.id !== startingFileId) {
         if (import.meta.env.DEV) {
           // eslint-disable-next-line no-console
           console.warn(
-            '[ImageField] File switched during image processing - aborting frontmatter update to prevent data corruption'
-          )
+            '[ImageField] File switched during image processing - aborting frontmatter update to prevent data corruption',
+          );
         }
-        return
+        return;
       }
 
       // Update frontmatter with path
-      updateFrontmatterField(name, result.relativePath)
+      updateFrontmatterField(name, result.relativePath);
     } catch (error) {
       // Show error toast (component-specific UI concern)
       window.dispatchEvent(
@@ -98,44 +101,44 @@ export const ImageField: React.FC<ImageFieldProps> = ({
               error instanceof Error ? error.message : 'Unknown error',
             variant: 'destructive',
           },
-        })
-      )
+        }),
+      );
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleClear = () => {
-    updateFrontmatterField(name, undefined)
-  }
+    updateFrontmatterField(name, undefined);
+  };
 
   const handleEditStart = () => {
-    setEditValue(stringValue)
-    setIsEditing(true)
-  }
+    setEditValue(stringValue);
+    setIsEditing(true);
+  };
 
   const handleEditCancel = () => {
-    setEditValue('')
-    setIsEditing(false)
-  }
+    setEditValue('');
+    setIsEditing(false);
+  };
 
   const handleEditSave = () => {
-    const trimmedPath = editValue.trim()
+    const trimmedPath = editValue.trim();
 
     // Empty path means clear
     if (!trimmedPath) {
-      updateFrontmatterField(name, undefined)
-      setIsEditing(false)
-      setEditValue('')
-      return
+      updateFrontmatterField(name, undefined);
+      setIsEditing(false);
+      setEditValue('');
+      return;
     }
 
     // Manual edit: user has full control, no validation
     // If the path doesn't exist, the preview will simply fail to load
-    updateFrontmatterField(name, trimmedPath)
-    setIsEditing(false)
-    setEditValue('')
-  }
+    updateFrontmatterField(name, trimmedPath);
+    setIsEditing(false);
+    setEditValue('');
+  };
 
   return (
     <FieldWrapper
@@ -155,17 +158,17 @@ export const ImageField: React.FC<ImageFieldProps> = ({
             <InputGroupInput
               type="text"
               value={displayValue}
-              onChange={e => setEditValue(e.target.value)}
+              onChange={(e) => setEditValue(e.target.value)}
               placeholder="Enter image path (e.g., /src/assets/image.jpg)"
               disabled={!isEditing}
-              onKeyDown={e => {
-                if (!isEditing) return
+              onKeyDown={(e) => {
+                if (!isEditing) return;
                 if (e.key === 'Enter') {
-                  e.preventDefault()
-                  handleEditSave()
+                  e.preventDefault();
+                  handleEditSave();
                 } else if (e.key === 'Escape') {
-                  e.preventDefault()
-                  handleEditCancel()
+                  e.preventDefault();
+                  handleEditCancel();
                 }
               }}
             />
@@ -223,5 +226,5 @@ export const ImageField: React.FC<ImageFieldProps> = ({
         {stringValue && <ImageThumbnail path={stringValue} />}
       </div>
     </FieldWrapper>
-  )
-}
+  );
+};

@@ -6,8 +6,8 @@ const notes = await getCollection('notes');
 const books = await getCollection('books');
 
 // Sort articles by date
-const sortedArticles = articles.sort((a, b) =>
-  b.data.pubDate.getTime() - a.data.pubDate.getTime()
+const sortedArticles = articles.sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 );
 
 // Sort books by rating

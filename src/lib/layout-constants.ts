@@ -23,4 +23,4 @@ export const LAYOUT_SIZES = {
     default: '55',
     min: '40',
   },
-} as const
+} as const;

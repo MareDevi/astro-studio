@@ -129,7 +129,7 @@ Restructure developer documentation to combine Tauri Template's clear organizati
 
 - **Bundle Size Analysis**:
   - How to check current bundle size
-    - Command: `pnpm run build` then check dist folder size
+    - Command: `bun run build` then check dist folder size
     - Tools: rollup-plugin-visualizer or vite-plugin-analyze
   - What to look for:
     - Large dependencies (check package.json)

@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { initializeRustToastBridge } from '../lib/rust-toast-bridge'
+import { useEffect } from 'react';
+import { initializeRustToastBridge } from '../lib/rust-toast-bridge';
 
 /**
  * Initializes bi-directional toast communication with the Rust backend.
@@ -9,14 +9,14 @@ import { initializeRustToastBridge } from '../lib/rust-toast-bridge'
  */
 export function useRustToastBridge() {
   useEffect(() => {
-    let cleanup: (() => void) | undefined
+    let cleanup: (() => void) | undefined;
 
-    void initializeRustToastBridge().then(unlisten => {
-      cleanup = unlisten
-    })
+    void initializeRustToastBridge().then((unlisten) => {
+      cleanup = unlisten;
+    });
 
     return () => {
-      cleanup?.()
-    }
-  }, [])
+      cleanup?.();
+    };
+  }, []);
 }

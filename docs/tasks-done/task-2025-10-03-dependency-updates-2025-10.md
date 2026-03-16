@@ -136,8 +136,8 @@ These require careful migration and testing:
 
 **Action Required:**
 1. Update Vite and @vitejs/plugin-react together
-2. Test dev server: `pnpm run dev`
-3. Test build: `pnpm run build`
+2. Test dev server: `bun run dev`
+3. Test build: `bun run build`
 4. Verify Tauri integration still works
 5. Check bundle size changes
 6. Test HMR (Hot Module Replacement)
@@ -183,7 +183,7 @@ These require careful migration and testing:
 
 **Action Required:**
 1. Update dependency
-2. Run full test suite: `pnpm run test:run`
+2. Run full test suite: `bun run test:run`
 3. Watch for any failing tests related to DOM or window behavior
 4. Check if any tests mock window.location (may need updates)
 
@@ -198,14 +198,14 @@ These require careful migration and testing:
 Update all Category 1 dependencies in a single batch:
 
 ```bash
-pnpm update @codemirror/view @hookform/resolvers @tailwindcss/vite @tauri-apps/plugin-fs @tauri-apps/plugin-shell react-resizable-panels rollup-plugin-visualizer semantic-release tailwindcss typescript zustand @codemirror/autocomplete @codemirror/commands @codemirror/lang-markdown @eslint/js eslint @tanstack/react-query @tauri-apps/api @tauri-apps/cli @tauri-apps/plugin-dialog @tauri-apps/plugin-log @tauri-apps/plugin-opener @testing-library/jest-dom @types/react @types/react-dom @typescript-eslint/eslint-plugin @typescript-eslint/parser typescript-eslint react react-dom react-day-picker react-hook-form terser tw-animate-css lucide-react
+bun update @codemirror/view @hookform/resolvers @tailwindcss/vite @tauri-apps/plugin-fs @tauri-apps/plugin-shell react-resizable-panels rollup-plugin-visualizer semantic-release tailwindcss typescript zustand @codemirror/autocomplete @codemirror/commands @codemirror/lang-markdown @eslint/js eslint @tanstack/react-query @tauri-apps/api @tauri-apps/cli @tauri-apps/plugin-dialog @tauri-apps/plugin-log @tauri-apps/plugin-opener @testing-library/jest-dom @types/react @types/react-dom @typescript-eslint/eslint-plugin @typescript-eslint/parser typescript-eslint react react-dom react-day-picker react-hook-form terser tw-animate-css lucide-react
 
 cargo update
 ```
 
 Then run:
 ```bash
-pnpm run check:all
+bun run check:all
 ```
 
 ### Phase 2: Medium Risk Updates (1 commit per package)
@@ -214,34 +214,34 @@ Update each package individually and test:
 
 1. **Zod Update**
    ```bash
-   pnpm update zod
-   pnpm run test:run
-   pnpm run typecheck
+   bun update zod
+   bun run test:run
+   bun run typecheck
    ```
 
 2. **ESLint React Hooks**
    - Update `eslint.config.js` first (change config name)
-   - Then: `pnpm update eslint-plugin-react-hooks @types/eslint__js`
-   - Test: `pnpm run lint`
+   - Then: `bun update eslint-plugin-react-hooks @types/eslint__js`
+   - Test: `bun run lint`
 
 ### Phase 3: Major Updates (1 commit, thorough testing)
 
 Update Vite, plugin-react, and jsdom together since they're all dev/build tools:
 
 ```bash
-pnpm update vite @vitejs/plugin-react jsdom
+bun update vite @vitejs/plugin-react jsdom
 ```
 
 Then comprehensive testing:
 ```bash
-pnpm run typecheck
-pnpm run test:run
-pnpm run build
-pnpm run tauri:check
+bun run typecheck
+bun run test:run
+bun run build
+bun run tauri:check
 ```
 
 Manual testing:
-- Ask user to run `pnpm run dev` and verify app works
+- Ask user to run `bun run dev` and verify app works
 - Test HMR by editing a component
 - Test build output
 - Verify tests still pass
@@ -257,11 +257,11 @@ If issues arise:
 ## Post-Update Checklist
 
 After all updates:
-- [ ] Run `pnpm run check:all` successfully
-- [ ] Dev server starts and works (`pnpm run dev`)
-- [ ] Production build succeeds (`pnpm run build`)
-- [ ] Tauri build check passes (`pnpm run tauri:check`)
-- [ ] All tests pass (`pnpm run test:run` and `pnpm run rust:test`)
+- [ ] Run `bun run check:all` successfully
+- [ ] Dev server starts and works (`bun run dev`)
+- [ ] Production build succeeds (`bun run build`)
+- [ ] Tauri build check passes (`bun run tauri:check`)
+- [ ] All tests pass (`bun run test:run` and `bun run rust:test`)
 - [ ] Manual smoke testing in dev mode
 - [ ] Update this task file with any issues encountered
 
@@ -291,7 +291,7 @@ Successfully updated:
 - React 19.1 → 19.2 (minor update with new features, no breaking changes)
 - All CodeMirror, Tauri plugins, TanStack Query, and other ecosystem packages
 
-**Result:** All checks passed (`pnpm run check:all`)
+**Result:** All checks passed (`bun run check:all`)
 
 ### Phase 2: Medium-Risk Updates ✅
 
@@ -346,7 +346,7 @@ Successfully updated:
 ### Next Steps
 
 Ready for user testing:
-- Ask user to run `pnpm run dev` to test development server
+- Ask user to run `bun run dev` to test development server
 - Verify HMR (Hot Module Replacement) works correctly
 - Test application functionality
 - Consider creating a release after verification

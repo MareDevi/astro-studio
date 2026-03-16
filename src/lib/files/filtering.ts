@@ -2,14 +2,14 @@
  * File filtering utilities for sidebar file lists
  */
 
-import type { FileEntry } from '@/types'
+import type { FileEntry } from '@/types';
 
 type FieldMappings = {
-  publishedDate: string | string[]
-  title: string
-  description: string
-  draft: string
-}
+  publishedDate: string | string[];
+  title: string;
+  description: string;
+  draft: string;
+};
 
 /**
  * Filter files by draft status
@@ -23,15 +23,15 @@ type FieldMappings = {
 export function filterFilesByDraft(
   files: FileEntry[],
   showDraftsOnly: boolean,
-  mappings: FieldMappings | null
+  mappings: FieldMappings | null,
 ): FileEntry[] {
   // If drafts-only mode is disabled, return all files
   if (!showDraftsOnly) {
-    return files
+    return files;
   }
 
   // Filter to show only draft files
   // Draft detection uses only the user-configured field (or 'draft' default)
-  const draftField = mappings?.draft || 'draft'
-  return files.filter(file => file.frontmatter?.[draftField] === true)
+  const draftField = mappings?.draft || 'draft';
+  return files.filter((file) => file.frontmatter?.[draftField] === true);
 }

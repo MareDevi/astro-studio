@@ -1,51 +1,51 @@
-import React from 'react'
-import { Switch } from '@/components/ui/switch'
+import type React from 'react';
+import { Switch } from '@/components/ui/switch';
 import {
   Field,
   FieldLabel,
   FieldDescription,
   FieldContent,
-} from '@/components/ui/field'
+} from '@/components/ui/field';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { usePreferences } from '../../../hooks/usePreferences'
-import { SettingsSection } from '../SettingsSection'
-import { PreferencesTextInput } from '../PreferencesTextInput'
+} from '@/components/ui/select';
+import { usePreferences } from '../../../hooks/usePreferences';
+import { SettingsSection } from '../SettingsSection';
+import { PreferencesTextInput } from '../PreferencesTextInput';
 
 export const ProjectSettingsPane: React.FC = () => {
   const { currentProjectSettings, updateProject, projectName, globalSettings } =
-    usePreferences()
+    usePreferences();
 
   const handlePathOverrideChange = (
     key: 'contentDirectory' | 'assetsDirectory' | 'mdxComponentsDirectory',
-    value: string
+    value: string,
   ) => {
     void updateProject({
       pathOverrides: {
         ...currentProjectSettings?.pathOverrides,
         [key]: value || undefined, // Remove empty strings
       },
-    })
-  }
+    });
+  };
 
   const handleDefaultFileTypeChange = (value: string) => {
     void updateProject({
       ...currentProjectSettings,
       defaultFileType:
         value === 'inherited' ? undefined : (value as 'md' | 'mdx'),
-    })
-  }
+    });
+  };
 
   const handleAbsolutePathsChange = (checked: boolean) => {
     void updateProject({
       useAbsoluteAssetPaths: checked,
-    })
-  }
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -79,7 +79,7 @@ export const ProjectSettingsPane: React.FC = () => {
               value={
                 currentProjectSettings?.pathOverrides?.contentDirectory || ''
               }
-              onCommit={value =>
+              onCommit={(value) =>
                 handlePathOverrideChange('contentDirectory', value)
               }
               placeholder="src/content/"
@@ -97,7 +97,7 @@ export const ProjectSettingsPane: React.FC = () => {
               value={
                 currentProjectSettings?.pathOverrides?.assetsDirectory || ''
               }
-              onCommit={value =>
+              onCommit={(value) =>
                 handlePathOverrideChange('assetsDirectory', value)
               }
               placeholder="src/assets/"
@@ -116,7 +116,7 @@ export const ProjectSettingsPane: React.FC = () => {
                 currentProjectSettings?.pathOverrides?.mdxComponentsDirectory ||
                 ''
               }
-              onCommit={value =>
+              onCommit={(value) =>
                 handlePathOverrideChange('mdxComponentsDirectory', value)
               }
               placeholder="src/components/mdx/"
@@ -179,5 +179,5 @@ export const ProjectSettingsPane: React.FC = () => {
         </Field>
       </SettingsSection>
     </div>
-  )
-}
+  );
+};

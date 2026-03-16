@@ -1,7 +1,7 @@
-import type { EditorState, Range } from '@codemirror/state'
-import { StateField } from '@codemirror/state'
-import { Decoration, EditorView, type DecorationSet } from '@codemirror/view'
-import { syntaxTree } from '@codemirror/language'
+import type { EditorState, Range } from '@codemirror/state';
+import { StateField } from '@codemirror/state';
+import { Decoration, EditorView, type DecorationSet } from '@codemirror/view';
+import { syntaxTree } from '@codemirror/language';
 
 /**
  * Hanging Headers Extension
@@ -14,38 +14,38 @@ import { syntaxTree } from '@codemirror/language'
  */
 
 function buildHeaderDecorations(state: EditorState): DecorationSet {
-  const decorations: Range<Decoration>[] = []
+  const decorations: Range<Decoration>[] = [];
 
   syntaxTree(state).iterate({
     enter(node) {
       // Only process ATX headings (not Setext)
       if (/^ATXHeading[1-6]$/.test(node.name)) {
-        const line = state.doc.lineAt(node.from)
-        const level = node.name.slice(-1) // "1" through "6"
+        const line = state.doc.lineAt(node.from);
+        const level = node.name.slice(-1); // "1" through "6"
 
         decorations.push(
           Decoration.line({
             class: `cm-hanging-header cm-hanging-header-${level}`,
-          }).range(line.from)
-        )
+          }).range(line.from),
+        );
       }
     },
-  })
+  });
 
-  return Decoration.set(decorations, true)
+  return Decoration.set(decorations, true);
 }
 
 export const hangingHeadersExtension = StateField.define<DecorationSet>({
   create(state) {
-    return buildHeaderDecorations(state)
+    return buildHeaderDecorations(state);
   },
 
   update(decorations, tr) {
     if (tr.docChanged) {
-      return buildHeaderDecorations(tr.state)
+      return buildHeaderDecorations(tr.state);
     }
-    return decorations.map(tr.changes)
+    return decorations.map(tr.changes);
   },
 
-  provide: f => EditorView.decorations.from(f),
-})
+  provide: (f) => EditorView.decorations.from(f),
+});

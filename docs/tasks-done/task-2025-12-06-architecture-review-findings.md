@@ -306,7 +306,7 @@ export const ImagePreview = ImagePreviewComponent
 
 **Important:** Do NOT remove the `React.memo(() => true)` in `Editor.tsx` - that's a hard guarantee preventing keystroke-triggered re-renders which the compiler may not optimize.
 
-**Testing:** Run `pnpm run check:all`. Verify ImagePreview still works correctly.
+**Testing:** Run `bun run check:all`. Verify ImagePreview still works correctly.
 
 ---
 
@@ -1063,7 +1063,7 @@ Update line 216 to remove typewriter mode reference:
 
 Automated:
 
-1. Run `pnpm run check:all` - should pass with no errors
+1. Run `bun run check:all` - should pass with no errors
 2. Search codebase for `typewriter` - should only find this task doc and completed task history
 
 Manual - verify these features still work:
@@ -1082,8 +1082,8 @@ After completing all tasks:
 
 ```bash
 # Automated checks
-pnpm run check:all
-pnpm test
+bun run check:all
+bun test
 
 # Verify typewriter removal is complete
 grep -r "typewriter" src/ --include="*.ts" --include="*.tsx" --include="*.css"

@@ -1,8 +1,8 @@
-import { ProcessedFile } from './types'
-import { useProjectStore } from '../../../store/projectStore'
-import { useEditorStore } from '../../../store/editorStore'
-import { processFileToAssets, IMAGE_EXTENSIONS_WITH_DOTS } from '../../files'
-import { getCollectionSettings } from '../../project-registry'
+import type { ProcessedFile } from './types';
+import { useProjectStore } from '../../../store/projectStore';
+import { useEditorStore } from '../../../store/editorStore';
+import { processFileToAssets, IMAGE_EXTENSIONS_WITH_DOTS } from '../../files';
+import { getCollectionSettings } from '../../project-registry';
 
 /**
  * Check if a file is an image based on its extension
@@ -10,9 +10,9 @@ import { getCollectionSettings } from '../../project-registry'
  * @returns true if the file is an image
  */
 export const isImageFile = (filename: string): boolean => {
-  const extension = filename.toLowerCase().substring(filename.lastIndexOf('.'))
-  return IMAGE_EXTENSIONS_WITH_DOTS.includes(extension)
-}
+  const extension = filename.toLowerCase().substring(filename.lastIndexOf('.'));
+  return IMAGE_EXTENSIONS_WITH_DOTS.includes(extension);
+};
 
 /**
  * Extract filename from a file path
@@ -21,16 +21,16 @@ export const isImageFile = (filename: string): boolean => {
  */
 export const extractFilename = (filePath: string): string => {
   // Handle both Unix and Windows path separators
-  const parts = filePath.split(/[/\\]/)
-  const filename = parts[parts.length - 1]
+  const parts = filePath.split(/[/\\]/);
+  const filename = parts[parts.length - 1];
 
   // If the filename is empty (path ends with separator), return empty string
   if (filename === '') {
-    return ''
+    return '';
   }
 
-  return filename || filePath
-}
+  return filename || filePath;
+};
 
 /**
  * Format a file as markdown (image or link)
@@ -42,14 +42,14 @@ export const extractFilename = (filePath: string): string => {
 export const formatAsMarkdown = (
   filename: string,
   path: string,
-  isImage: boolean
+  isImage: boolean,
 ): string => {
   if (isImage) {
-    return `![${filename}](${path})`
+    return `![${filename}](${path})`;
   } else {
-    return `[${filename}](${path})`
+    return `[${filename}](${path})`;
   }
-}
+};
 
 /**
  * Process a single file for drag and drop
@@ -61,26 +61,26 @@ export const formatAsMarkdown = (
 export const processDroppedFile = async (
   filePath: string,
   projectPath: string,
-  collection: string
+  collection: string,
 ): Promise<ProcessedFile> => {
-  const filename = extractFilename(filePath)
-  const isImage = isImageFile(filename)
+  const filename = extractFilename(filePath);
+  const isImage = isImageFile(filename);
 
   try {
     // Get current file and settings
-    const { currentProjectSettings } = useProjectStore.getState()
-    const { currentFile } = useEditorStore.getState()
+    const { currentProjectSettings } = useProjectStore.getState();
+    const { currentFile } = useEditorStore.getState();
 
     // Get path preference (defaults to true if not set)
     const effectiveSettings = getCollectionSettings(
       currentProjectSettings,
-      collection
-    )
-    const useRelativePaths = effectiveSettings.useRelativeAssetPaths
+      collection,
+    );
+    const useRelativePaths = effectiveSettings.useRelativeAssetPaths;
 
     // Current file must be open for drag-and-drop to work
     if (!currentFile) {
-      throw new Error('No file is currently open')
+      throw new Error('No file is currently open');
     }
 
     // Use shared utility with 'always' strategy
@@ -92,33 +92,33 @@ export const processDroppedFile = async (
       copyStrategy: 'always',
       currentFilePath: currentFile.path,
       useRelativePaths,
-    })
+    });
 
     // Format as markdown (editor-specific concern)
     const markdownText = formatAsMarkdown(
       result.filename,
       result.relativePath,
-      isImage
-    )
+      isImage,
+    );
 
     return {
       originalPath: filePath,
       filename,
       isImage,
       markdownText,
-    }
+    };
   } catch {
     // Fallback to original path if processing fails (preserve existing behavior)
-    const markdownText = formatAsMarkdown(filename, filePath, isImage)
+    const markdownText = formatAsMarkdown(filename, filePath, isImage);
 
     return {
       originalPath: filePath,
       filename,
       isImage,
       markdownText,
-    }
+    };
   }
-}
+};
 
 /**
  * Process multiple files for drag and drop
@@ -130,11 +130,11 @@ export const processDroppedFile = async (
 export const processDroppedFiles = async (
   filePaths: string[],
   projectPath: string,
-  collection: string
+  collection: string,
 ): Promise<ProcessedFile[]> => {
   return Promise.all(
-    filePaths.map(filePath =>
-      processDroppedFile(filePath, projectPath, collection)
-    )
-  )
-}
+    filePaths.map((filePath) =>
+      processDroppedFile(filePath, projectPath, collection),
+    ),
+  );
+};

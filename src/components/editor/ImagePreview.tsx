@@ -1,90 +1,90 @@
-import React, { useEffect, useState } from 'react'
-import { convertFileSrc } from '@tauri-apps/api/core'
-import { commands } from '@/lib/bindings'
-import type { HoveredImage } from '../../hooks/editor/useImageHover'
+import React, { useEffect, useState } from 'react';
+import { convertFileSrc } from '@tauri-apps/api/core';
+import { commands } from '@/lib/bindings';
+import type { HoveredImage } from '../../hooks/editor/useImageHover';
 
 interface ImagePreviewProps {
-  hoveredImage: HoveredImage | null
-  projectPath: string
-  currentFilePath: string | null
+  hoveredImage: HoveredImage | null;
+  projectPath: string;
+  currentFilePath: string | null;
 }
 
-type LoadingState = 'idle' | 'loading' | 'success' | 'error'
+type LoadingState = 'idle' | 'loading' | 'success' | 'error';
 
 const ImagePreviewComponent: React.FC<ImagePreviewProps> = ({
   hoveredImage,
   projectPath,
   currentFilePath,
 }) => {
-  const [imageUrl, setImageUrl] = useState<string | null>(null)
-  const [loadingState, setLoadingState] = useState<LoadingState>('idle')
-  const prevUrlRef = React.useRef<string | null>(null)
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [loadingState, setLoadingState] = useState<LoadingState>('idle');
+  const prevUrlRef = React.useRef<string | null>(null);
 
   useEffect(() => {
-    const url = hoveredImage?.url
+    const url = hoveredImage?.url;
     if (!url) {
-      return
+      return;
     }
 
     // If we're hovering over the same URL, don't reload (just position changed)
     if (url === prevUrlRef.current) {
-      return
+      return;
     }
 
-    prevUrlRef.current = url
-    let cancelled = false
+    prevUrlRef.current = url;
+    let cancelled = false;
 
     const loadImage = async () => {
-      setLoadingState('loading')
+      setLoadingState('loading');
 
       try {
-        const path = url
+        const path = url;
 
         // Check if it's a remote URL
         if (path.startsWith('http://') || path.startsWith('https://')) {
           if (!cancelled) {
-            setImageUrl(path)
-            setLoadingState('success')
+            setImageUrl(path);
+            setLoadingState('success');
           }
-          return
+          return;
         }
 
         // For local paths, resolve to absolute path
         const result = await commands.resolveImagePath(
           path,
           projectPath,
-          currentFilePath ?? null
-        )
+          currentFilePath ?? null,
+        );
         if (result.status === 'error') {
-          throw new Error(result.error)
+          throw new Error(result.error);
         }
 
         if (!cancelled) {
           // Convert to asset protocol URL
-          const assetUrl = convertFileSrc(result.data)
-          setImageUrl(assetUrl)
-          setLoadingState('success')
+          const assetUrl = convertFileSrc(result.data);
+          setImageUrl(assetUrl);
+          setLoadingState('success');
         }
       } catch {
         // Fail silently - don't show error state
         if (!cancelled) {
-          setLoadingState('error')
+          setLoadingState('error');
         }
       }
-    }
+    };
 
-    void loadImage()
+    void loadImage();
 
     // Cleanup: only set cancelled flag to prevent stale updates
     // Keep cached state (imageUrl, loadingState, prevUrlRef) to prevent flicker
     return () => {
-      cancelled = true
-    }
-  }, [hoveredImage?.url, projectPath, currentFilePath])
+      cancelled = true;
+    };
+  }, [hoveredImage?.url, projectPath, currentFilePath]);
 
   // Don't render anything if no hovered image or if error state (fail silently)
   if (!hoveredImage || loadingState === 'error') {
-    return null
+    return null;
   }
 
   return (
@@ -141,7 +141,7 @@ const ImagePreviewComponent: React.FC<ImagePreviewProps> = ({
             display: 'block',
           }}
           onError={() => {
-            setLoadingState('error')
+            setLoadingState('error');
           }}
         />
       )}
@@ -154,7 +154,7 @@ const ImagePreviewComponent: React.FC<ImagePreviewProps> = ({
         }
       `}</style>
     </div>
-  )
-}
+  );
+};
 
-export const ImagePreview = ImagePreviewComponent
+export const ImagePreview = ImagePreviewComponent;

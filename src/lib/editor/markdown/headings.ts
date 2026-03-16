@@ -1,6 +1,6 @@
-import { EditorView } from '@codemirror/view'
-import { EditorSelection } from '@codemirror/state'
-import { HeadingLevel } from './types'
+import type { EditorView } from '@codemirror/view';
+import { EditorSelection } from '@codemirror/state';
+import type { HeadingLevel } from './types';
 
 /**
  * Transform current line to a specific heading level or plain text
@@ -10,25 +10,25 @@ import { HeadingLevel } from './types'
  */
 export const transformLineToHeading = (
   view: EditorView,
-  level: HeadingLevel
+  level: HeadingLevel,
 ): boolean => {
-  const { state } = view
-  const { from } = state.selection.main
-  const line = state.doc.lineAt(from)
-  const lineText = line.text
+  const { state } = view;
+  const { from } = state.selection.main;
+  const line = state.doc.lineAt(from);
+  const lineText = line.text;
 
   // Remove existing heading markers (if any)
-  const cleanedText = lineText.replace(/^#+\s*/, '').trim()
+  const cleanedText = lineText.replace(/^#+\s*/, '').trim();
 
   // Create new text based on desired level
-  let newLineText: string
+  let newLineText: string;
   if (level === 0) {
     // Plain text - just the cleaned text
-    newLineText = cleanedText
+    newLineText = cleanedText;
   } else {
     // Add heading markers
-    const markers = '#'.repeat(level)
-    newLineText = cleanedText ? `${markers} ${cleanedText}` : `${markers} `
+    const markers = '#'.repeat(level);
+    newLineText = cleanedText ? `${markers} ${cleanedText}` : `${markers} `;
   }
 
   // Replace the entire line
@@ -39,10 +39,10 @@ export const transformLineToHeading = (
       insert: newLineText,
     },
     selection: EditorSelection.cursor(line.from + newLineText.length),
-  })
+  });
 
-  return true
-}
+  return true;
+};
 
 /**
  * Get the current heading level of a line
@@ -50,12 +50,12 @@ export const transformLineToHeading = (
  * @returns Heading level (0 for plain text, 1-6 for headings)
  */
 export const getHeadingLevel = (lineText: string): HeadingLevel => {
-  const match = lineText.match(/^(#+)\s/)
-  if (!match || !match[1]) return 0
+  const match = lineText.match(/^(#+)\s/);
+  if (!match || !match[1]) return 0;
 
-  const level = match[1].length
-  return level >= 1 && level <= 4 ? (level as HeadingLevel) : 0
-}
+  const level = match[1].length;
+  return level >= 1 && level <= 4 ? (level as HeadingLevel) : 0;
+};
 
 /**
  * Check if a line is a heading
@@ -63,5 +63,5 @@ export const getHeadingLevel = (lineText: string): HeadingLevel => {
  * @returns true if the line is a heading
  */
 export const isHeading = (lineText: string): boolean => {
-  return getHeadingLevel(lineText) > 0
-}
+  return getHeadingLevel(lineText) > 0;
+};

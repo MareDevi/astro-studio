@@ -1,1 +1,1 @@
-export { ContentLinkerDialog } from './ContentLinkerDialog'
+export { ContentLinkerDialog } from './ContentLinkerDialog';

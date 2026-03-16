@@ -1,43 +1,43 @@
-import type { FileEntry } from '@/types'
+import type { FileEntry } from '@/types';
 
 /**
  * Build a relative file path from source to target
  */
 export function buildRelativePath(
   sourcePath: string,
-  targetPath: string
+  targetPath: string,
 ): string {
-  const sourceParts = sourcePath.split('/')
-  const targetParts = targetPath.split('/')
+  const sourceParts = sourcePath.split('/');
+  const targetParts = targetPath.split('/');
 
   // Get directories (strip filename)
-  const sourceDir = sourceParts.slice(0, -1)
-  const targetDir = targetParts.slice(0, -1)
-  const targetFilename = targetParts[targetParts.length - 1]
+  const sourceDir = sourceParts.slice(0, -1);
+  const targetDir = targetParts.slice(0, -1);
+  const targetFilename = targetParts[targetParts.length - 1];
 
   // Find common prefix length
-  let commonLength = 0
+  let commonLength = 0;
   while (
     commonLength < sourceDir.length &&
     commonLength < targetDir.length &&
     sourceDir[commonLength] === targetDir[commonLength]
   ) {
-    commonLength++
+    commonLength++;
   }
 
   // Number of levels to go up from source dir
-  const levelsUp = sourceDir.length - commonLength
-  const remainingTarget = targetDir.slice(commonLength)
+  const levelsUp = sourceDir.length - commonLength;
+  const remainingTarget = targetDir.slice(commonLength);
 
   if (levelsUp === 0) {
     // Same directory or subdirectory
-    const parts = ['.', ...remainingTarget, targetFilename]
-    return parts.join('/')
+    const parts = ['.', ...remainingTarget, targetFilename];
+    return parts.join('/');
   }
 
-  const upParts = Array.from({ length: levelsUp }, () => '..')
-  const parts = [...upParts, ...remainingTarget, targetFilename]
-  return parts.join('/')
+  const upParts = Array.from({ length: levelsUp }, () => '..');
+  const parts = [...upParts, ...remainingTarget, targetFilename];
+  return parts.join('/');
 }
 
 /**
@@ -45,18 +45,18 @@ export function buildRelativePath(
  * Returns frontmatter.slug if present, otherwise file.id
  */
 export function resolveSlug(file: FileEntry): string {
-  const slug = file.frontmatter?.slug
+  const slug = file.frontmatter?.slug;
   if (typeof slug === 'string' && slug.length > 0) {
-    return slug
+    return slug;
   }
-  return file.id
+  return file.id;
 }
 
 /**
  * Resolve a URL pattern template with a file's slug
  */
 export function resolveUrlPattern(pattern: string, file: FileEntry): string {
-  return pattern.replace('{slug}', resolveSlug(file))
+  return pattern.replace('{slug}', resolveSlug(file));
 }
 
 /**
@@ -72,20 +72,20 @@ export function buildContentLink(
   sourceFile: FileEntry,
   targetFile: FileEntry,
   urlPattern?: string,
-  titleField?: string
+  titleField?: string,
 ): string {
   // Resolve title
-  const title = resolveTitle(targetFile, titleField)
+  const title = resolveTitle(targetFile, titleField);
 
   // Resolve URL
   const url = urlPattern
     ? resolveUrlPattern(urlPattern, targetFile)
-    : buildRelativePath(sourceFile.path, targetFile.path)
+    : buildRelativePath(sourceFile.path, targetFile.path);
 
-  const safeTitle = title.replace(/\\/g, '\\\\').replace(/\]/g, '\\]')
-  const safeUrl = url.replace(/\)/g, '%29')
+  const safeTitle = title.replace(/\\/g, '\\\\').replace(/\]/g, '\\]');
+  const safeUrl = url.replace(/\)/g, '%29');
 
-  return `[${safeTitle}](${safeUrl})`
+  return `[${safeTitle}](${safeUrl})`;
 }
 
 /**
@@ -93,14 +93,14 @@ export function buildContentLink(
  */
 export function resolveTitle(file: FileEntry, titleField?: string): string {
   if (titleField && file.frontmatter?.[titleField]) {
-    const val = file.frontmatter[titleField]
-    if (typeof val === 'string' && val.length > 0) return val
+    const val = file.frontmatter[titleField];
+    if (typeof val === 'string' && val.length > 0) return val;
   }
 
   if (file.frontmatter?.title) {
-    const val = file.frontmatter.title
-    if (typeof val === 'string' && val.length > 0) return val
+    const val = file.frontmatter.title;
+    if (typeof val === 'string' && val.length > 0) return val;
   }
 
-  return file.name
+  return file.name;
 }

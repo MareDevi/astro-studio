@@ -1,8 +1,8 @@
-import { info, error as logError } from '@tauri-apps/plugin-log'
-import { commands, type JsonValue } from '@/types'
-import type { RecoveryData, CrashReport } from './types'
+import { info, error as logError } from '@tauri-apps/plugin-log';
+import { commands, type JsonValue } from '@/types';
+import type { RecoveryData, CrashReport } from './types';
 
-export type { RecoveryData, CrashReport }
+export type { RecoveryData, CrashReport };
 
 /**
  * Type-safe conversion for recovery data objects that are structurally valid JSON.
@@ -10,19 +10,19 @@ export type { RecoveryData, CrashReport }
  * this automatically because interfaces lack index signatures.
  */
 function asJsonValue(value: RecoveryData | CrashReport): JsonValue {
-  return value as unknown as JsonValue
+  return value as unknown as JsonValue;
 }
 
 /**
  * Save recovery data when a save operation fails
  */
 export const saveRecoveryData = async (data: {
-  currentFile: { path: string; name: string; collection: string } | null
-  projectPath: string | null
-  editorContent: string
-  frontmatter: Record<string, unknown>
+  currentFile: { path: string; name: string; collection: string } | null;
+  projectPath: string | null;
+  editorContent: string;
+  frontmatter: Record<string, unknown>;
 }) => {
-  if (!data.currentFile) return
+  if (!data.currentFile) return;
 
   const recoveryData: RecoveryData = {
     timestamp: new Date().toISOString(),
@@ -32,19 +32,19 @@ export const saveRecoveryData = async (data: {
     frontmatter: data.frontmatter as Record<string, JsonValue>,
     fileName: data.currentFile.name,
     collection: data.currentFile.collection,
-  }
+  };
 
   try {
-    const result = await commands.saveRecoveryData(asJsonValue(recoveryData))
+    const result = await commands.saveRecoveryData(asJsonValue(recoveryData));
     if (result.status === 'error') {
-      await logError(`Failed to save recovery data: ${result.error}`)
-      return
+      await logError(`Failed to save recovery data: ${result.error}`);
+      return;
     }
-    await info(`Recovery data saved for ${recoveryData.fileName}`)
+    await info(`Recovery data saved for ${recoveryData.fileName}`);
   } catch (err) {
-    await logError(`Failed to save recovery data: ${String(err)}`)
+    await logError(`Failed to save recovery data: ${String(err)}`);
   }
-}
+};
 
 /**
  * Save crash report for debugging critical failures
@@ -52,10 +52,10 @@ export const saveRecoveryData = async (data: {
 export const saveCrashReport = async (
   error: Error,
   context: {
-    currentFile?: string
-    projectPath?: string
-    action: string
-  }
+    currentFile?: string;
+    projectPath?: string;
+    action: string;
+  },
 ) => {
   const report: CrashReport = {
     timestamp: new Date().toISOString(),
@@ -63,16 +63,16 @@ export const saveCrashReport = async (
     stack: error.stack,
     context,
     platform: navigator.platform,
-  }
+  };
 
   try {
-    const result = await commands.saveCrashReport(asJsonValue(report))
+    const result = await commands.saveCrashReport(asJsonValue(report));
     if (result.status === 'error') {
-      await logError(`Failed to save crash report: ${result.error}`)
-      return
+      await logError(`Failed to save crash report: ${result.error}`);
+      return;
     }
-    await info('Crash report saved')
+    await info('Crash report saved');
   } catch (err) {
-    await logError(`Failed to save crash report: ${String(err)}`)
+    await logError(`Failed to save crash report: ${String(err)}`);
   }
-}
+};

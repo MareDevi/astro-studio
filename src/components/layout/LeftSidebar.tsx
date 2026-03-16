@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react'
-import { useShallow } from 'zustand/react/shallow'
-import { commands } from '@/lib/bindings'
-import { useEditorStore } from '../../store/editorStore'
-import { useProjectStore } from '../../store/projectStore'
-import { useUIStore } from '../../store/uiStore'
-import { useCollectionsQuery } from '../../hooks/queries/useCollectionsQuery'
-import { useDirectoryScanQuery } from '../../hooks/queries/useDirectoryScanQuery'
-import type { FileEntry, Collection } from '@/types'
-import { useRenameFileMutation } from '../../hooks/mutations/useRenameFileMutation'
-import { Button } from '../ui/button'
-import { Badge } from '../ui/badge'
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { useShallow } from 'zustand/react/shallow';
+import { commands } from '@/lib/bindings';
+import { useEditorStore } from '../../store/editorStore';
+import { useProjectStore } from '../../store/projectStore';
+import { useUIStore } from '../../store/uiStore';
+import { useCollectionsQuery } from '../../hooks/queries/useCollectionsQuery';
+import { useDirectoryScanQuery } from '../../hooks/queries/useDirectoryScanQuery';
+import type { FileEntry, Collection } from '@/types';
+import { useRenameFileMutation } from '../../hooks/mutations/useRenameFileMutation';
+import { Button } from '../ui/button';
+import { Badge } from '../ui/badge';
 import {
   FolderOpen,
   ArrowLeft,
@@ -19,42 +19,47 @@ import {
   ChevronRight,
   AlertTriangle,
   SlidersHorizontal,
-} from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { FileContextMenu } from '../ui/context-menu'
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
-import { useEffectiveSettings } from '../../hooks/settings/useEffectiveSettings'
-import { FileItem } from './FileItem'
-import { FilterBar } from './FilterBar'
-import { openProjectViaDialog } from '../../lib/projects/actions'
-import { filterFilesByDraft } from '../../lib/files/filtering'
-import { sortFiles, getSortOptionsForCollection } from '../../lib/files/sorting'
-import { filterFilesBySearch } from '../../lib/files/search'
-import { deserializeCompleteSchema } from '../../lib/schema'
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { FileContextMenu } from '../ui/context-menu';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { useEffectiveSettings } from '../../hooks/settings/useEffectiveSettings';
+import { FileItem } from './FileItem';
+import { FilterBar } from './FilterBar';
+import { openProjectViaDialog } from '../../lib/projects/actions';
+import { filterFilesByDraft } from '../../lib/files/filtering';
+import {
+  sortFiles,
+  getSortOptionsForCollection,
+} from '../../lib/files/sorting';
+import { filterFilesBySearch } from '../../lib/files/search';
+import { deserializeCompleteSchema } from '../../lib/schema';
 
 export const LeftSidebar: React.FC = () => {
   // Object subscription needs shallow
-  const currentFile = useEditorStore(useShallow(state => state.currentFile))
+  const currentFile = useEditorStore(useShallow((state) => state.currentFile));
 
   // Primitive subscriptions - selector syntax for consistency
-  const selectedCollection = useProjectStore(state => state.selectedCollection)
+  const selectedCollection = useProjectStore(
+    (state) => state.selectedCollection,
+  );
   const currentSubdirectory = useProjectStore(
-    state => state.currentSubdirectory
-  )
-  const projectPath = useProjectStore(state => state.projectPath)
+    (state) => state.currentSubdirectory,
+  );
+  const projectPath = useProjectStore((state) => state.projectPath);
   const currentProjectSettings = useProjectStore(
-    useShallow(state => state.currentProjectSettings)
-  )
+    useShallow((state) => state.currentProjectSettings),
+  );
 
   // Get draft filter state from UI store (ephemeral, per-collection)
   const showDraftsOnly =
     useUIStore(
-      state => state.draftFilterByCollection[selectedCollection || '']
-    ) || false
+      (state) => state.draftFilterByCollection[selectedCollection || ''],
+    ) || false;
 
   // Get collection view state from UI store
   const collectionViewState = useUIStore(
-    useShallow(state =>
+    useShallow((state) =>
       selectedCollection
         ? state.getCollectionViewState(selectedCollection)
         : {
@@ -62,61 +67,63 @@ export const LeftSidebar: React.FC = () => {
             sortDirection: 'desc' as const,
             searchQuery: '',
             filterBarExpanded: false,
-          }
-    )
-  )
+          },
+    ),
+  );
 
   // Use getState() pattern for callbacks to avoid render cascades
   const handleToggleDraftsOnly = useCallback(() => {
-    const { selectedCollection } = useProjectStore.getState()
+    const { selectedCollection } = useProjectStore.getState();
     if (selectedCollection) {
-      useUIStore.getState().toggleDraftFilter(selectedCollection)
+      useUIStore.getState().toggleDraftFilter(selectedCollection);
     }
-  }, [])
+  }, []);
 
   const handleToggleFilterBar = useCallback(() => {
-    const { selectedCollection } = useProjectStore.getState()
+    const { selectedCollection } = useProjectStore.getState();
     if (selectedCollection) {
-      useUIStore.getState().toggleFilterBar(selectedCollection)
+      useUIStore.getState().toggleFilterBar(selectedCollection);
     }
-  }, [])
+  }, []);
 
   const handleSearchChange = useCallback((query: string) => {
-    const { selectedCollection } = useProjectStore.getState()
+    const { selectedCollection } = useProjectStore.getState();
     if (selectedCollection) {
-      useUIStore.getState().setSearchQuery(selectedCollection, query)
+      useUIStore.getState().setSearchQuery(selectedCollection, query);
     }
-  }, [])
+  }, []);
 
   const handleClearSearch = useCallback(() => {
-    const { selectedCollection } = useProjectStore.getState()
+    const { selectedCollection } = useProjectStore.getState();
     if (selectedCollection) {
-      useUIStore.getState().setSearchQuery(selectedCollection, '')
+      useUIStore.getState().setSearchQuery(selectedCollection, '');
     }
-  }, [])
+  }, []);
 
   const handleSortModeChange = useCallback((mode: string) => {
-    const { selectedCollection } = useProjectStore.getState()
+    const { selectedCollection } = useProjectStore.getState();
     if (selectedCollection) {
-      useUIStore.getState().setSortMode(selectedCollection, mode)
+      useUIStore.getState().setSortMode(selectedCollection, mode);
     }
-  }, [])
+  }, []);
 
   const handleSortDirectionToggle = useCallback(() => {
-    const { selectedCollection } = useProjectStore.getState()
+    const { selectedCollection } = useProjectStore.getState();
     if (selectedCollection) {
-      useUIStore.getState().toggleSortDirection(selectedCollection)
+      useUIStore.getState().toggleSortDirection(selectedCollection);
     }
-  }, [])
+  }, []);
 
-  const [fileCounts, setFileCounts] = useState<Record<string, number>>({})
+  const [fileCounts, setFileCounts] = useState<Record<string, number>>({});
 
   const { data: collections = [] } = useCollectionsQuery(
     projectPath,
-    currentProjectSettings
-  )
+    currentProjectSettings,
+  );
 
-  const currentCollection = collections.find(c => c.name === selectedCollection)
+  const currentCollection = collections.find(
+    (c) => c.name === selectedCollection,
+  );
 
   const {
     data: dirContents,
@@ -128,119 +135,119 @@ export const LeftSidebar: React.FC = () => {
     projectPath,
     selectedCollection,
     currentCollection?.path || null,
-    currentSubdirectory
-  )
+    currentSubdirectory,
+  );
   // Extract files and subdirectories in useMemo to avoid lint warnings
-  const files = React.useMemo(() => dirContents?.files || [], [dirContents])
+  const files = React.useMemo(() => dirContents?.files || [], [dirContents]);
   const subdirectories = React.useMemo(
     () => dirContents?.subdirectories || [],
-    [dirContents]
-  )
+    [dirContents],
+  );
 
-  const renameMutation = useRenameFileMutation()
+  const renameMutation = useRenameFileMutation();
 
   // Load file counts for all collections (recursive)
   useEffect(() => {
-    let cancelled = false
+    let cancelled = false;
 
     const loadFileCounts = async () => {
-      const counts: Record<string, number> = {}
+      const counts: Record<string, number> = {};
 
       for (const collection of collections) {
         try {
           const result = await commands.countCollectionFilesRecursive(
-            collection.path
-          )
+            collection.path,
+          );
           if (result.status === 'error') {
-            counts[collection.name] = 0
+            counts[collection.name] = 0;
           } else {
-            counts[collection.name] = result.data
+            counts[collection.name] = result.data;
           }
         } catch {
-          counts[collection.name] = 0
+          counts[collection.name] = 0;
         }
       }
 
       if (!cancelled) {
-        setFileCounts(counts)
+        setFileCounts(counts);
       }
-    }
+    };
 
     if (collections.length > 0) {
-      void loadFileCounts()
+      void loadFileCounts();
     }
 
     return () => {
-      cancelled = true
-    }
-  }, [collections])
+      cancelled = true;
+    };
+  }, [collections]);
 
   // Get effective settings for frontmatter field mappings (collection-aware)
   const { frontmatterMappings } = useEffectiveSettings(
-    selectedCollection || undefined
-  )
+    selectedCollection || undefined,
+  );
 
   // State for rename functionality
   const [renamingFileId, setRenamingFileId] = React.useState<string | null>(
-    null
-  )
+    null,
+  );
 
   const handleCollectionClick = (collection: Collection) => {
-    useProjectStore.getState().setSelectedCollection(collection.name)
-  }
+    useProjectStore.getState().setSelectedCollection(collection.name);
+  };
 
   const handleBackClick = () => {
-    useProjectStore.getState().navigateUp()
-  }
+    useProjectStore.getState().navigateUp();
+  };
 
   const handleSubdirectoryClick = (relativePath: string) => {
-    useProjectStore.getState().setCurrentSubdirectory(relativePath)
-  }
+    useProjectStore.getState().setCurrentSubdirectory(relativePath);
+  };
 
   const handleBreadcrumbClick = (subdirectory: string | null) => {
-    useProjectStore.getState().setCurrentSubdirectory(subdirectory)
-  }
+    useProjectStore.getState().setCurrentSubdirectory(subdirectory);
+  };
 
   const handleFileClick = (file: FileEntry) => {
-    useEditorStore.getState().openFile(file)
-  }
+    useEditorStore.getState().openFile(file);
+  };
 
   const handleContextMenu = async (
     event: React.MouseEvent,
-    file: FileEntry
+    file: FileEntry,
   ) => {
-    event.preventDefault()
-    event.stopPropagation()
+    event.preventDefault();
+    event.stopPropagation();
 
     await FileContextMenu.show({
       file,
       position: { x: event.clientX, y: event.clientY },
       onRefresh: () => {
-        void refetchFiles()
+        void refetchFiles();
       },
       onRename: handleRename,
-    })
-  }
+    });
+  };
 
   const handleRename = (file: FileEntry) => {
-    setRenamingFileId(file.id)
-  }
+    setRenamingFileId(file.id);
+  };
 
   const handleRenameSubmit = async (file: FileEntry, newName: string) => {
-    const trimmedName = newName.trim()
+    const trimmedName = newName.trim();
     const originalFullName = file.extension
       ? `${file.name}.${file.extension}`
-      : file.name
+      : file.name;
     if (!trimmedName || trimmedName === originalFullName) {
-      setRenamingFileId(null)
-      return
+      setRenamingFileId(null);
+      return;
     }
 
     try {
-      const directory = file.path.substring(0, file.path.lastIndexOf('/'))
-      const newPath = `${directory}/${trimmedName}`
+      const directory = file.path.substring(0, file.path.lastIndexOf('/'));
+      const newPath = `${directory}/${trimmedName}`;
 
-      const { projectPath, selectedCollection } = useProjectStore.getState()
+      const { projectPath, selectedCollection } = useProjectStore.getState();
 
       if (projectPath && selectedCollection) {
         await renameMutation.mutateAsync({
@@ -249,63 +256,63 @@ export const LeftSidebar: React.FC = () => {
           newPath: newPath,
           projectPath,
           collectionName: selectedCollection,
-        })
+        });
 
         // Update current file path if this is the current file
         const { currentFile, updateCurrentFileAfterRename } =
-          useEditorStore.getState()
+          useEditorStore.getState();
         if (currentFile && currentFile.path === file.path) {
-          updateCurrentFileAfterRename(newPath)
+          updateCurrentFileAfterRename(newPath);
         }
       }
 
-      setRenamingFileId(null)
+      setRenamingFileId(null);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error('Failed to rename file:', error)
+      console.error('Failed to rename file:', error);
     }
-  }
+  };
 
   const handleRenameCancel = () => {
-    setRenamingFileId(null)
-  }
+    setRenamingFileId(null);
+  };
 
   // Parse the schema for the current collection
-  const completeSchemaJson = currentCollection?.complete_schema ?? null
+  const completeSchemaJson = currentCollection?.complete_schema ?? null;
   const currentSchema = useMemo(() => {
-    if (!completeSchemaJson) return null
-    return deserializeCompleteSchema(completeSchemaJson)
-  }, [completeSchemaJson])
+    if (!completeSchemaJson) return null;
+    return deserializeCompleteSchema(completeSchemaJson);
+  }, [completeSchemaJson]);
 
   // Get sort options based on schema
   const sortOptions = useMemo(() => {
-    return getSortOptionsForCollection(currentSchema)
-  }, [currentSchema])
+    return getSortOptionsForCollection(currentSchema);
+  }, [currentSchema]);
 
   // Derived filter states for UI indicators
-  const searchActive = collectionViewState.searchQuery.trim() !== ''
-  const sortActive = collectionViewState.sortMode !== 'default'
+  const searchActive = collectionViewState.searchQuery.trim() !== '';
+  const sortActive = collectionViewState.sortMode !== 'default';
 
   // Determine header background class based on composable states
   // Priority: drafts (intentional filter) > search (hides files) > default
   const headerBgClass = useMemo(() => {
-    if (showDraftsOnly) return 'bg-draft'
-    if (searchActive) return 'bg-filter'
-    return 'bg-muted/30'
-  }, [showDraftsOnly, searchActive])
+    if (showDraftsOnly) return 'bg-draft';
+    if (searchActive) return 'bg-filter';
+    return 'bg-muted/30';
+  }, [showDraftsOnly, searchActive]);
 
   // Filter and sort files
   const filteredAndSortedFiles = useMemo((): FileEntry[] => {
     // Step 1: Filter by draft status
-    let result = filterFilesByDraft(files, showDraftsOnly, frontmatterMappings)
+    let result = filterFilesByDraft(files, showDraftsOnly, frontmatterMappings);
 
     // Step 2: Filter by search query
     if (collectionViewState.searchQuery) {
       result = filterFilesBySearch(
         result,
         collectionViewState.searchQuery,
-        frontmatterMappings
-      )
+        frontmatterMappings,
+      );
     }
 
     // Step 3: Sort files
@@ -315,8 +322,8 @@ export const LeftSidebar: React.FC = () => {
         mode: collectionViewState.sortMode,
         direction: collectionViewState.sortDirection,
       },
-      frontmatterMappings
-    )
+      frontmatterMappings,
+    );
   }, [
     files,
     frontmatterMappings,
@@ -324,17 +331,17 @@ export const LeftSidebar: React.FC = () => {
     collectionViewState.searchQuery,
     collectionViewState.sortMode,
     collectionViewState.sortDirection,
-  ])
+  ]);
 
   const headerTitle = selectedCollection
     ? selectedCollection.charAt(0).toUpperCase() + selectedCollection.slice(1)
-    : 'Content'
+    : 'Content';
 
   // Generate breadcrumb segments
   const breadcrumbSegments = React.useMemo(() => {
-    if (!selectedCollection || !currentSubdirectory) return []
-    return currentSubdirectory.split('/')
-  }, [selectedCollection, currentSubdirectory])
+    if (!selectedCollection || !currentSubdirectory) return [];
+    return currentSubdirectory.split('/');
+  }, [selectedCollection, currentSubdirectory]);
 
   return (
     <div className="h-full flex flex-col border-r bg-background">
@@ -353,7 +360,7 @@ export const LeftSidebar: React.FC = () => {
                   ? 'text-draft hover:bg-draft/50'
                   : searchActive
                     ? 'text-filter hover:bg-filter/50'
-                    : 'text-muted-foreground hover:bg-muted'
+                    : 'text-muted-foreground hover:bg-muted',
               )}
               title="Back"
             >
@@ -386,10 +393,10 @@ export const LeftSidebar: React.FC = () => {
 
             {/* Breadcrumb segments */}
             {breadcrumbSegments.map((segment, index) => {
-              const isLast = index === breadcrumbSegments.length - 1
+              const isLast = index === breadcrumbSegments.length - 1;
               const pathUpToSegment = breadcrumbSegments
                 .slice(0, index + 1)
-                .join('/')
+                .join('/');
 
               return (
                 <React.Fragment key={pathUpToSegment}>
@@ -407,7 +414,7 @@ export const LeftSidebar: React.FC = () => {
                     </button>
                   )}
                 </React.Fragment>
-              )
+              );
             })}
 
             {/* Status indicators - composable badges, right-aligned */}
@@ -457,7 +464,7 @@ export const LeftSidebar: React.FC = () => {
                       ? 'text-draft hover:bg-draft/50'
                       : collectionViewState.filterBarExpanded || sortActive
                         ? 'text-foreground bg-accent hover:bg-accent/80'
-                        : 'text-muted-foreground hover:bg-muted'
+                        : 'text-muted-foreground hover:bg-muted',
                 )}
                 title={
                   collectionViewState.filterBarExpanded
@@ -478,7 +485,7 @@ export const LeftSidebar: React.FC = () => {
                     ? 'text-draft bg-draft hover:bg-draft/80'
                     : searchActive
                       ? 'text-filter hover:bg-filter/50'
-                      : 'text-muted-foreground hover:bg-muted'
+                      : 'text-muted-foreground hover:bg-muted',
                 )}
                 title={showDraftsOnly ? 'Show All Files' : 'Show Drafts Only'}
               >
@@ -512,9 +519,9 @@ export const LeftSidebar: React.FC = () => {
         {!selectedCollection ? (
           // Collections List
           <div className="p-2">
-            {collections.map(collection => {
-              const fileCount = fileCounts[collection.name] ?? 0
-              const hasSchema = Boolean(collection.complete_schema)
+            {collections.map((collection) => {
+              const fileCount = fileCounts[collection.name] ?? 0;
+              const hasSchema = Boolean(collection.complete_schema);
 
               return (
                 <button
@@ -546,7 +553,7 @@ export const LeftSidebar: React.FC = () => {
                     {collection.path.split('/').pop()}
                   </div>
                 </button>
-              )
+              );
             })}
             {collections.length === 0 && (
               <div className="p-4 text-center text-muted-foreground text-sm">
@@ -591,7 +598,7 @@ export const LeftSidebar: React.FC = () => {
                 {/* Subdirectories (alphabetically sorted) */}
                 {subdirectories
                   .sort((a, b) => a.name.localeCompare(b.name))
-                  .map(dir => (
+                  .map((dir) => (
                     <button
                       key={dir.relative_path}
                       onClick={() => handleSubdirectoryClick(dir.relative_path)}
@@ -605,8 +612,8 @@ export const LeftSidebar: React.FC = () => {
                   ))}
 
                 {/* Files (sorted by date) */}
-                {filteredAndSortedFiles.map(file => {
-                  const isSelected = currentFile?.id === file.id
+                {filteredAndSortedFiles.map((file) => {
+                  const isSelected = currentFile?.id === file.id;
 
                   return (
                     <FileItem
@@ -620,7 +627,7 @@ export const LeftSidebar: React.FC = () => {
                       isRenaming={renamingFileId === file.id}
                       onCancelRename={handleRenameCancel}
                     />
-                  )
+                  );
                 })}
                 {filteredAndSortedFiles.length === 0 &&
                   subdirectories.length === 0 && (
@@ -638,5 +645,5 @@ export const LeftSidebar: React.FC = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};

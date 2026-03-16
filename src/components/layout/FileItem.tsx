@@ -1,41 +1,42 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { Badge } from '../ui/badge'
-import { cn } from '@/lib/utils'
-import { getPublishedDate, getTitle } from '../../lib/files/sorting'
-import type { FileEntry } from '@/types'
+import type React from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { Badge } from '../ui/badge';
+import { cn } from '@/lib/utils';
+import { getPublishedDate, getTitle } from '../../lib/files/sorting';
+import type { FileEntry } from '@/types';
 
 type FrontmatterMappings = {
-  publishedDate: string | string[]
-  title: string
-  description: string
-  draft: string
-}
+  publishedDate: string | string[];
+  title: string;
+  description: string;
+  draft: string;
+};
 
 export function formatDate(dateValue: unknown): string {
-  if (!dateValue) return ''
+  if (!dateValue) return '';
 
   try {
-    const date = new Date(dateValue as string | number | Date)
-    if (isNaN(date.getTime())) return ''
+    const date = new Date(dateValue as string | number | Date);
+    if (isNaN(date.getTime())) return '';
     return date.toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
-    })
+    });
   } catch {
-    return ''
+    return '';
   }
 }
 
 interface FileItemProps {
-  file: FileEntry
-  isSelected: boolean
-  frontmatterMappings: FrontmatterMappings
-  onFileClick: (file: FileEntry) => void
-  onContextMenu: (event: React.MouseEvent, file: FileEntry) => void
-  onRenameSubmit: (file: FileEntry, newName: string) => Promise<void>
-  isRenaming: boolean
-  onCancelRename: () => void
+  file: FileEntry;
+  isSelected: boolean;
+  frontmatterMappings: FrontmatterMappings;
+  onFileClick: (file: FileEntry) => void;
+  onContextMenu: (event: React.MouseEvent, file: FileEntry) => void;
+  onRenameSubmit: (file: FileEntry, newName: string) => Promise<void>;
+  isRenaming: boolean;
+  onCancelRename: () => void;
 }
 
 export const FileItem: React.FC<FileItemProps> = ({
@@ -48,25 +49,27 @@ export const FileItem: React.FC<FileItemProps> = ({
   isRenaming,
   onCancelRename,
 }) => {
-  const inputRef = useRef<HTMLInputElement | null>(null)
-  const renameInitializedRef = useRef(false)
-  const previousIsRenamingRef = useRef(isRenaming)
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const renameInitializedRef = useRef(false);
+  const previousIsRenamingRef = useRef(isRenaming);
 
   // Derived state (NO store subscriptions)
   // Draft detection uses only the user-configured field (or 'draft' default)
-  const isFileDraft = file.frontmatter?.[frontmatterMappings.draft] === true
-  const isMdx = file.extension === 'mdx'
-  const title = getTitle(file, frontmatterMappings.title)
+  const isFileDraft = file.frontmatter?.[frontmatterMappings.draft] === true;
+  const isMdx = file.extension === 'mdx';
+  const title = getTitle(file, frontmatterMappings.title);
   const publishedDate = getPublishedDate(
     file.frontmatter || {},
-    frontmatterMappings.publishedDate
-  )
+    frontmatterMappings.publishedDate,
+  );
 
   // Compute the full name for rename
-  const fullName = file.extension ? `${file.name}.${file.extension}` : file.name
+  const fullName = file.extension
+    ? `${file.name}.${file.extension}`
+    : file.name;
 
   // Initialize rename value state
-  const [renameValue, setRenameValue] = useState(fullName)
+  const [renameValue, setRenameValue] = useState(fullName);
 
   // Reset rename value when entering rename mode (only on transition)
   useEffect(() => {
@@ -76,54 +79,54 @@ export const FileItem: React.FC<FileItemProps> = ({
       // false->true transition, preventing cascading renders. This is a standard
       // React pattern for synchronizing derived state on mode transitions.
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setRenameValue(fullName)
-      renameInitializedRef.current = false
+      setRenameValue(fullName);
+      renameInitializedRef.current = false;
     }
-    previousIsRenamingRef.current = isRenaming
-  }, [isRenaming, fullName])
+    previousIsRenamingRef.current = isRenaming;
+  }, [isRenaming, fullName]);
 
   // Focus and select filename without extension
   useEffect(() => {
     if (isRenaming && !renameInitializedRef.current) {
-      renameInitializedRef.current = true
+      renameInitializedRef.current = true;
       const timeoutId = setTimeout(() => {
-        const input = inputRef.current
+        const input = inputRef.current;
         if (input && renameValue) {
-          input.focus()
-          const lastDotIndex = renameValue.lastIndexOf('.')
+          input.focus();
+          const lastDotIndex = renameValue.lastIndexOf('.');
           if (lastDotIndex > 0) {
-            input.setSelectionRange(0, lastDotIndex)
+            input.setSelectionRange(0, lastDotIndex);
           } else {
-            input.select()
+            input.select();
           }
         }
-      }, 10)
-      return () => clearTimeout(timeoutId)
+      }, 10);
+      return () => clearTimeout(timeoutId);
     }
-  }, [isRenaming, renameValue])
+  }, [isRenaming, renameValue]);
 
   const handleRenameKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
-      event.preventDefault()
-      void onRenameSubmit(file, renameValue)
+      event.preventDefault();
+      void onRenameSubmit(file, renameValue);
     } else if (event.key === 'Escape') {
-      event.preventDefault()
-      onCancelRename()
+      event.preventDefault();
+      onCancelRename();
     }
-  }
+  };
 
   const handleRenameBlur = () => {
-    void onRenameSubmit(file, renameValue)
-  }
+    void onRenameSubmit(file, renameValue);
+  };
 
   return (
     <button
       onClick={() => onFileClick(file)}
-      onContextMenu={e => void onContextMenu(e, file)}
+      onContextMenu={(e) => void onContextMenu(e, file)}
       className={cn(
         'w-full text-left p-3 rounded-md transition-colors',
         isSelected && 'bg-primary/15 hover:bg-primary/20',
-        !isSelected && 'hover:bg-accent'
+        !isSelected && 'hover:bg-accent',
       )}
     >
       <div className="flex items-start justify-between w-full gap-2">
@@ -142,12 +145,12 @@ export const FileItem: React.FC<FileItemProps> = ({
                 ref={inputRef}
                 type="text"
                 value={renameValue}
-                onChange={e => setRenameValue(e.target.value)}
+                onChange={(e) => setRenameValue(e.target.value)}
                 onKeyDown={handleRenameKeyDown}
                 onBlur={handleRenameBlur}
                 className="bg-background border border-border rounded px-1 py-0.5 text-xs font-mono w-full text-foreground"
                 autoFocus
-                onClick={e => e.stopPropagation()}
+                onClick={(e) => e.stopPropagation()}
               />
             ) : file.extension ? (
               `${file.name}.${file.extension}`
@@ -170,5 +173,5 @@ export const FileItem: React.FC<FileItemProps> = ({
         </div>
       </div>
     </button>
-  )
-}
+  );
+};

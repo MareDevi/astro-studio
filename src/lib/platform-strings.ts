@@ -1,4 +1,4 @@
-import type { AppPlatform } from '@/hooks/usePlatform'
+import type { AppPlatform } from '@/hooks/usePlatform';
 
 /**
  * Platform-specific UI strings.
@@ -25,9 +25,9 @@ const platformStrings = {
     windows: 'Recycle Bin',
     linux: 'Trash',
   },
-} as const
+} as const;
 
-export type PlatformStringKey = keyof typeof platformStrings
+export type PlatformStringKey = keyof typeof platformStrings;
 
 /**
  * Get a platform-specific string.
@@ -35,8 +35,8 @@ export type PlatformStringKey = keyof typeof platformStrings
  */
 export function getPlatformString(
   key: PlatformStringKey,
-  platform: AppPlatform | undefined
+  platform: AppPlatform | undefined,
 ): string {
-  const strings = platformStrings[key]
-  return strings[platform ?? 'linux']
+  const strings = platformStrings[key];
+  return strings[platform ?? 'linux'];
 }

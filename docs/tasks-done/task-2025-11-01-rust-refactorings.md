@@ -188,7 +188,7 @@ fn test_find_matching_closing_brace_unmatched() {
 ### Quality Check
 
 ```bash
-pnpm run check:all
+bun run check:all
 ```
 
 ---
@@ -373,7 +373,7 @@ fn test_should_skip_empty_line() {
 ### Quality Check
 
 ```bash
-pnpm run check:all
+bun run check:all
 ```
 
 ---
@@ -524,7 +524,7 @@ fn test_resolve_field_path_mixed_types() {
 ### Quality Check
 
 ```bash
-pnpm run check:all
+bun run check:all
 ```
 
 ---
@@ -721,7 +721,7 @@ cd src-tauri
 cargo test schema_merger -- --nocapture
 cargo clippy --all-targets --all-features
 cd ..
-pnpm run check:all
+bun run check:all
 ```
 
 ---
@@ -732,7 +732,7 @@ pnpm run check:all
 
 ```bash
 # Run Rust checks
-pnpm run check:rust
+bun run check:rust
 
 # Run specific tests
 cd src-tauri
@@ -755,7 +755,7 @@ cargo test schema_merger -- --list | grep "test" | wc -l
 time cargo test --lib
 
 # Run all quality checks
-pnpm run check:all
+bun run check:all
 
 # Ensure no console.logs or commented code
 # Use /check command
@@ -773,7 +773,7 @@ cargo clippy --all-targets --all-features
 
 # Full project checks
 cd ..
-pnpm run check:all
+bun run check:all
 ```
 
 ---
@@ -784,7 +784,7 @@ Each refactoring item is complete when:
 
 1. **Functionality preserved**: All existing tests pass
 2. **New tests added**: New helper functions have dedicated tests
-3. **Quality checks pass**: `pnpm run check:all` succeeds
+3. **Quality checks pass**: `bun run check:all` succeeds
 4. **Documentation updated**: Add comments to new functions
 5. **No performance regression**: Benchmarks show similar or better performance
 6. **Code review ready**: Clean, focused changes without cruft

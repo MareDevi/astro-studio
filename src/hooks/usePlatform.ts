@@ -1,13 +1,13 @@
-import { useState } from 'react'
-import { platform, type Platform } from '@tauri-apps/plugin-os'
+import { useState } from 'react';
+import { platform, type Platform } from '@tauri-apps/plugin-os';
 
-export type AppPlatform = 'macos' | 'windows' | 'linux'
+export type AppPlatform = 'macos' | 'windows' | 'linux';
 
 // Debug: Change the first null to 'windows' or 'linux' to test platform-specific UI
 // Only takes effect in development builds - production always uses real platform
 const DEBUG_PLATFORM_OVERRIDE: AppPlatform | null = import.meta.env.DEV
   ? null // ← Change to 'windows' or 'linux' to test
-  : null
+  : null;
 
 /**
  * Hook to detect the current platform.
@@ -19,20 +19,20 @@ export function usePlatform(): AppPlatform | undefined {
   // using lazy state initialization to avoid effects
   const [currentPlatform] = useState<AppPlatform | undefined>(() => {
     // Debug override for testing platform-specific UI
-    if (DEBUG_PLATFORM_OVERRIDE) return DEBUG_PLATFORM_OVERRIDE
+    if (DEBUG_PLATFORM_OVERRIDE) return DEBUG_PLATFORM_OVERRIDE;
 
     try {
-      const p: Platform = platform()
-      if (p === 'macos') return 'macos'
-      if (p === 'windows') return 'windows'
-      return 'linux'
+      const p: Platform = platform();
+      if (p === 'macos') return 'macos';
+      if (p === 'windows') return 'windows';
+      return 'linux';
     } catch {
       // Handle case where Tauri isn't ready (SSR, tests, etc.)
-      return undefined
+      return undefined;
     }
-  })
+  });
 
-  return currentPlatform
+  return currentPlatform;
 }
 
 /**
@@ -41,8 +41,8 @@ export function usePlatform(): AppPlatform | undefined {
  * Note: On server-side rendering or before Tauri is ready, this may throw.
  */
 export function getPlatform(): AppPlatform {
-  const p: Platform = platform()
-  if (p === 'macos') return 'macos'
-  if (p === 'windows') return 'windows'
-  return 'linux'
+  const p: Platform = platform();
+  if (p === 'macos') return 'macos';
+  if (p === 'windows') return 'windows';
+  return 'linux';
 }

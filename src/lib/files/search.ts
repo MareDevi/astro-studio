@@ -2,8 +2,8 @@
  * File search/filter utilities for sidebar file lists
  */
 
-import type { FileEntry } from '@/types'
-import type { FieldMappings } from './sorting'
+import type { FileEntry } from '@/types';
+import type { FieldMappings } from './sorting';
 
 /**
  * Filter files by search query
@@ -17,17 +17,17 @@ import type { FieldMappings } from './sorting'
 export function filterFilesBySearch(
   files: FileEntry[],
   query: string,
-  mappings: FieldMappings | null
+  mappings: FieldMappings | null,
 ): FileEntry[] {
-  const trimmedQuery = query.trim()
-  if (!trimmedQuery) return files
+  const trimmedQuery = query.trim();
+  if (!trimmedQuery) return files;
 
-  const lowerQuery = trimmedQuery.toLowerCase()
-  const titleField = mappings?.title || 'title'
+  const lowerQuery = trimmedQuery.toLowerCase();
+  const titleField = mappings?.title || 'title';
 
-  return files.filter(file => {
-    const title = file.frontmatter?.[titleField] as string | undefined
-    const searchableText = title ? `${file.name} ${title}` : file.name
-    return searchableText.toLowerCase().includes(lowerQuery)
-  })
+  return files.filter((file) => {
+    const title = file.frontmatter?.[titleField] as string | undefined;
+    const searchableText = title ? `${file.name} ${title}` : file.name;
+    return searchableText.toLowerCase().includes(lowerQuery);
+  });
 }

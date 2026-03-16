@@ -16,7 +16,7 @@ Use jscpd to find duplicated code across TypeScript and Rust files, then intelli
 ### 1. Run jscpd
 
 ```bash
-pnpm run jscpd
+bun run jscpd
 ```
 
 This generates reports in `jscpd-report/`:
@@ -246,7 +246,7 @@ For "Yes, extract now" selections:
    - Create new function/module
    - Update both call sites
    - Verify no functionality change
-5. **Run checks**: `pnpm run check:all`
+5. **Run checks**: `bun run check:all`
 
 ### 7. Document Decisions
 
@@ -319,5 +319,5 @@ rm -rf jscpd-report
 
 Run quality checks if refactoring was done:
 ```bash
-pnpm run check:all
+bun run check:all
 ```

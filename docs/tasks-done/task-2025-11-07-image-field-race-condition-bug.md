@@ -146,7 +146,7 @@ All logs use prefixes: `[ImageField:{callId}]`, `[processFileToAssets]`, `[COPY_
 **Please reproduce the bug** with the logging now in place and provide:
 
 1. **Complete console output** (browser DevTools console)
-2. **Complete server output** (terminal where `pnpm run tauri:dev` is running)
+2. **Complete server output** (terminal where `bun run tauri:dev` is running)
 3. **Specific reproduction steps:**
    - Which file are you editing?
    - What image are you selecting?

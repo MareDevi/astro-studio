@@ -1,4 +1,4 @@
-import { Tag } from '@lezer/highlight'
+import { Tag } from '@lezer/highlight';
 
 /**
  * Comprehensive markdown tags for custom syntax highlighting
@@ -67,4 +67,4 @@ export const markdownTags = {
 
   // Escape characters
   escape: Tag.define(), // \* \` etc
-}
+};

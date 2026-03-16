@@ -20,10 +20,10 @@
 /* iA Writer Editor Theme Variables */
 
 /* Inline Code Styling - this works reliably */
-.cm-editor .cm-line [class*='inlineCode'] {
+.cm-editor .cm-line [class*="inlineCode"] {
   background-color: var(--editor-color-codeblock-background);
   font-family:
-    var(--editor-font-family-code), 'iA Writer Mono Variable', 'iA Writer Mono',
+    var(--editor-font-family-code), "iA Writer Mono Variable", "iA Writer Mono",
     monospace;
   padding: 1px 3px;
   border-radius: 2px;
@@ -119,13 +119,13 @@
 :root {
   /* Font Family */
   --editor-font-family:
-    var(--editor-font-family-body), 'iA Writer Duo Variable', 'iA Writer Duo',
-    -apple-system, 'Segoe UI', 'Roboto', sans-serif;
+    var(--editor-font-family-body), "iA Writer Duo Variable", "iA Writer Duo",
+    -apple-system, "Segoe UI", "Roboto", sans-serif;
   --editor-font-family-italic:
-    var(--editor-font-family-body-italic), 'iA Writer Duo Variable Italic',
-    'iA Writer Duo', -apple-system, 'Segoe UI', 'Roboto', sans-serif;
+    var(--editor-font-family-body-italic), "iA Writer Duo Variable Italic",
+    "iA Writer Duo", -apple-system, "Segoe UI", "Roboto", sans-serif;
   --editor-font-family-code:
-    var(--editor-font-family-mono), 'iA Writer Mono Variable', 'iA Writer Mono',
+    var(--editor-font-family-mono), "iA Writer Mono Variable", "iA Writer Mono",
     monospace;
 
   /* Base Font Weight */
@@ -146,7 +146,7 @@
   --editor-font-size: var(--editor-type-scale-tiny);
   --editor-line-height: 1.609; /* 17.7px ÷ 11px */
   --editor-letter-spacing: 0;
-  --editor-font-variation-settings: 'spcg' 1;
+  --editor-font-variation-settings: "spcg" 1;
   --editor-content-max-width: 60ch;
 }
 
@@ -158,7 +158,7 @@
     .cm-editor {
       --editor-font-size: var(--editor-type-scale-small);
       --editor-line-height: 1.742; /* 20.9px ÷ 12px */
-      --editor-font-variation-settings: 'spcg' 14;
+      --editor-font-variation-settings: "spcg" 14;
     }
   }
 
@@ -167,7 +167,7 @@
     .cm-editor {
       --editor-font-size: var(--editor-type-scale-medium);
       --editor-line-height: 1.742; /* 20.9px ÷ 12px */
-      --editor-font-variation-settings: 'spcg' 14;
+      --editor-font-variation-settings: "spcg" 14;
       --editor-content-max-width: 705px;
     }
   }
@@ -177,7 +177,7 @@
     .cm-editor {
       --editor-font-size: var(--editor-type-scale-large);
       --editor-line-height: 1.721; /* 24.1px ÷ 14px */
-      --editor-font-variation-settings: 'spcg' 3;
+      --editor-font-variation-settings: "spcg" 3;
       --editor-content-max-width: 800px;
     }
   }
@@ -187,7 +187,7 @@
     .cm-editor {
       --editor-font-size: var(--editor-type-scale-huge);
       --editor-line-height: 1.7916; /* 43px ÷ 24px */
-      --editor-font-variation-settings: 'spcg' 20;
+      --editor-font-variation-settings: "spcg" 20;
       --editor-content-max-width: 980px;
     }
   }

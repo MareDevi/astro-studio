@@ -760,9 +760,9 @@ onSuccess: (_, variables) => {
 
 - [ ] All Rust tests pass
 - [ ] All TypeScript tests pass
-- [ ] No TypeScript errors (`pnpm run check:ts`)
+- [ ] No TypeScript errors (`bun run check:ts`)
 - [ ] No Rust errors (`cargo check`)
-- [ ] No linter errors (`pnpm run fix:all`)
+- [ ] No linter errors (`bun run fix:all`)
 - [ ] Manual testing completed for all scenarios above
 - [ ] Performance is acceptable (no noticeable slowdown)
 - [ ] Architecture patterns followed (TanStack Query, Zustand, Direct Store Pattern)

@@ -1,1 +1,1 @@
-export { addCursorsToLineEnds } from './addCursorsToLineEnds'
+export { addCursorsToLineEnds } from './addCursorsToLineEnds';

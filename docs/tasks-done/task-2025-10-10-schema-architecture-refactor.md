@@ -71,7 +71,7 @@ Before proceeding with Phase 4 cleanup, you MUST:
 
 1. **Run dev server and test with dummy-astro-project:**
    ```bash
-   pnpm run dev
+   bun run dev
    # Open dummy-astro-project
    # Check console for: "[Schema] Loaded complete schema for: articles"
    # Verify fields appear in correct order (schema order, title first)
@@ -1425,7 +1425,7 @@ Before removing ANY code, verify complete_schema is working:
 
 ```bash
 # 1. Start dev server
-pnpm run dev
+bun run dev
 
 # 2. Open dummy-astro-project
 # 3. Check browser console for this message:
@@ -1862,7 +1862,7 @@ After making all removals, verify everything still works:
 
 ```bash
 # Run all quality checks
-pnpm run check:all
+bun run check:all
 
 # Expected: ALL checks should pass
 # - TypeScript typecheck: ✓
@@ -1884,7 +1884,7 @@ pnpm run check:all
 
 ```bash
 # Start dev server
-pnpm run dev
+bun run dev
 
 # Test with dummy-astro-project:
 # 1. Open project

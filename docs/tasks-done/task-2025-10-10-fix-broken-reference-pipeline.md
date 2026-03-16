@@ -143,7 +143,7 @@ fn generate_complete_schema(collection: &mut Collection, project_path: &str) {
 ### Step 4: Test References Work
 
 Manual testing checklist:
-- [ ] Start dev server: `pnpm run dev`
+- [ ] Start dev server: `bun run dev`
 - [ ] Open test/dummy-astro-project
 - [ ] Check browser console shows: `[Schema] Loaded complete schema for: articles`
 - [ ] Open an article file
@@ -171,7 +171,7 @@ JSON.parse(articles.complete_schema)
 ### Step 6: Run All Quality Checks
 
 ```bash
-pnpm run check:all
+bun run check:all
 ```
 
 All checks must pass:

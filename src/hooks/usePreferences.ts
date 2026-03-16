@@ -1,42 +1,42 @@
-import { useCallback } from 'react'
-import { useProjectStore } from '../store/projectStore'
-import {
+import { useCallback } from 'react';
+import { useProjectStore } from '../store/projectStore';
+import type {
   GlobalSettings,
   ProjectSettings,
   CollectionSpecificSettings,
   DeepPartial,
-} from '../lib/project-registry'
+} from '../lib/project-registry';
 
 /**
  * Custom hook for managing preferences with easy read/write access
  */
 export const usePreferences = () => {
-  const globalSettings = useProjectStore(state => state.globalSettings)
+  const globalSettings = useProjectStore((state) => state.globalSettings);
   const currentProjectSettings = useProjectStore(
-    state => state.currentProjectSettings
-  )
+    (state) => state.currentProjectSettings,
+  );
   const updateGlobalSettings = useProjectStore(
-    state => state.updateGlobalSettings
-  )
+    (state) => state.updateGlobalSettings,
+  );
   const updateProjectSettings = useProjectStore(
-    state => state.updateProjectSettings
-  )
-  const currentProjectId = useProjectStore(state => state.currentProjectId)
-  const projectPath = useProjectStore(state => state.projectPath)
+    (state) => state.updateProjectSettings,
+  );
+  const currentProjectId = useProjectStore((state) => state.currentProjectId);
+  const projectPath = useProjectStore((state) => state.projectPath);
 
   const updateGlobal = useCallback(
     (settings: DeepPartial<GlobalSettings>) => {
-      return updateGlobalSettings(settings)
+      return updateGlobalSettings(settings);
     },
-    [updateGlobalSettings]
-  )
+    [updateGlobalSettings],
+  );
 
   const updateProject = useCallback(
     (settings: Partial<ProjectSettings>) => {
-      return updateProjectSettings(settings)
+      return updateProjectSettings(settings);
     },
-    [updateProjectSettings]
-  )
+    [updateProjectSettings],
+  );
 
   /**
    * Update settings for a specific collection
@@ -44,21 +44,21 @@ export const usePreferences = () => {
    */
   const updateCollectionSettings = useCallback(
     (collectionName: string, settings: CollectionSpecificSettings) => {
-      if (!currentProjectSettings) return Promise.resolve()
+      if (!currentProjectSettings) return Promise.resolve();
 
-      const existingCollections = currentProjectSettings.collections || []
+      const existingCollections = currentProjectSettings.collections || [];
       const collectionIndex = existingCollections.findIndex(
-        c => c.name === collectionName
-      )
+        (c) => c.name === collectionName,
+      );
 
-      let updatedCollections
+      let updatedCollections;
       if (collectionIndex >= 0) {
         // Update existing collection
-        updatedCollections = [...existingCollections]
+        updatedCollections = [...existingCollections];
         updatedCollections[collectionIndex] = {
           name: collectionName,
           settings,
-        }
+        };
       } else {
         // Add new collection
         updatedCollections = [
@@ -67,51 +67,51 @@ export const usePreferences = () => {
             name: collectionName,
             settings,
           },
-        ]
+        ];
       }
 
       // Remove collections with no settings (cleanup)
-      updatedCollections = updatedCollections.filter(c => {
+      updatedCollections = updatedCollections.filter((c) => {
         const hasPathOverrides =
           c.settings.pathOverrides &&
           Object.keys(c.settings.pathOverrides).some(
-            key =>
+            (key) =>
               c.settings.pathOverrides?.[
                 key as keyof typeof c.settings.pathOverrides
-              ] !== undefined
-          )
+              ] !== undefined,
+          );
         const hasFrontmatterMappings =
           c.settings.frontmatterMappings &&
           Object.keys(c.settings.frontmatterMappings).some(
-            key =>
+            (key) =>
               c.settings.frontmatterMappings?.[
                 key as keyof typeof c.settings.frontmatterMappings
-              ] !== undefined
-          )
-        const hasDefaultFileType = c.settings.defaultFileType !== undefined
-        const hasUrlPattern = c.settings.urlPattern !== undefined
+              ] !== undefined,
+          );
+        const hasDefaultFileType = c.settings.defaultFileType !== undefined;
+        const hasUrlPattern = c.settings.urlPattern !== undefined;
         const hasAbsoluteAssetPaths =
-          c.settings.useAbsoluteAssetPaths !== undefined
+          c.settings.useAbsoluteAssetPaths !== undefined;
         return (
           hasPathOverrides ||
           hasFrontmatterMappings ||
           hasDefaultFileType ||
           hasUrlPattern ||
           hasAbsoluteAssetPaths
-        )
-      })
+        );
+      });
 
       return updateProjectSettings({
         collections: updatedCollections,
-      })
+      });
     },
-    [currentProjectSettings, updateProjectSettings]
-  )
+    [currentProjectSettings, updateProjectSettings],
+  );
 
   // Get project name from path
   const projectName = projectPath
     ? projectPath.split('/').pop() || 'Unknown Project'
-    : null
+    : null;
 
   return {
     globalSettings,
@@ -123,5 +123,5 @@ export const usePreferences = () => {
     currentProjectId,
     projectPath,
     projectName,
-  }
-}
+  };
+};

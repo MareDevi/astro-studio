@@ -1,13 +1,13 @@
-import React from 'react'
-import { useEditorStore } from '../../../store/editorStore'
-import { getNestedValue } from '../../../lib/object-utils'
-import { AutoExpandingTextarea } from '../../ui/auto-expanding-textarea'
-import { FieldWrapper } from './FieldWrapper'
-import type { FieldProps } from '../../../types/common'
-import type { SchemaField } from '../../../lib/schema'
+import React from 'react';
+import { useEditorStore } from '../../../store/editorStore';
+import { getNestedValue } from '../../../lib/object-utils';
+import { AutoExpandingTextarea } from '../../ui/auto-expanding-textarea';
+import { FieldWrapper } from './FieldWrapper';
+import type { FieldProps } from '../../../types/common';
+import type { SchemaField } from '../../../lib/schema';
 
 interface YamlFieldProps extends FieldProps {
-  field?: SchemaField
+  field?: SchemaField;
 }
 
 /**
@@ -23,43 +23,45 @@ export const YamlField: React.FC<YamlFieldProps> = ({
   required,
   field,
 }) => {
-  const value = useEditorStore(state => getNestedValue(state.frontmatter, name))
+  const value = useEditorStore((state) =>
+    getNestedValue(state.frontmatter, name),
+  );
   const updateFrontmatterField = useEditorStore(
-    state => state.updateFrontmatterField
-  )
-  const [error, setError] = React.useState<string | null>(null)
+    (state) => state.updateFrontmatterField,
+  );
+  const [error, setError] = React.useState<string | null>(null);
 
   // Convert value to YAML-like string for display
   const displayValue = React.useMemo(() => {
-    if (value === undefined || value === null) return ''
+    if (value === undefined || value === null) return '';
 
     try {
       // Format as indented JSON (close enough to YAML for arrays)
-      return JSON.stringify(value, null, 2)
+      return JSON.stringify(value, null, 2);
     } catch {
       // Fallback for non-serializable values - always use JSON.stringify
-      return JSON.stringify(value)
+      return JSON.stringify(value);
     }
-  }, [value])
+  }, [value]);
 
   const handleChange = (newValue: string) => {
     if (newValue.trim() === '') {
       // Empty value - clear the field
-      setError(null)
-      updateFrontmatterField(name, undefined)
-      return
+      setError(null);
+      updateFrontmatterField(name, undefined);
+      return;
     }
 
     try {
       // Try to parse as JSON
-      const parsed = JSON.parse(newValue) as unknown
-      setError(null)
-      updateFrontmatterField(name, parsed)
+      const parsed = JSON.parse(newValue) as unknown;
+      setError(null);
+      updateFrontmatterField(name, parsed);
     } catch (err) {
       // Show validation error but don't update value
-      setError(err instanceof Error ? err.message : 'Invalid JSON')
+      setError(err instanceof Error ? err.message : 'Invalid JSON');
     }
-  }
+  };
 
   return (
     <FieldWrapper
@@ -77,7 +79,7 @@ export const YamlField: React.FC<YamlFieldProps> = ({
       <div className="space-y-2">
         <AutoExpandingTextarea
           value={displayValue}
-          onChange={e => handleChange(e.target.value)}
+          onChange={(e) => handleChange(e.target.value)}
           placeholder={`Enter ${label.toLowerCase()} as JSON array...`}
           className="font-mono text-sm"
           minRows={3}
@@ -88,5 +90,5 @@ export const YamlField: React.FC<YamlFieldProps> = ({
         )}
       </div>
     </FieldWrapper>
-  )
-}
+  );
+};

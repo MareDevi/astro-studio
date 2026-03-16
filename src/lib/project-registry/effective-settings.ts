@@ -2,9 +2,9 @@
  * Utilities for getting effective project settings with collection-scoped overrides
  */
 
-import { ProjectSettings } from './types'
-import { ASTRO_PATHS } from '../constants'
-import { getCollectionSettings } from './collection-settings'
+import type { ProjectSettings } from './types';
+import { ASTRO_PATHS } from '../constants';
+import { getCollectionSettings } from './collection-settings';
 
 /**
  * Direct function for use outside React components
@@ -15,23 +15,23 @@ import { getCollectionSettings } from './collection-settings'
  */
 export const getEffectiveSettings = (
   currentProjectSettings?: ProjectSettings | null,
-  collectionName?: string
+  collectionName?: string,
 ): {
   pathOverrides: {
-    contentDirectory: string
-    assetsDirectory: string
-    mdxComponentsDirectory: string
-  }
+    contentDirectory: string;
+    assetsDirectory: string;
+    mdxComponentsDirectory: string;
+  };
   frontmatterMappings: {
-    publishedDate: string | string[]
-    title: string
-    description: string
-    draft: string
-  }
+    publishedDate: string | string[];
+    title: string;
+    description: string;
+    draft: string;
+  };
 } => {
   // If collection is specified and we have project settings, use collection-scoped settings
   if (collectionName && currentProjectSettings) {
-    return getCollectionSettings(currentProjectSettings, collectionName)
+    return getCollectionSettings(currentProjectSettings, collectionName);
   }
 
   // Otherwise, return project-level settings (two-tier fallback: project → defaults)
@@ -47,12 +47,12 @@ export const getEffectiveSettings = (
       description: 'description',
       draft: 'draft',
     },
-  }
+  };
 
   const projectOverrides = currentProjectSettings || {
     pathOverrides: {},
     frontmatterMappings: {},
-  }
+  };
 
   return {
     pathOverrides: {
@@ -80,5 +80,5 @@ export const getEffectiveSettings = (
         projectOverrides.frontmatterMappings?.draft ||
         defaults.frontmatterMappings.draft,
     },
-  }
-}
+  };
+};

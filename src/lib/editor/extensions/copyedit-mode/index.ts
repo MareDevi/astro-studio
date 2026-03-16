@@ -11,4 +11,4 @@
 export {
   createCopyeditModeExtension,
   updateCopyeditModePartsOfSpeech,
-} from './extension'
+} from './extension';

@@ -22,7 +22,7 @@
  * ```
  */
 
-export { findUrlsInText, isValidUrl, urlRegex } from './detection'
-export { altKeyState, altKeyEffect, urlHoverPlugin } from './plugin'
-export { handleUrlClick } from './handlers'
-export type { UrlMatch } from './detection'
+export { findUrlsInText, isValidUrl, urlRegex } from './detection';
+export { altKeyState, altKeyEffect, urlHoverPlugin } from './plugin';
+export { handleUrlClick } from './handlers';
+export type { UrlMatch } from './detection';

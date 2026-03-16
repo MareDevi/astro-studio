@@ -1,7 +1,7 @@
-import React from 'react'
-import { WindowsControls } from './WindowsControls'
-import { WindowsMenu } from './WindowsMenu'
-import { TitleBarToolbar } from './TitleBarToolbar'
+import type React from 'react';
+import { WindowsControls } from './WindowsControls';
+import { WindowsMenu } from './WindowsMenu';
+import { TitleBarToolbar } from './TitleBarToolbar';
 
 /**
  * Windows-specific unified title bar with window controls on the right.
@@ -18,5 +18,5 @@ export const UnifiedTitleBarWindows: React.FC = () => {
         </>
       }
     />
-  )
-}
+  );
+};

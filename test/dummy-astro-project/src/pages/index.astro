@@ -4,8 +4,8 @@ import { getCollection, render, getEntry } from 'astro:content';
 const articles = await getCollection('articles');
 const notes = await getCollection('notes');
 
-const latestArticle = articles.sort((a, b) =>
-  b.data.pubDate.getTime() - a.data.pubDate.getTime()
+const latestArticle = articles.sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 )[0];
 
 const { Content } = await render(latestArticle);
@@ -17,7 +17,9 @@ const latestAuthor = latestArticle.data.author
 
 // Get related articles for latest article
 const relatedArticles = latestArticle.data.relatedArticles
-  ? await Promise.all(latestArticle.data.relatedArticles.map(ref => getEntry(ref)))
+  ? await Promise.all(
+      latestArticle.data.relatedArticles.map((ref) => getEntry(ref)),
+    )
   : [];
 ---
 

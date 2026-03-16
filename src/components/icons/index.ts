@@ -1,1 +1,1 @@
-export { FrameworkIcon } from './FrameworkIcon'
+export { FrameworkIcon } from './FrameworkIcon';

@@ -22,9 +22,6 @@
       "type": "string"
     }
   },
-  "required": [
-    "title",
-    "archived"
-  ],
+  "required": ["title", "archived"],
   "additionalProperties": false
 }

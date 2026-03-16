@@ -15,12 +15,12 @@ When you finish a task, use the completion script:
 
 ```bash
 # Complete a task (move from todo to done with today's date)
-pnpm task:complete <task-name>
+bun task:complete <task-name>
 
 # Examples:
-pnpm task:complete frontend-performance
-pnpm task:complete 2
-pnpm task:complete awesome-feature
+bun task:complete frontend-performance
+bun task:complete 2
+bun task:complete awesome-feature
 ```
 
 The script will:

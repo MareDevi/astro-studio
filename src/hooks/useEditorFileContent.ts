@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
-import { useShallow } from 'zustand/react/shallow'
-import { useEditorStore } from '../store/editorStore'
-import { useProjectStore } from '../store/projectStore'
-import { useFileContentQuery } from './queries/useFileContentQuery'
+import { useEffect } from 'react';
+import { useShallow } from 'zustand/react/shallow';
+import { useEditorStore } from '../store/editorStore';
+import { useProjectStore } from '../store/projectStore';
+import { useFileContentQuery } from './queries/useFileContentQuery';
 
 /**
  * Hook that bridges TanStack Query (server state) with Zustand (local editing state)
@@ -14,25 +14,25 @@ import { useFileContentQuery } from './queries/useFileContentQuery'
  */
 export function useEditorFileContent() {
   // Object subscription needs shallow
-  const currentFile = useEditorStore(useShallow(state => state.currentFile))
-  const projectPath = useProjectStore(state => state.projectPath)
+  const currentFile = useEditorStore(useShallow((state) => state.currentFile));
+  const projectPath = useProjectStore((state) => state.projectPath);
 
   // Query fetches content based on current file
   // Pass both id (for cache key) and path (for Rust command)
   const { data, isLoading, isError, error } = useFileContentQuery(
     projectPath,
     currentFile?.id || null,
-    currentFile?.path || null
-  )
+    currentFile?.path || null,
+  );
 
   // Sync query data to local editing state when it arrives
   useEffect(() => {
-    if (!data || !currentFile) return
+    if (!data || !currentFile) return;
 
     // CRITICAL: Don't overwrite user's unsaved edits
-    const { isDirty: currentIsDirty } = useEditorStore.getState()
+    const { isDirty: currentIsDirty } = useEditorStore.getState();
     if (currentIsDirty) {
-      return // User is editing - their version is authoritative
+      return; // User is editing - their version is authoritative
     }
 
     // Safe to update - file is saved and matches disk
@@ -42,8 +42,8 @@ export function useEditorFileContent() {
       rawFrontmatter: data.raw_frontmatter,
       imports: data.imports,
       isFrontmatterDirty: false, // Reset when loading from disk
-    })
-  }, [data, currentFile])
+    });
+  }, [data, currentFile]);
 
-  return { isLoading, isError, error }
+  return { isLoading, isError, error };
 }

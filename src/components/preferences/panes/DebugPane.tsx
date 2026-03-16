@@ -1,13 +1,14 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import { commands } from '@/lib/bindings'
-import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
+import type React from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { commands } from '@/lib/bindings';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Field,
   FieldLabel,
   FieldDescription,
   FieldContent,
-} from '@/components/ui/field'
+} from '@/components/ui/field';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,58 +18,58 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
-import { getDiagnosticContext } from '../../../lib/diagnostics'
-import { usePreferences } from '../../../hooks/usePreferences'
-import { SettingsSection } from '../SettingsSection'
+} from '@/components/ui/alert-dialog';
+import { getDiagnosticContext } from '../../../lib/diagnostics';
+import { usePreferences } from '../../../hooks/usePreferences';
+import { SettingsSection } from '../SettingsSection';
 
 export const DebugPane: React.FC = () => {
-  const [appVersion, setAppVersion] = useState<string>('...')
-  const [resetDialogOpen, setResetDialogOpen] = useState(false)
-  const [resetConfirmed, setResetConfirmed] = useState(false)
-  const [resetting, setResetting] = useState(false)
-  const { globalSettings } = usePreferences()
+  const [appVersion, setAppVersion] = useState<string>('...');
+  const [resetDialogOpen, setResetDialogOpen] = useState(false);
+  const [resetConfirmed, setResetConfirmed] = useState(false);
+  const [resetting, setResetting] = useState(false);
+  const { globalSettings } = usePreferences();
 
   // Derive preferences version directly from globalSettings
   const preferencesVersion = globalSettings?.version
     ? String(globalSettings.version)
-    : '...'
+    : '...';
 
   // Load diagnostic information on mount
   useEffect(() => {
-    void getDiagnosticContext().then(context => {
-      setAppVersion(context.appVersion)
-    })
-  }, [])
+    void getDiagnosticContext().then((context) => {
+      setAppVersion(context.appVersion);
+    });
+  }, []);
 
   const handleOpenPreferencesFolder = useCallback(() => {
     void (async () => {
       try {
-        await commands.openPreferencesFolder()
+        await commands.openPreferencesFolder();
       } catch {
         // Silent failure - user will see folder doesn't open
       }
-    })()
-  }, [])
+    })();
+  }, []);
 
   const handleResetAllPreferences = useCallback(() => {
     if (!resetConfirmed) {
-      return
+      return;
     }
 
-    setResetting(true)
+    setResetting(true);
     void (async () => {
       try {
-        await commands.resetAllPreferences()
-        setResetDialogOpen(false)
-        setResetConfirmed(false)
+        await commands.resetAllPreferences();
+        setResetDialogOpen(false);
+        setResetConfirmed(false);
         // The app should reload automatically after reset
       } catch {
         // Reset failed - re-enable the button
-        setResetting(false)
+        setResetting(false);
       }
-    })()
-  }, [resetConfirmed])
+    })();
+  }, [resetConfirmed]);
 
   return (
     <div className="space-y-6">
@@ -153,7 +154,7 @@ export const DebugPane: React.FC = () => {
                   <Checkbox
                     id="reset-confirm"
                     checked={resetConfirmed}
-                    onCheckedChange={checked =>
+                    onCheckedChange={(checked) =>
                       setResetConfirmed(checked === true)
                     }
                   />
@@ -170,7 +171,7 @@ export const DebugPane: React.FC = () => {
           <AlertDialogFooter>
             <AlertDialogCancel
               onClick={() => {
-                setResetConfirmed(false)
+                setResetConfirmed(false);
               }}
             >
               Cancel
@@ -186,5 +187,5 @@ export const DebugPane: React.FC = () => {
         </AlertDialogContent>
       </AlertDialog>
     </div>
-  )
-}
+  );
+};

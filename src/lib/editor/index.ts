@@ -19,22 +19,22 @@
  */
 
 // Core syntax highlighting
-export * from './syntax'
+export * from './syntax';
 
 // Markdown editing utilities
-export * from './markdown'
+export * from './markdown';
 
 // URL handling system
-export * from './urls'
+export * from './urls';
 
 // Drag & drop functionality
-export * from './dragdrop'
+export * from './dragdrop';
 
 // Paste handling
-export * from './paste'
+export * from './paste';
 
 // Command system
-export * from './commands'
+export * from './commands';
 
 // Extensions system
-export * from './extensions'
+export * from './extensions';

@@ -1,7 +1,7 @@
-import type { EditorState, Range } from '@codemirror/state'
-import { StateField } from '@codemirror/state'
-import { Decoration, EditorView, type DecorationSet } from '@codemirror/view'
-import { syntaxTree } from '@codemirror/language'
+import type { EditorState, Range } from '@codemirror/state';
+import { StateField } from '@codemirror/state';
+import { Decoration, EditorView, type DecorationSet } from '@codemirror/view';
+import { syntaxTree } from '@codemirror/language';
 
 /**
  * Code Block Background Extension
@@ -12,15 +12,15 @@ import { syntaxTree } from '@codemirror/language'
  */
 
 function buildCodeBlockDecorations(state: EditorState): DecorationSet {
-  const decorations: Range<Decoration>[] = []
+  const decorations: Range<Decoration>[] = [];
 
   syntaxTree(state).iterate({
     enter(node) {
       if (node.name === 'FencedCode') {
         // Get all lines within the fenced code block
-        const startLine = state.doc.lineAt(node.from)
-        const endLine = state.doc.lineAt(node.to)
-        const isSingleLine = startLine.number === endLine.number
+        const startLine = state.doc.lineAt(node.from);
+        const endLine = state.doc.lineAt(node.to);
+        const isSingleLine = startLine.number === endLine.number;
 
         // Apply decoration to each line in the code block
         for (
@@ -28,42 +28,42 @@ function buildCodeBlockDecorations(state: EditorState): DecorationSet {
           lineNum <= endLine.number;
           lineNum++
         ) {
-          const line = state.doc.line(lineNum)
-          const isFirst = lineNum === startLine.number
-          const isLast = lineNum === endLine.number
+          const line = state.doc.line(lineNum);
+          const isFirst = lineNum === startLine.number;
+          const isLast = lineNum === endLine.number;
 
           // Determine CSS class based on position
-          let className = 'cm-codeblock-line'
+          let className = 'cm-codeblock-line';
           if (isSingleLine) {
-            className += ' cm-codeblock-only'
+            className += ' cm-codeblock-only';
           } else if (isFirst) {
-            className += ' cm-codeblock-first'
+            className += ' cm-codeblock-first';
           } else if (isLast) {
-            className += ' cm-codeblock-last'
+            className += ' cm-codeblock-last';
           }
 
           decorations.push(
-            Decoration.line({ class: className }).range(line.from)
-          )
+            Decoration.line({ class: className }).range(line.from),
+          );
         }
       }
     },
-  })
+  });
 
-  return Decoration.set(decorations, true)
+  return Decoration.set(decorations, true);
 }
 
 export const codeBlockBackgroundExtension = StateField.define<DecorationSet>({
   create(state) {
-    return buildCodeBlockDecorations(state)
+    return buildCodeBlockDecorations(state);
   },
 
   update(decorations, tr) {
     if (tr.docChanged) {
-      return buildCodeBlockDecorations(tr.state)
+      return buildCodeBlockDecorations(tr.state);
     }
-    return decorations.map(tr.changes)
+    return decorations.map(tr.changes);
   },
 
-  provide: f => EditorView.decorations.from(f),
-})
+  provide: (f) => EditorView.decorations.from(f),
+});

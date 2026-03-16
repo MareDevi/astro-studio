@@ -117,8 +117,8 @@ export type {
    * Error: { status: "error", error: E }
    */
   Result,
-} from '@/lib/bindings'
+} from '@/lib/bindings';
 
 // Re-export commands for convenience
 // This allows importing both types and commands from @/types
-export { commands } from '@/lib/bindings'
+export { commands } from '@/lib/bindings';

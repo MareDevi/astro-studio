@@ -1,17 +1,17 @@
-import React from 'react'
-import { useEditorStore } from '../../../store/editorStore'
-import { getNestedValue } from '../../../lib/object-utils'
-import { AutoExpandingTextarea } from '../../ui/auto-expanding-textarea'
-import { valueToString } from '../utils'
-import { FieldWrapper } from './FieldWrapper'
-import type { FieldProps } from '../../../types/common'
-import type { SchemaField } from '../../../lib/schema'
+import type React from 'react';
+import { useEditorStore } from '../../../store/editorStore';
+import { getNestedValue } from '../../../lib/object-utils';
+import { AutoExpandingTextarea } from '../../ui/auto-expanding-textarea';
+import { valueToString } from '../utils';
+import { FieldWrapper } from './FieldWrapper';
+import type { FieldProps } from '../../../types/common';
+import type { SchemaField } from '../../../lib/schema';
 
 interface TextareaFieldProps extends FieldProps {
-  placeholder?: string
-  minRows?: number
-  maxRows?: number
-  field?: SchemaField
+  placeholder?: string;
+  minRows?: number;
+  maxRows?: number;
+  field?: SchemaField;
 }
 
 export const TextareaField: React.FC<TextareaFieldProps> = ({
@@ -24,10 +24,12 @@ export const TextareaField: React.FC<TextareaFieldProps> = ({
   required,
   field,
 }) => {
-  const value = useEditorStore(state => getNestedValue(state.frontmatter, name))
+  const value = useEditorStore((state) =>
+    getNestedValue(state.frontmatter, name),
+  );
   const updateFrontmatterField = useEditorStore(
-    state => state.updateFrontmatterField
-  )
+    (state) => state.updateFrontmatterField,
+  );
 
   return (
     <FieldWrapper
@@ -47,8 +49,8 @@ export const TextareaField: React.FC<TextareaFieldProps> = ({
         minRows={minRows}
         maxRows={maxRows}
         value={valueToString(value)}
-        onChange={e => updateFrontmatterField(name, e.target.value)}
+        onChange={(e) => updateFrontmatterField(name, e.target.value)}
       />
     </FieldWrapper>
-  )
-}
+  );
+};

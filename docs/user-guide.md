@@ -23,7 +23,7 @@ Steps 1-3 are very much _writer mode_ tasks, while 4 & 5 are definitely _coder m
 
 - Code blocks are not syntax highlighted. If you have code examples in your files you're better off authoring them in a coding tool which can properly lint, format and check your code examples.
 - There's no mechanism for comitting or publishing in Astro Editor. You should do that in a code editor or terminal.
-- There's no way to preview your writing. The best way to do that is by running your astro site locally with `pnpm run dev` and looking at it there.
+- There's no way to preview your writing. The best way to do that is by running your astro site locally with `bun run dev` and looking at it there.
 
 Because the goal of this **simplicity when in writer mode**, Astro Editor is intentionally opinionated about its UI and limits the user customisation features to _"making it work with your Astro project and no more"_. It's not possible to customise the colour schemes, typeface etc. If you need fine-grained customization & extensibility we recommend using a custom profile in VSCode (or Obsidian) which you've set up for Markdown editing.
 
@@ -162,7 +162,7 @@ Astro Editor first looks for JSON schema files in your project. These can be in 
 
 To ensure Astro-generated files are available:
 
-1. Run `pnpm run dev` or `astro sync` in your project directory
+1. Run `bun run dev` or `astro sync` in your project directory
 2. Astro will automatically generate schema files in `.astro/collections/`
 3. Astro Editor reads these schemas and builds the frontmatter forms
 

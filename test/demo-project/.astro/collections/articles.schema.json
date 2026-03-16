@@ -44,10 +44,7 @@
     },
     "platform": {
       "type": "string",
-      "enum": [
-        "medium",
-        "external"
-      ]
+      "enum": ["medium", "external"]
     },
     "author": {},
     "relatedArticles": {
@@ -59,10 +56,6 @@
       "type": "string"
     }
   },
-  "required": [
-    "title",
-    "draft",
-    "pubDate"
-  ],
+  "required": ["title", "draft", "pubDate"],
   "additionalProperties": false
 }

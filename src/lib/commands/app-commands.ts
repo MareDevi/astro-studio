@@ -19,14 +19,14 @@ import {
   GitCommit,
   ArrowUpCircle,
   ArrowDownCircle,
-} from 'lucide-react'
-import { AppCommand, CommandContext } from './types'
-import type { Collection } from '@/types'
-import { toast } from '../toast'
-import { openInIde } from '../ide'
-import { openProjectViaDialog } from '../projects/actions'
-import { useContentLinkerStore } from '@/store/contentLinkerStore'
-import { commands } from '@/lib/bindings'
+} from 'lucide-react';
+import type { AppCommand, CommandContext } from './types';
+import type { Collection } from '@/types';
+import { toast } from '../toast';
+import { openInIde } from '../ide';
+import { openProjectViaDialog } from '../projects/actions';
+import { useContentLinkerStore } from '@/store/contentLinkerStore';
+import { commands } from '@/lib/bindings';
 
 /**
  * File-related commands
@@ -39,10 +39,10 @@ export const fileCommands: AppCommand[] = [
     icon: Plus,
     group: 'file',
     execute: (context: CommandContext) => {
-      context.createNewFile()
+      context.createNewFile();
     },
     isAvailable: (context: CommandContext) => {
-      return Boolean(context.selectedCollection && context.projectPath)
+      return Boolean(context.selectedCollection && context.projectPath);
     },
   },
   {
@@ -52,13 +52,13 @@ export const fileCommands: AppCommand[] = [
     icon: X,
     group: 'file',
     execute: (context: CommandContext) => {
-      context.closeCurrentFile()
+      context.closeCurrentFile();
     },
     isAvailable: (context: CommandContext) => {
-      return Boolean(context.currentFile)
+      return Boolean(context.currentFile);
     },
   },
-]
+];
 
 /**
  * Navigation-related commands
@@ -71,7 +71,7 @@ export const navigationCommands: AppCommand[] = [
     icon: Sidebar,
     group: 'navigation',
     execute: (context: CommandContext) => {
-      context.toggleSidebar()
+      context.toggleSidebar();
     },
     isAvailable: () => true,
   },
@@ -82,7 +82,7 @@ export const navigationCommands: AppCommand[] = [
     icon: PanelRight,
     group: 'navigation',
     execute: (context: CommandContext) => {
-      context.toggleFrontmatterPanel()
+      context.toggleFrontmatterPanel();
     },
     isAvailable: () => true,
   },
@@ -93,10 +93,10 @@ export const navigationCommands: AppCommand[] = [
     icon: MonitorPlay,
     group: 'navigation',
     execute: (context: CommandContext) => {
-      context.togglePreview()
+      context.togglePreview();
     },
     isAvailable: (context: CommandContext) => {
-      return Boolean(context.projectPath)
+      return Boolean(context.projectPath);
     },
   },
   {
@@ -106,13 +106,13 @@ export const navigationCommands: AppCommand[] = [
     icon: Link,
     group: 'navigation',
     execute: () => {
-      useContentLinkerStore.getState().open(null)
+      useContentLinkerStore.getState().open(null);
     },
     isAvailable: (context: CommandContext) => {
-      return Boolean(context.projectPath)
+      return Boolean(context.projectPath);
     },
   },
-]
+];
 
 /**
  * Project-related commands
@@ -125,7 +125,7 @@ export const projectCommands: AppCommand[] = [
     icon: FolderOpen,
     group: 'project',
     execute: async () => {
-      await openProjectViaDialog()
+      await openProjectViaDialog();
     },
     isAvailable: () => true,
   },
@@ -136,14 +136,14 @@ export const projectCommands: AppCommand[] = [
     icon: RefreshCw,
     group: 'project',
     execute: (context: CommandContext) => {
-      context.loadCollections()
-      toast.success('Collections reloaded')
+      context.loadCollections();
+      toast.success('Collections reloaded');
     },
     isAvailable: (context: CommandContext) => {
-      return Boolean(context.projectPath)
+      return Boolean(context.projectPath);
     },
   },
-]
+];
 
 /**
  * Settings-related commands
@@ -156,11 +156,11 @@ export const settingsCommands: AppCommand[] = [
     icon: Settings,
     group: 'settings',
     execute: (context: CommandContext) => {
-      context.openPreferences()
+      context.openPreferences();
     },
     isAvailable: () => true,
   },
-]
+];
 
 /**
  * Writing mode commands
@@ -173,7 +173,7 @@ export const viewModeCommands: AppCommand[] = [
     icon: Eye,
     group: 'settings',
     execute: (context: CommandContext) => {
-      context.toggleFocusMode()
+      context.toggleFocusMode();
     },
     isAvailable: () => true,
   },
@@ -184,17 +184,17 @@ export const viewModeCommands: AppCommand[] = [
     icon: AlignVerticalSpaceAround,
     group: 'settings',
     execute: (context: CommandContext) => {
-      context.toggleTypewriterMode()
+      context.toggleTypewriterMode();
     },
     isAvailable: () => true,
   },
-]
+];
 
 /**
  * Highlight commands for parts of speech with dynamic labels
  */
 export function getHighlightCommands(context: CommandContext): AppCommand[] {
-  const highlights = context.globalSettings?.general?.highlights
+  const highlights = context.globalSettings?.general?.highlights;
 
   // Get the actual state with proper defaults using nullish coalescing
   const highlightStates = {
@@ -203,10 +203,10 @@ export function getHighlightCommands(context: CommandContext): AppCommand[] {
     adjectives: highlights?.adjectives ?? true,
     adverbs: highlights?.adverbs ?? true,
     conjunctions: highlights?.conjunctions ?? true,
-  }
+  };
 
   // Check if any highlights are enabled for the "Toggle All" command
-  const anyEnabled = Object.values(highlightStates).some(enabled => enabled)
+  const anyEnabled = Object.values(highlightStates).some((enabled) => enabled);
 
   return [
     {
@@ -218,7 +218,7 @@ export function getHighlightCommands(context: CommandContext): AppCommand[] {
       icon: Highlighter,
       group: 'highlight',
       execute: (context: CommandContext) => {
-        context.toggleHighlightNouns()
+        context.toggleHighlightNouns();
       },
       isAvailable: () => true,
     },
@@ -231,7 +231,7 @@ export function getHighlightCommands(context: CommandContext): AppCommand[] {
       icon: Highlighter,
       group: 'highlight',
       execute: (context: CommandContext) => {
-        context.toggleHighlightVerbs()
+        context.toggleHighlightVerbs();
       },
       isAvailable: () => true,
     },
@@ -244,7 +244,7 @@ export function getHighlightCommands(context: CommandContext): AppCommand[] {
       icon: Highlighter,
       group: 'highlight',
       execute: (context: CommandContext) => {
-        context.toggleHighlightAdjectives()
+        context.toggleHighlightAdjectives();
       },
       isAvailable: () => true,
     },
@@ -257,7 +257,7 @@ export function getHighlightCommands(context: CommandContext): AppCommand[] {
       icon: Highlighter,
       group: 'highlight',
       execute: (context: CommandContext) => {
-        context.toggleHighlightAdverbs()
+        context.toggleHighlightAdverbs();
       },
       isAvailable: () => true,
     },
@@ -270,7 +270,7 @@ export function getHighlightCommands(context: CommandContext): AppCommand[] {
       icon: Highlighter,
       group: 'highlight',
       execute: (context: CommandContext) => {
-        context.toggleHighlightConjunctions()
+        context.toggleHighlightConjunctions();
       },
       isAvailable: () => true,
     },
@@ -281,33 +281,33 @@ export function getHighlightCommands(context: CommandContext): AppCommand[] {
       icon: Highlighter,
       group: 'highlight',
       execute: (context: CommandContext) => {
-        context.toggleAllHighlights()
+        context.toggleAllHighlights();
       },
       isAvailable: () => true,
     },
-  ]
+  ];
 }
 
 /**
  * Generate dynamic collection commands based on available collections
  */
 export function generateCollectionCommands(
-  collections: Collection[]
+  collections: Collection[],
 ): AppCommand[] {
-  return collections.map(collection => ({
+  return collections.map((collection) => ({
     id: `open-collection-${collection.name}`,
     label: `Open Collection: ${collection.name}`,
     description: `Switch to the ${collection.name} collection`,
     icon: FileText,
     group: 'navigation' as const,
     execute: (context: CommandContext) => {
-      context.setSelectedCollection(collection.name)
-      context.loadCollectionFiles()
+      context.setSelectedCollection(collection.name);
+      context.loadCollectionFiles();
     },
     isAvailable: (context: CommandContext) => {
-      return context.selectedCollection !== collection.name
+      return context.selectedCollection !== collection.name;
     },
-  }))
+  }));
 }
 
 /**
@@ -321,15 +321,15 @@ export const ideCommands: AppCommand[] = [
     icon: Code,
     group: 'ide',
     execute: async (context: CommandContext) => {
-      const ideCommand = context.globalSettings?.general?.ideCommand
+      const ideCommand = context.globalSettings?.general?.ideCommand;
       if (ideCommand && context.projectPath) {
-        await openInIde(context.projectPath, ideCommand)
+        await openInIde(context.projectPath, ideCommand);
       }
     },
     isAvailable: (context: CommandContext) => {
       return Boolean(
-        context.globalSettings?.general?.ideCommand && context.projectPath
-      )
+        context.globalSettings?.general?.ideCommand && context.projectPath,
+      );
     },
   },
   {
@@ -339,23 +339,23 @@ export const ideCommands: AppCommand[] = [
     icon: Folder,
     group: 'ide',
     execute: async (context: CommandContext) => {
-      const ideCommand = context.globalSettings?.general?.ideCommand
+      const ideCommand = context.globalSettings?.general?.ideCommand;
       if (ideCommand && context.selectedCollection && context.projectPath) {
         // Find the collection to get its path
         const collection = context.collections.find(
-          c => c.name === context.selectedCollection
-        )
+          (c) => c.name === context.selectedCollection,
+        );
         if (collection) {
-          await openInIde(collection.path, ideCommand)
+          await openInIde(collection.path, ideCommand);
         }
       }
     },
     isAvailable: (context: CommandContext) => {
       return Boolean(
         context.globalSettings?.general?.ideCommand &&
-        context.selectedCollection &&
-        context.projectPath
-      )
+          context.selectedCollection &&
+          context.projectPath,
+      );
     },
   },
   {
@@ -365,18 +365,18 @@ export const ideCommands: AppCommand[] = [
     icon: ExternalLink,
     group: 'ide',
     execute: async (context: CommandContext) => {
-      const ideCommand = context.globalSettings?.general?.ideCommand
+      const ideCommand = context.globalSettings?.general?.ideCommand;
       if (ideCommand && context.currentFile) {
-        await openInIde(context.currentFile.path, ideCommand)
+        await openInIde(context.currentFile.path, ideCommand);
       }
     },
     isAvailable: (context: CommandContext) => {
       return Boolean(
-        context.globalSettings?.general?.ideCommand && context.currentFile
-      )
+        context.globalSettings?.general?.ideCommand && context.currentFile,
+      );
     },
   },
-]
+];
 
 /**
  * Git-related commands
@@ -389,13 +389,13 @@ export const gitCommands: AppCommand[] = [
     icon: GitBranch,
     group: 'git',
     execute: async (context: CommandContext) => {
-      if (!context.projectPath) return
-      const result = await commands.gitStatus(context.projectPath)
+      if (!context.projectPath) return;
+      const result = await commands.gitStatus(context.projectPath);
       if (result.status === 'ok') {
-        const msg = result.data.trim() ? result.data : 'Working tree clean'
-        toast.info(msg, { duration: 5000 })
+        const msg = result.data.trim() ? result.data : 'Working tree clean';
+        toast.info(msg, { duration: 5000 });
       } else {
-        toast.error('Git Status Failed', { description: result.error })
+        toast.error('Git Status Failed', { description: result.error });
       }
     },
     isAvailable: (context: CommandContext) => Boolean(context.projectPath),
@@ -407,14 +407,14 @@ export const gitCommands: AppCommand[] = [
     icon: GitCommit,
     group: 'git',
     execute: async (context: CommandContext) => {
-      if (!context.projectPath) return
-      const message = window.prompt('Enter commit message:', 'Update content')
-      if (!message) return
-      const result = await commands.gitCommit(context.projectPath, message)
+      if (!context.projectPath) return;
+      const message = window.prompt('Enter commit message:', 'Update content');
+      if (!message) return;
+      const result = await commands.gitCommit(context.projectPath, message);
       if (result.status === 'ok') {
-        toast.success('Successfully committed changes')
+        toast.success('Successfully committed changes');
       } else {
-        toast.error('Git Commit Failed', { description: result.error })
+        toast.error('Git Commit Failed', { description: result.error });
       }
     },
     isAvailable: (context: CommandContext) => Boolean(context.projectPath),
@@ -426,13 +426,13 @@ export const gitCommands: AppCommand[] = [
     icon: ArrowUpCircle,
     group: 'git',
     execute: async (context: CommandContext) => {
-      if (!context.projectPath) return
-      toast.info('Pushing to remote...')
-      const result = await commands.gitPush(context.projectPath)
+      if (!context.projectPath) return;
+      toast.info('Pushing to remote...');
+      const result = await commands.gitPush(context.projectPath);
       if (result.status === 'ok') {
-        toast.success('Successfully pushed changes')
+        toast.success('Successfully pushed changes');
       } else {
-        toast.error('Git Push Failed', { description: result.error })
+        toast.error('Git Push Failed', { description: result.error });
       }
     },
     isAvailable: (context: CommandContext) => Boolean(context.projectPath),
@@ -444,25 +444,25 @@ export const gitCommands: AppCommand[] = [
     icon: ArrowDownCircle,
     group: 'git',
     execute: async (context: CommandContext) => {
-      if (!context.projectPath) return
-      toast.info('Pulling from remote...')
-      const result = await commands.gitPull(context.projectPath)
+      if (!context.projectPath) return;
+      toast.info('Pulling from remote...');
+      const result = await commands.gitPull(context.projectPath);
       if (result.status === 'ok') {
-        toast.success('Successfully pulled changes')
+        toast.success('Successfully pulled changes');
       } else {
-        toast.error('Git Pull Failed', { description: result.error })
+        toast.error('Git Pull Failed', { description: result.error });
       }
     },
     isAvailable: (context: CommandContext) => Boolean(context.projectPath),
   },
-]
+];
 
 /**
  * Get all available commands based on current context
  */
 export function getAllCommands(context: CommandContext): AppCommand[] {
-  const collectionCommands = generateCollectionCommands(context.collections)
-  const highlightCommands = getHighlightCommands(context)
+  const collectionCommands = generateCollectionCommands(context.collections);
+  const highlightCommands = getHighlightCommands(context);
 
   return [
     ...fileCommands,
@@ -474,5 +474,5 @@ export function getAllCommands(context: CommandContext): AppCommand[] {
     ...ideCommands,
     ...gitCommands,
     ...collectionCommands,
-  ].filter(command => command.isAvailable(context))
+  ].filter((command) => command.isAvailable(context));
 }

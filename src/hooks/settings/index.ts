@@ -1,1 +1,1 @@
-export { useEffectiveSettings } from './useEffectiveSettings'
+export { useEffectiveSettings } from './useEffectiveSettings';

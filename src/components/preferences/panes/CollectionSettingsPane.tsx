@@ -1,34 +1,35 @@
-import React, { useMemo, useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Switch } from '@/components/ui/switch'
+import type React from 'react';
+import { useMemo, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from '@/components/ui/select';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@/components/ui/collapsible'
+} from '@/components/ui/collapsible';
 import {
   Field,
   FieldLabel,
   FieldDescription,
   FieldContent,
-} from '@/components/ui/field'
-import { ChevronDown, ChevronRight } from 'lucide-react'
-import { usePreferences } from '../../../hooks/usePreferences'
-import { useCollectionsQuery } from '../../../hooks/queries/useCollectionsQuery'
-import { getCollectionSettings } from '../../../lib/project-registry/collection-settings'
-import { deserializeCompleteSchema, FieldType } from '../../../lib/schema'
-import { getDefaultFileType } from '../../../lib/project-registry/default-file-type'
-import type { SchemaField } from '../../../lib/schema'
-import type { CollectionSettings } from '../../../lib/project-registry/types'
-import { SettingsSection } from '../SettingsSection'
-import { PreferencesTextInput } from '../PreferencesTextInput'
+} from '@/components/ui/field';
+import { ChevronDown, ChevronRight } from 'lucide-react';
+import { usePreferences } from '../../../hooks/usePreferences';
+import { useCollectionsQuery } from '../../../hooks/queries/useCollectionsQuery';
+import { getCollectionSettings } from '../../../lib/project-registry/collection-settings';
+import { deserializeCompleteSchema, FieldType } from '../../../lib/schema';
+import { getDefaultFileType } from '../../../lib/project-registry/default-file-type';
+import type { SchemaField } from '../../../lib/schema';
+import type { CollectionSettings } from '../../../lib/project-registry/types';
+import { SettingsSection } from '../SettingsSection';
+import { PreferencesTextInput } from '../PreferencesTextInput';
 
 export const CollectionSettingsPane: React.FC = () => {
   const {
@@ -37,74 +38,74 @@ export const CollectionSettingsPane: React.FC = () => {
     projectPath,
     projectName,
     globalSettings,
-  } = usePreferences()
+  } = usePreferences();
 
   // Get collections from TanStack Query
   const { data: collections = [] } = useCollectionsQuery(
     projectPath,
-    currentProjectSettings
-  )
+    currentProjectSettings,
+  );
 
   // Track which collections are expanded
   const [expandedCollections, setExpandedCollections] = useState<Set<string>>(
-    new Set()
-  )
+    new Set(),
+  );
 
   const toggleCollection = (collectionName: string) => {
-    const newExpanded = new Set(expandedCollections)
+    const newExpanded = new Set(expandedCollections);
     if (newExpanded.has(collectionName)) {
-      newExpanded.delete(collectionName)
+      newExpanded.delete(collectionName);
     } else {
-      newExpanded.add(collectionName)
+      newExpanded.add(collectionName);
     }
-    setExpandedCollections(newExpanded)
-  }
+    setExpandedCollections(newExpanded);
+  };
 
   // Get all schema fields from all collections
   const collectionFields = useMemo(() => {
-    const fieldsMap = new Map<string, SchemaField[]>()
+    const fieldsMap = new Map<string, SchemaField[]>();
 
-    collections.forEach(collection => {
+    collections.forEach((collection) => {
       if (collection.complete_schema) {
         try {
-          const schema = deserializeCompleteSchema(collection.complete_schema)
+          const schema = deserializeCompleteSchema(collection.complete_schema);
           if (schema) {
-            fieldsMap.set(collection.name, schema.fields)
+            fieldsMap.set(collection.name, schema.fields);
           }
         } catch (error) {
           // eslint-disable-next-line no-console
-          console.warn(`Failed to parse schema for ${collection.name}:`, error)
+          console.warn(`Failed to parse schema for ${collection.name}:`, error);
         }
       }
-    })
+    });
 
-    return fieldsMap
-  }, [collections])
+    return fieldsMap;
+  }, [collections]);
 
   // Get effective settings for a collection (including inherited values)
   const getEffectiveSettings = (collectionName: string) => {
     if (!currentProjectSettings) {
-      return null
+      return null;
     }
-    return getCollectionSettings(currentProjectSettings, collectionName)
-  }
+    return getCollectionSettings(currentProjectSettings, collectionName);
+  };
 
   // Get collection-specific override (not inherited)
   const getCollectionOverride = (
-    collectionName: string
+    collectionName: string,
   ): CollectionSettings | undefined => {
     return currentProjectSettings?.collections?.find(
-      c => c.name === collectionName
-    )
-  }
+      (c) => c.name === collectionName,
+    );
+  };
 
   // Update a collection's path override
   const handlePathOverrideChange = (
     collectionName: string,
     key: 'contentDirectory' | 'assetsDirectory',
-    value: string
+    value: string,
   ) => {
-    const existing = getCollectionOverride(collectionName)
+    const existing = getCollectionOverride(collectionName);
     const newSettings: CollectionSettings = {
       name: collectionName,
       settings: {
@@ -114,18 +115,18 @@ export const CollectionSettingsPane: React.FC = () => {
           [key]: value || undefined, // Remove empty strings
         },
       },
-    }
+    };
 
-    void updateCollectionSettings(collectionName, newSettings.settings)
-  }
+    void updateCollectionSettings(collectionName, newSettings.settings);
+  };
 
   // Update a collection's frontmatter mapping
   const handleFrontmatterMappingChange = (
     collectionName: string,
     key: 'publishedDate' | 'title' | 'description' | 'draft',
-    value: string
+    value: string,
   ) => {
-    const existing = getCollectionOverride(collectionName)
+    const existing = getCollectionOverride(collectionName);
     const newSettings: CollectionSettings = {
       name: collectionName,
       settings: {
@@ -135,69 +136,69 @@ export const CollectionSettingsPane: React.FC = () => {
           [key]: value || undefined, // Remove empty strings
         },
       },
-    }
+    };
 
-    void updateCollectionSettings(collectionName, newSettings.settings)
-  }
+    void updateCollectionSettings(collectionName, newSettings.settings);
+  };
 
   // Reset all overrides for a collection
   const handleResetCollection = (collectionName: string) => {
-    void updateCollectionSettings(collectionName, {})
-  }
+    void updateCollectionSettings(collectionName, {});
+  };
 
   // Update a collection's default file type
   const handleDefaultFileTypeChange = (
     collectionName: string,
-    value: 'md' | 'mdx' | undefined
+    value: 'md' | 'mdx' | undefined,
   ) => {
-    const existing = getCollectionOverride(collectionName)
+    const existing = getCollectionOverride(collectionName);
     const newSettings: CollectionSettings = {
       name: collectionName,
       settings: {
         ...existing?.settings,
         defaultFileType: value,
       },
-    }
-    void updateCollectionSettings(collectionName, newSettings.settings)
-  }
+    };
+    void updateCollectionSettings(collectionName, newSettings.settings);
+  };
 
   // Update a collection's URL pattern
   const handleUrlPatternChange = (collectionName: string, value: string) => {
-    const existing = getCollectionOverride(collectionName)
+    const existing = getCollectionOverride(collectionName);
     const newSettings: CollectionSettings = {
       name: collectionName,
       settings: {
         ...existing?.settings,
         urlPattern: value || undefined, // Remove empty strings
       },
-    }
-    void updateCollectionSettings(collectionName, newSettings.settings)
-  }
+    };
+    void updateCollectionSettings(collectionName, newSettings.settings);
+  };
 
   // Update a collection's absolute paths setting
   const handleAbsolutePathsChange = (
     collectionName: string,
-    checked: boolean
+    checked: boolean,
   ) => {
-    const existing = getCollectionOverride(collectionName)
+    const existing = getCollectionOverride(collectionName);
     const newSettings: CollectionSettings = {
       name: collectionName,
       settings: {
         ...existing?.settings,
         useAbsoluteAssetPaths: checked,
       },
-    }
-    void updateCollectionSettings(collectionName, newSettings.settings)
-  }
+    };
+    void updateCollectionSettings(collectionName, newSettings.settings);
+  };
 
   // Filter fields by type for a specific collection
   const getFieldsByType = (
     collectionName: string,
-    fieldType: FieldType
+    fieldType: FieldType,
   ): SchemaField[] => {
-    const fields = collectionFields.get(collectionName) || []
-    return fields.filter(field => field.type === fieldType)
-  }
+    const fields = collectionFields.get(collectionName) || [];
+    return fields.filter((field) => field.type === fieldType);
+  };
 
   // Render a field select dropdown
   const renderFieldSelect = (
@@ -206,25 +207,25 @@ export const CollectionSettingsPane: React.FC = () => {
     onChange: (value: string) => void,
     fieldType: FieldType,
     placeholder: string,
-    inheritedValue: string | string[]
+    inheritedValue: string | string[],
   ) => {
-    const fields = getFieldsByType(collectionName, fieldType)
-    const currentValue = value || 'inherited'
+    const fields = getFieldsByType(collectionName, fieldType);
+    const currentValue = value || 'inherited';
     const displayValue =
-      typeof currentValue === 'string' ? currentValue : 'inherited'
+      typeof currentValue === 'string' ? currentValue : 'inherited';
 
     // Format inherited value for display
     const formatInheritedValue = (val: string | string[]): string => {
       if (Array.isArray(val)) {
-        return val.join(', ')
+        return val.join(', ');
       }
-      return val
-    }
+      return val;
+    };
 
     return (
       <Select
         value={displayValue}
-        onValueChange={val => onChange(val === 'inherited' ? '' : val)}
+        onValueChange={(val) => onChange(val === 'inherited' ? '' : val)}
       >
         <SelectTrigger>
           <SelectValue placeholder={placeholder} />
@@ -235,7 +236,7 @@ export const CollectionSettingsPane: React.FC = () => {
               Use default: {formatInheritedValue(inheritedValue)}
             </span>
           </SelectItem>
-          {fields.map(field => (
+          {fields.map((field) => (
             <SelectItem key={field.name} value={field.name}>
               {field.name}
               {!field.required && (
@@ -245,8 +246,8 @@ export const CollectionSettingsPane: React.FC = () => {
           ))}
         </SelectContent>
       </Select>
-    )
-  }
+    );
+  };
 
   if (collections.length === 0) {
     return (
@@ -271,7 +272,7 @@ export const CollectionSettingsPane: React.FC = () => {
           with collections is loaded.
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -296,18 +297,18 @@ export const CollectionSettingsPane: React.FC = () => {
       </div>
 
       <div className="space-y-4">
-        {collections.map(collection => {
-          const isExpanded = expandedCollections.has(collection.name)
-          const effectiveSettings = getEffectiveSettings(collection.name)
-          const collectionOverride = getCollectionOverride(collection.name)
+        {collections.map((collection) => {
+          const isExpanded = expandedCollections.has(collection.name);
+          const effectiveSettings = getEffectiveSettings(collection.name);
+          const collectionOverride = getCollectionOverride(collection.name);
           const hasOverrides =
             !!collectionOverride?.settings?.pathOverrides ||
             !!collectionOverride?.settings?.frontmatterMappings ||
             !!collectionOverride?.settings?.defaultFileType ||
             collectionOverride?.settings?.useAbsoluteAssetPaths !== undefined ||
-            !!collectionOverride?.settings?.urlPattern
+            !!collectionOverride?.settings?.urlPattern;
 
-          if (!effectiveSettings) return null
+          if (!effectiveSettings) return null;
 
           return (
             <Collapsible
@@ -346,11 +347,11 @@ export const CollectionSettingsPane: React.FC = () => {
                               collectionOverride?.settings?.pathOverrides
                                 ?.contentDirectory || ''
                             }
-                            onCommit={value =>
+                            onCommit={(value) =>
                               handlePathOverrideChange(
                                 collection.name,
                                 'contentDirectory',
-                                value
+                                value,
                               )
                             }
                             placeholder={`Using project setting: ${effectiveSettings.pathOverrides.contentDirectory}`}
@@ -370,11 +371,11 @@ export const CollectionSettingsPane: React.FC = () => {
                               collectionOverride?.settings?.pathOverrides
                                 ?.assetsDirectory || ''
                             }
-                            onCommit={value =>
+                            onCommit={(value) =>
                               handlePathOverrideChange(
                                 collection.name,
                                 'assetsDirectory',
-                                value
+                                value,
                               )
                             }
                             placeholder={`Using project setting: ${effectiveSettings.pathOverrides.assetsDirectory}`}
@@ -410,10 +411,10 @@ export const CollectionSettingsPane: React.FC = () => {
                               collectionOverride?.settings
                                 ?.useAbsoluteAssetPaths ?? false
                             }
-                            onCheckedChange={checked =>
+                            onCheckedChange={(checked) =>
                               handleAbsolutePathsChange(
                                 collection.name,
-                                checked
+                                checked,
                               )
                             }
                           />
@@ -431,13 +432,13 @@ export const CollectionSettingsPane: React.FC = () => {
                               collectionOverride?.settings?.defaultFileType ||
                               'inherited'
                             }
-                            onValueChange={value => {
+                            onValueChange={(value) => {
                               handleDefaultFileTypeChange(
                                 collection.name,
                                 value === 'inherited'
                                   ? undefined
-                                  : (value as 'md' | 'mdx')
-                              )
+                                  : (value as 'md' | 'mdx'),
+                              );
                             }}
                           >
                             <SelectTrigger>
@@ -450,7 +451,7 @@ export const CollectionSettingsPane: React.FC = () => {
                                   {getDefaultFileType(
                                     globalSettings,
                                     currentProjectSettings,
-                                    undefined
+                                    undefined,
                                   ) === 'mdx'
                                     ? 'MDX'
                                     : 'Markdown'}
@@ -477,15 +478,15 @@ export const CollectionSettingsPane: React.FC = () => {
                             collection.name,
                             collectionOverride?.settings?.frontmatterMappings
                               ?.publishedDate,
-                            value =>
+                            (value) =>
                               handleFrontmatterMappingChange(
                                 collection.name,
                                 'publishedDate',
-                                value
+                                value,
                               ),
                             FieldType.Date,
                             'Select date field',
-                            effectiveSettings.frontmatterMappings.publishedDate
+                            effectiveSettings.frontmatterMappings.publishedDate,
                           )}
                           <FieldDescription>
                             Field used for ordering files in the list
@@ -500,15 +501,15 @@ export const CollectionSettingsPane: React.FC = () => {
                             collection.name,
                             collectionOverride?.settings?.frontmatterMappings
                               ?.title,
-                            value =>
+                            (value) =>
                               handleFrontmatterMappingChange(
                                 collection.name,
                                 'title',
-                                value
+                                value,
                               ),
                             FieldType.String,
                             'Select text field',
-                            effectiveSettings.frontmatterMappings.title
+                            effectiveSettings.frontmatterMappings.title,
                           )}
                           <FieldDescription>
                             Field that gets special treatment in the frontmatter
@@ -524,15 +525,15 @@ export const CollectionSettingsPane: React.FC = () => {
                             collection.name,
                             collectionOverride?.settings?.frontmatterMappings
                               ?.description,
-                            value =>
+                            (value) =>
                               handleFrontmatterMappingChange(
                                 collection.name,
                                 'description',
-                                value
+                                value,
                               ),
                             FieldType.String,
                             'Select text field',
-                            effectiveSettings.frontmatterMappings.description
+                            effectiveSettings.frontmatterMappings.description,
                           )}
                           <FieldDescription>
                             Field that gets special treatment in the frontmatter
@@ -548,15 +549,15 @@ export const CollectionSettingsPane: React.FC = () => {
                             collection.name,
                             collectionOverride?.settings?.frontmatterMappings
                               ?.draft,
-                            value =>
+                            (value) =>
                               handleFrontmatterMappingChange(
                                 collection.name,
                                 'draft',
-                                value
+                                value,
                               ),
                             FieldType.Boolean,
                             'Select boolean field',
-                            effectiveSettings.frontmatterMappings.draft
+                            effectiveSettings.frontmatterMappings.draft,
                           )}
                           <FieldDescription>
                             Field that shows a draft marker in the file list
@@ -574,7 +575,7 @@ export const CollectionSettingsPane: React.FC = () => {
                             value={
                               collectionOverride?.settings?.urlPattern || ''
                             }
-                            onCommit={value =>
+                            onCommit={(value) =>
                               handleUrlPatternChange(collection.name, value)
                             }
                             placeholder="/path/{slug}"
@@ -604,9 +605,9 @@ export const CollectionSettingsPane: React.FC = () => {
                 </CollapsibleContent>
               </div>
             </Collapsible>
-          )
+          );
         })}
       </div>
     </div>
-  )
-}
+  );
+};

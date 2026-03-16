@@ -50,8 +50,12 @@ pub fn get_augmented_path() -> String {
             common_paths.push(format!(
                 r"{local_app_data}\Programs\cursor\resources\app\bin"
             ));
-            common_paths.push(format!(r"{local_app_data}\pnpm"));
+            common_paths.push(format!(r"{local_app_data}\bun"));
             common_paths.push(format!(r"{local_app_data}\npm"));
+        }
+
+        if let Ok(user_profile) = env::var("USERPROFILE") {
+            common_paths.push(format!(r"{user_profile}\.bun\bin"));
         }
 
         for common_path in &common_paths {

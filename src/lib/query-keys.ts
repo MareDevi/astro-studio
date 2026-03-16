@@ -11,7 +11,7 @@ export const queryKeys = {
   directoryContents: (
     projectPath: string,
     collectionName: string,
-    subdirectory: string // 'root' or relative path like "2024/january"
+    subdirectory: string, // 'root' or relative path like "2024/january"
   ) =>
     [
       ...queryKeys.all,
@@ -37,4 +37,4 @@ export const queryKeys = {
       collectionName,
     ] as const,
   // Add more keys here as needed
-}
+};

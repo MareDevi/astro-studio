@@ -32,10 +32,7 @@ pub async fn start_preview(
 
     let augmented_path = crate::utils::shell::get_augmented_path();
 
-    #[cfg(target_os = "windows")]
-    let cmd_name = "pnpm.cmd";
-    #[cfg(not(target_os = "windows"))]
-    let cmd_name = "pnpm";
+    let cmd_name = "bun";
 
     let mut child = Command::new(cmd_name)
         .arg("dev")
@@ -44,7 +41,7 @@ pub async fn start_preview(
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
         .spawn()
-        .map_err(|e| format!("Failed to start pnpm dev: {e}"))?;
+        .map_err(|e| format!("Failed to start bun dev: {e}"))?;
 
     let stdout = child.stdout.take().expect("Failed to open stdout");
     let stderr = child.stderr.take().expect("Failed to open stderr");

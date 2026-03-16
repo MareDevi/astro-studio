@@ -4,16 +4,16 @@
  * Main API for managing project identification, settings, and persistence
  */
 
-import { safeLog } from '../diagnostics'
-import { commands } from '@/lib/bindings'
-import {
+import { safeLog } from '../diagnostics';
+import { commands } from '@/lib/bindings';
+import type {
   ProjectRegistry,
   GlobalSettings,
   ProjectData,
   ProjectMetadata,
   ProjectSettings,
   DeepPartial,
-} from './types'
+} from './types';
 import {
   loadProjectRegistry,
   saveProjectRegistry,
@@ -21,14 +21,14 @@ import {
   saveGlobalSettings,
   loadProjectData,
   saveProjectData,
-} from './persistence'
-import { discoverProject, isSameProject } from './utils'
-import { DEFAULT_PROJECT_SETTINGS } from './defaults'
+} from './persistence';
+import { discoverProject, isSameProject } from './utils';
+import { DEFAULT_PROJECT_SETTINGS } from './defaults';
 
 export class ProjectRegistryManager {
-  private registry: ProjectRegistry | null = null
-  private globalSettings: GlobalSettings | null = null
-  private projectDataCache: Map<string, ProjectData> = new Map()
+  private registry: ProjectRegistry | null = null;
+  private globalSettings: GlobalSettings | null = null;
+  private projectDataCache: Map<string, ProjectData> = new Map();
 
   /**
    * Initialize the registry manager
@@ -37,40 +37,40 @@ export class ProjectRegistryManager {
     // Proactively ensure app data directory structure exists
     try {
       await safeLog.info(
-        'Astro Editor [PROJECT_REGISTRY] Ensuring app data directories exist'
-      )
+        'Astro Editor [PROJECT_REGISTRY] Ensuring app data directories exist',
+      );
 
       // This will trigger directory creation through validate_app_data_path
-      const appDataDirResult = await commands.getAppDataDir()
+      const appDataDirResult = await commands.getAppDataDir();
       if (appDataDirResult.status === 'error') {
-        throw new Error(appDataDirResult.error)
+        throw new Error(appDataDirResult.error);
       }
-      const appDataDir = appDataDirResult.data
+      const appDataDir = appDataDirResult.data;
       await safeLog.debug(
-        `Astro Editor [PROJECT_REGISTRY] App data directory: ${appDataDir}`
-      )
+        `Astro Editor [PROJECT_REGISTRY] App data directory: ${appDataDir}`,
+      );
 
       // Trigger directory creation by attempting to create a test file structure
       const writeResult = await commands.writeAppDataFile(
         `${appDataDir}/preferences/.ensure-dirs`,
-        'initialization check'
-      )
+        'initialization check',
+      );
       if (writeResult.status === 'error') {
-        throw new Error(writeResult.error)
+        throw new Error(writeResult.error);
       }
 
       await safeLog.info(
-        'Astro Editor [PROJECT_REGISTRY] App data directories verified'
-      )
+        'Astro Editor [PROJECT_REGISTRY] App data directories verified',
+      );
     } catch (error) {
       await safeLog.error(
-        `Astro Editor [PROJECT_REGISTRY] Failed to ensure directories: ${String(error)}`
-      )
+        `Astro Editor [PROJECT_REGISTRY] Failed to ensure directories: ${String(error)}`,
+      );
       // Continue anyway - the subsequent operations will also attempt directory creation
     }
 
-    this.registry = await loadProjectRegistry()
-    this.globalSettings = await loadGlobalSettings()
+    this.registry = await loadProjectRegistry();
+    this.globalSettings = await loadGlobalSettings();
   }
 
   /**
@@ -78,9 +78,9 @@ export class ProjectRegistryManager {
    */
   getRegistry(): ProjectRegistry {
     if (!this.registry) {
-      throw new Error('Registry not initialized')
+      throw new Error('Registry not initialized');
     }
-    return this.registry
+    return this.registry;
   }
 
   /**
@@ -88,9 +88,9 @@ export class ProjectRegistryManager {
    */
   getGlobalSettings(): GlobalSettings {
     if (!this.globalSettings) {
-      throw new Error('Global settings not initialized')
+      throw new Error('Global settings not initialized');
     }
-    return this.globalSettings
+    return this.globalSettings;
   }
 
   /**
@@ -98,76 +98,76 @@ export class ProjectRegistryManager {
    */
   async registerProject(projectPath: string): Promise<string> {
     if (!this.registry) {
-      throw new Error('Registry not initialized')
+      throw new Error('Registry not initialized');
     }
 
     await safeLog.debug(
-      `Astro Editor [PROJECT_REGISTRY] Registering project: ${projectPath}`
-    )
-    const existingIds = new Set(Object.keys(this.registry.projects))
+      `Astro Editor [PROJECT_REGISTRY] Registering project: ${projectPath}`,
+    );
+    const existingIds = new Set(Object.keys(this.registry.projects));
 
     // Check if this project already exists (by path)
     const existingProject = Object.values(this.registry.projects).find(
-      p => p.path === projectPath
-    )
+      (p) => p.path === projectPath,
+    );
     if (existingProject) {
       await safeLog.debug(
-        `Astro Editor [PROJECT_REGISTRY] Found existing project: ${existingProject.id}`
-      )
+        `Astro Editor [PROJECT_REGISTRY] Found existing project: ${existingProject.id}`,
+      );
       // Update last opened time
-      existingProject.lastOpened = new Date().toISOString()
-      this.registry.lastOpenedProject = existingProject.id
-      await saveProjectRegistry(this.registry)
-      return existingProject.id
+      existingProject.lastOpened = new Date().toISOString();
+      this.registry.lastOpenedProject = existingProject.id;
+      await saveProjectRegistry(this.registry);
+      return existingProject.id;
     }
 
     // Check if this is a moved project
-    const movedProject = await this.findMovedProject(projectPath)
+    const movedProject = await this.findMovedProject(projectPath);
     if (movedProject) {
       await safeLog.info(
-        `Astro Editor [PROJECT_REGISTRY] Detected moved project: ${movedProject.id} from ${movedProject.path} to ${projectPath}`
-      )
+        `Astro Editor [PROJECT_REGISTRY] Detected moved project: ${movedProject.id} from ${movedProject.path} to ${projectPath}`,
+      );
       // Update the path
-      movedProject.path = projectPath
-      movedProject.lastOpened = new Date().toISOString()
-      this.registry.lastOpenedProject = movedProject.id
-      await saveProjectRegistry(this.registry)
-      return movedProject.id
+      movedProject.path = projectPath;
+      movedProject.lastOpened = new Date().toISOString();
+      this.registry.lastOpenedProject = movedProject.id;
+      await saveProjectRegistry(this.registry);
+      return movedProject.id;
     }
 
     // Discover new project
     await safeLog.info(
-      `Astro Editor [PROJECT_REGISTRY] Discovering new project at: ${projectPath}`
-    )
-    const projectMetadata = await discoverProject(projectPath, existingIds)
+      `Astro Editor [PROJECT_REGISTRY] Discovering new project at: ${projectPath}`,
+    );
+    const projectMetadata = await discoverProject(projectPath, existingIds);
     await safeLog.info(
-      `Astro Editor [PROJECT_REGISTRY] New project discovered: ${projectMetadata.name} (ID: ${projectMetadata.id})`
-    )
+      `Astro Editor [PROJECT_REGISTRY] New project discovered: ${projectMetadata.name} (ID: ${projectMetadata.id})`,
+    );
 
     // Add to registry
-    this.registry.projects[projectMetadata.id] = projectMetadata
-    this.registry.lastOpenedProject = projectMetadata.id
+    this.registry.projects[projectMetadata.id] = projectMetadata;
+    this.registry.lastOpenedProject = projectMetadata.id;
 
     // Save registry
-    await saveProjectRegistry(this.registry)
+    await saveProjectRegistry(this.registry);
 
-    return projectMetadata.id
+    return projectMetadata.id;
   }
 
   /**
    * Find a project that may have been moved
    */
   private async findMovedProject(
-    newPath: string
+    newPath: string,
   ): Promise<ProjectMetadata | null> {
-    if (!this.registry) return null
+    if (!this.registry) return null;
 
     for (const project of Object.values(this.registry.projects)) {
       if (await isSameProject(project, newPath)) {
-        return project
+        return project;
       }
     }
-    return null
+    return null;
   }
 
   /**
@@ -175,26 +175,26 @@ export class ProjectRegistryManager {
    */
   async getProjectData(projectId: string): Promise<ProjectData | null> {
     if (!this.registry) {
-      throw new Error('Registry not initialized')
+      throw new Error('Registry not initialized');
     }
 
     // Check cache first
     if (this.projectDataCache.has(projectId)) {
-      return this.projectDataCache.get(projectId)!
+      return this.projectDataCache.get(projectId)!;
     }
 
-    const metadata = this.registry.projects[projectId]
+    const metadata = this.registry.projects[projectId];
     if (!metadata) {
-      return null
+      return null;
     }
 
     // Load project-specific data
-    const projectData = await loadProjectData(projectId)
+    const projectData = await loadProjectData(projectId);
 
     if (projectData) {
       // Cache and return
-      this.projectDataCache.set(projectId, projectData)
-      return projectData
+      this.projectDataCache.set(projectId, projectData);
+      return projectData;
     }
 
     // Create default project data
@@ -202,13 +202,13 @@ export class ProjectRegistryManager {
       settings: { ...DEFAULT_PROJECT_SETTINGS },
       collections: [],
       version: 2,
-    }
+    };
 
     // Cache and save
-    this.projectDataCache.set(projectId, defaultData)
-    await saveProjectData(projectId, defaultData)
+    this.projectDataCache.set(projectId, defaultData);
+    await saveProjectData(projectId, defaultData);
 
-    return defaultData
+    return defaultData;
   }
 
   /**
@@ -216,11 +216,11 @@ export class ProjectRegistryManager {
    */
   async updateProjectSettings(
     projectId: string,
-    settings: Partial<ProjectSettings>
+    settings: Partial<ProjectSettings>,
   ): Promise<void> {
-    const projectData = await this.getProjectData(projectId)
+    const projectData = await this.getProjectData(projectId);
     if (!projectData) {
-      throw new Error(`Project ${projectId} not found`)
+      throw new Error(`Project ${projectId} not found`);
     }
 
     // Update settings
@@ -234,15 +234,15 @@ export class ProjectRegistryManager {
         ...projectData.settings.frontmatterMappings,
         ...settings.frontmatterMappings,
       },
-    }
+    };
 
     // Update defaultFileType if property is present
     if ('defaultFileType' in settings) {
       if (settings.defaultFileType === undefined) {
         // Remove the override to inherit from global settings
-        delete projectData.settings.defaultFileType
+        delete projectData.settings.defaultFileType;
       } else {
-        projectData.settings.defaultFileType = settings.defaultFileType
+        projectData.settings.defaultFileType = settings.defaultFileType;
       }
     }
 
@@ -250,10 +250,10 @@ export class ProjectRegistryManager {
     if ('useAbsoluteAssetPaths' in settings) {
       if (settings.useAbsoluteAssetPaths === undefined) {
         // Remove the override to use default (relative paths)
-        delete projectData.settings.useAbsoluteAssetPaths
+        delete projectData.settings.useAbsoluteAssetPaths;
       } else {
         projectData.settings.useAbsoluteAssetPaths =
-          settings.useAbsoluteAssetPaths
+          settings.useAbsoluteAssetPaths;
       }
     }
 
@@ -261,17 +261,17 @@ export class ProjectRegistryManager {
     if ('collections' in settings) {
       if (settings.collections === undefined) {
         // Remove the override
-        delete projectData.settings.collections
+        delete projectData.settings.collections;
       } else {
-        projectData.settings.collections = settings.collections
+        projectData.settings.collections = settings.collections;
       }
     }
 
     // Update cache
-    this.projectDataCache.set(projectId, projectData)
+    this.projectDataCache.set(projectId, projectData);
 
     // Save to disk
-    await saveProjectData(projectId, projectData)
+    await saveProjectData(projectId, projectData);
   }
 
   /**
@@ -282,10 +282,10 @@ export class ProjectRegistryManager {
    * - Level 2: highlights, headingColor (spreads existing + updates)
    */
   async updateGlobalSettings(
-    settings: DeepPartial<GlobalSettings>
+    settings: DeepPartial<GlobalSettings>,
   ): Promise<void> {
     if (!this.globalSettings) {
-      throw new Error('Global settings not initialized')
+      throw new Error('Global settings not initialized');
     }
 
     this.globalSettings = {
@@ -313,19 +313,19 @@ export class ProjectRegistryManager {
           ...settings.appearance?.fonts,
         },
       },
-    }
+    };
 
-    await saveGlobalSettings(this.globalSettings)
+    await saveGlobalSettings(this.globalSettings);
   }
 
   /**
    * Get effective settings for a project (hard-coded defaults + project overrides)
    */
   async getEffectiveSettings(projectId: string): Promise<ProjectSettings> {
-    const projectData = await this.getProjectData(projectId)
+    const projectData = await this.getProjectData(projectId);
 
     if (!projectData) {
-      return { ...DEFAULT_PROJECT_SETTINGS }
+      return { ...DEFAULT_PROJECT_SETTINGS };
     }
 
     // Merge hard-coded defaults with project-specific settings
@@ -344,29 +344,29 @@ export class ProjectRegistryManager {
       useAbsoluteAssetPaths: projectData.settings.useAbsoluteAssetPaths,
       // Include collections array if present
       collections: projectData.settings.collections || [],
-    }
+    };
   }
 
   /**
    * Get the last opened project ID
    */
   getLastOpenedProjectId(): string | null {
-    return this.registry?.lastOpenedProject || null
+    return this.registry?.lastOpenedProject || null;
   }
 
   /**
    * Clear cache for a project (useful for testing)
    */
   clearProjectCache(projectId: string): void {
-    this.projectDataCache.delete(projectId)
+    this.projectDataCache.delete(projectId);
   }
 }
 
 // Export the manager instance
-export const projectRegistryManager = new ProjectRegistryManager()
+export const projectRegistryManager = new ProjectRegistryManager();
 
 // Export types and utilities
-export * from './types'
-export * from './defaults'
-export * from './collection-settings'
-export * from './path-resolution'
+export * from './types';
+export * from './defaults';
+export * from './collection-settings';
+export * from './path-resolution';

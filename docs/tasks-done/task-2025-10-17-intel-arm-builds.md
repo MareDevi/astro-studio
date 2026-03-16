@@ -408,7 +408,7 @@ This allows testing the changes in isolation without affecting the main branch u
 
 ```bash
 # 1. Run prepare-release (updates versions, creates commit & tag)
-pnpm run prepare-release 0.1.26
+bun run prepare-release 0.1.26
 
 # 2. When prompted "Would you like me to execute these git commands? (y/N):"
 #    Answer: N (because script hardcodes 'main' branch)

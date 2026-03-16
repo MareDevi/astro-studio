@@ -1,15 +1,15 @@
-import { useCallback, useRef, useEffect } from 'react'
-import { useShallow } from 'zustand/react/shallow'
-import { commands, type DirectoryScanResult } from '@/types'
-import { useEditorStore } from '../store/editorStore'
-import { useProjectStore } from '../store/projectStore'
-import { useUIStore } from '../store/uiStore'
-import { useCollectionsQuery } from './queries/useCollectionsQuery'
-import { useCreateFileMutation } from './mutations/useCreateFileMutation'
-import { deserializeCompleteSchema, FieldType } from '../lib/schema'
-import { toast } from '../lib/toast'
-import { todayIsoDate, todayIsoDateTime } from '../lib/dates'
-import { getDefaultFileType } from '../lib/project-registry/default-file-type'
+import { useCallback, useRef, useEffect } from 'react';
+import { useShallow } from 'zustand/react/shallow';
+import { commands, type DirectoryScanResult } from '@/types';
+import { useEditorStore } from '../store/editorStore';
+import { useProjectStore } from '../store/projectStore';
+import { useUIStore } from '../store/uiStore';
+import { useCollectionsQuery } from './queries/useCollectionsQuery';
+import { useCreateFileMutation } from './mutations/useCreateFileMutation';
+import { deserializeCompleteSchema, FieldType } from '../lib/schema';
+import { toast } from '../lib/toast';
+import { todayIsoDate, todayIsoDateTime } from '../lib/dates';
+import { getDefaultFileType } from '../lib/project-registry/default-file-type';
 
 // Helper function to singularize collection name
 const singularize = (word: string): string => {
@@ -17,15 +17,15 @@ const singularize = (word: string): string => {
     { suffix: 'ies', replacement: 'y' }, // stories -> story
     { suffix: 'es', replacement: 'e' }, // articles -> article (not articl)
     { suffix: 's', replacement: '' }, // notes -> note
-  ]
+  ];
 
   for (const rule of pluralRules) {
     if (word.endsWith(rule.suffix)) {
-      return word.slice(0, -rule.suffix.length) + rule.replacement
+      return word.slice(0, -rule.suffix.length) + rule.replacement;
     }
   }
-  return word
-}
+  return word;
+};
 
 // Helper function to get default value based on field type
 const getDefaultValueForFieldType = (type: FieldType): unknown => {
@@ -33,134 +33,134 @@ const getDefaultValueForFieldType = (type: FieldType): unknown => {
     case FieldType.String:
     case FieldType.Email:
     case FieldType.URL:
-      return ''
+      return '';
     case FieldType.Number:
     case FieldType.Integer:
-      return 0
+      return 0;
     case FieldType.Boolean:
-      return false
+      return false;
     case FieldType.Date:
-      return todayIsoDateTime() // YYYY-MM-DDTHH:mm:ss.sssZ format
+      return todayIsoDateTime(); // YYYY-MM-DDTHH:mm:ss.sssZ format
     case FieldType.Array:
-      return []
+      return [];
     default:
-      return ''
+      return '';
   }
-}
+};
 
 export const useCreateFile = () => {
   // PERFORMANCE FIX: Use selector syntax to avoid entire store subscriptions
-  const projectPath = useProjectStore(state => state.projectPath)
+  const projectPath = useProjectStore((state) => state.projectPath);
   const currentProjectSettings = useProjectStore(
-    useShallow(state => state.currentProjectSettings)
-  )
+    useShallow((state) => state.currentProjectSettings),
+  );
 
   const { data: collections = [] } = useCollectionsQuery(
     projectPath,
-    currentProjectSettings
-  )
+    currentProjectSettings,
+  );
 
-  const createFileMutation = useCreateFileMutation()
+  const createFileMutation = useCreateFileMutation();
 
   // Use ref to avoid recreating callback on every query update
-  const collectionsRef = useRef(collections)
+  const collectionsRef = useRef(collections);
   useEffect(() => {
-    collectionsRef.current = collections
-  }, [collections])
+    collectionsRef.current = collections;
+  }, [collections]);
 
   // React ref for concurrency guard (doesn't trigger re-renders)
-  const isCreatingRef = useRef(false)
+  const isCreatingRef = useRef(false);
 
   const createNewFile = useCallback(async () => {
     if (isCreatingRef.current) {
-      return // Silently ignore concurrent calls
+      return; // Silently ignore concurrent calls
     }
 
-    isCreatingRef.current = true
+    isCreatingRef.current = true;
 
     try {
       // Access fresh collections via ref
-      const collections = collectionsRef.current
+      const collections = collectionsRef.current;
 
       // Get current values from store state
       const { selectedCollection, currentSubdirectory } =
-        useProjectStore.getState()
-      const currentProjectPath = useProjectStore.getState().projectPath
+        useProjectStore.getState();
+      const currentProjectPath = useProjectStore.getState().projectPath;
 
       if (!selectedCollection || !currentProjectPath) {
-        toast.error('No collection selected')
-        return
+        toast.error('No collection selected');
+        return;
       }
 
-      const collection = collections.find(c => c.name === selectedCollection)
+      const collection = collections.find((c) => c.name === selectedCollection);
       if (!collection) {
-        toast.error('Collection not found')
-        return
+        toast.error('Collection not found');
+        return;
       }
 
       // Calculate target directory (collection root or subdirectory)
       const targetDirectory = currentSubdirectory
         ? `${collection.path}/${currentSubdirectory}`
-        : collection.path
+        : collection.path;
 
       // Get the default file extension based on settings
       const { globalSettings, currentProjectSettings } =
-        useProjectStore.getState()
+        useProjectStore.getState();
       const fileExtension = getDefaultFileType(
         globalSettings,
         currentProjectSettings,
-        selectedCollection
-      )
+        selectedCollection,
+      );
 
       // Generate filename based on today's date
-      const today = todayIsoDate()
-      let filename = `${today}.${fileExtension}`
-      let counter = 1
+      const today = todayIsoDate();
+      let filename = `${today}.${fileExtension}`;
+      let counter = 1;
 
       // Check if file exists in target directory and increment counter if needed
       const existingResult = await commands.scanDirectory(
         targetDirectory,
         selectedCollection,
-        collection.path
-      )
+        collection.path,
+      );
       if (existingResult.status === 'error') {
-        throw new Error(existingResult.error)
+        throw new Error(existingResult.error);
       }
-      const existingDirContents: DirectoryScanResult = existingResult.data
+      const existingDirContents: DirectoryScanResult = existingResult.data;
 
       const existingNames = new Set(
-        existingDirContents.files.map(f =>
-          f.extension ? `${f.name}.${f.extension}` : f.name
-        )
-      )
+        existingDirContents.files.map((f) =>
+          f.extension ? `${f.name}.${f.extension}` : f.name,
+        ),
+      );
 
       while (existingNames.has(filename)) {
-        filename = `${today}-${counter}.${fileExtension}`
-        counter++
+        filename = `${today}-${counter}.${fileExtension}`;
+        counter++;
       }
 
       // Generate default frontmatter from schema
       const schema = collection.complete_schema
         ? deserializeCompleteSchema(collection.complete_schema)
-        : null
-      const defaultFrontmatter: Record<string, unknown> = {}
+        : null;
+      const defaultFrontmatter: Record<string, unknown> = {};
 
       // Track if we have a title field in the schema
-      let hasTitleField = false
+      let hasTitleField = false;
       // Track which fields are date fields to avoid quoting them in YAML
-      const dateFields = new Set<string>()
+      const dateFields = new Set<string>();
 
       // Generate default title
-      const singularName = singularize(selectedCollection)
-      const defaultTitle = `New ${singularName.charAt(0).toUpperCase() + singularName.slice(1)}`
+      const singularName = singularize(selectedCollection);
+      const defaultTitle = `New ${singularName.charAt(0).toUpperCase() + singularName.slice(1)}`;
 
       if (schema?.fields) {
         for (const field of schema.fields) {
           // Check if this is a title field
           if (field.name.toLowerCase() === 'title') {
-            hasTitleField = true
+            hasTitleField = true;
             // Always include title field with default value
-            defaultFrontmatter[field.name] = defaultTitle
+            defaultFrontmatter[field.name] = defaultTitle;
           }
           // Check for date fields (pubDate, date, publishedDate, timestamp, etc.)
           else if (
@@ -173,8 +173,8 @@ export const useCreateFile = () => {
               field.name.toLowerCase() === 'modifieddate')
           ) {
             // Only add date fields if they exist in the schema
-            defaultFrontmatter[field.name] = todayIsoDateTime()
-            dateFields.add(field.name)
+            defaultFrontmatter[field.name] = todayIsoDateTime();
+            dateFields.add(field.name);
           }
           // Include other required fields
           else if (field.required) {
@@ -182,10 +182,10 @@ export const useCreateFile = () => {
             defaultFrontmatter[field.name] =
               field.default !== undefined
                 ? field.default
-                : getDefaultValueForFieldType(field.type)
+                : getDefaultValueForFieldType(field.type);
 
             if (field.type === FieldType.Date) {
-              dateFields.add(field.name)
+              dateFields.add(field.name);
             }
           }
         }
@@ -199,20 +199,20 @@ export const useCreateFile = () => {
                 if (typeof value === 'string') {
                   // Don't quote date fields - YAML needs them unquoted to parse as dates
                   if (dateFields.has(key)) {
-                    return `${key}: ${value}`
+                    return `${key}: ${value}`;
                   }
-                  return `${key}: "${value}"`
+                  return `${key}: "${value}"`;
                 } else if (typeof value === 'boolean') {
-                  return `${key}: ${value}` // Don't quote booleans
+                  return `${key}: ${value}`; // Don't quote booleans
                 } else if (Array.isArray(value)) {
-                  return `${key}: []` // Empty array
+                  return `${key}: []`; // Empty array
                 } else if (typeof value === 'number') {
-                  return `${key}: ${value}` // Don't quote numbers
+                  return `${key}: ${value}`; // Don't quote numbers
                 }
-                return `${key}: ${String(value)}`
+                return `${key}: ${String(value)}`;
               })
               .join('\n')}\n---\n\n`
-          : ''
+          : '';
 
       // Create the file in target directory (respects current subdirectory)
       await createFileMutation.mutateAsync({
@@ -221,34 +221,34 @@ export const useCreateFile = () => {
         content: frontmatterYaml,
         projectPath: currentProjectPath,
         collectionName: selectedCollection,
-      })
+      });
 
       // Find and open the newly created file
       const updatedResult = await commands.scanDirectory(
         targetDirectory,
         selectedCollection,
-        collection.path
-      )
+        collection.path,
+      );
       if (updatedResult.status === 'error') {
-        throw new Error(updatedResult.error)
+        throw new Error(updatedResult.error);
       }
-      const updatedDirContents: DirectoryScanResult = updatedResult.data
+      const updatedDirContents: DirectoryScanResult = updatedResult.data;
 
       const newFile = updatedDirContents.files.find(
-        f => (f.extension ? `${f.name}.${f.extension}` : f.name) === filename
-      )
+        (f) => (f.extension ? `${f.name}.${f.extension}` : f.name) === filename,
+      );
 
       if (newFile) {
         // Get current functions from store state
-        const { openFile } = useEditorStore.getState()
+        const { openFile } = useEditorStore.getState();
         const { frontmatterPanelVisible, toggleFrontmatterPanel } =
-          useUIStore.getState()
+          useUIStore.getState();
 
-        openFile(newFile)
+        openFile(newFile);
 
         // Open frontmatter panel if we have a title field
         if (hasTitleField && !frontmatterPanelVisible) {
-          toggleFrontmatterPanel()
+          toggleFrontmatterPanel();
         }
 
         // Focus the appropriate element after a delay to allow UI to update
@@ -256,32 +256,32 @@ export const useCreateFile = () => {
           if (hasTitleField) {
             // Try to find and focus the title field by ID
             const titleField = document.getElementById(
-              'frontmatter-title-field'
-            ) as HTMLTextAreaElement
+              'frontmatter-title-field',
+            ) as HTMLTextAreaElement;
             if (titleField) {
-              titleField.focus()
-              titleField.select()
+              titleField.focus();
+              titleField.select();
             }
           } else {
             // No title field, focus the main editor
             const cmEditor = document.querySelector(
-              '.cm-editor .cm-content'
-            ) as HTMLElement
+              '.cm-editor .cm-content',
+            ) as HTMLElement;
             if (cmEditor) {
-              cmEditor.focus()
+              cmEditor.focus();
             }
           }
-        }, 200)
+        }, 200);
       }
     } catch (error) {
       toast.error('Failed to create new file', {
         description:
           error instanceof Error ? error.message : 'Unknown error occurred',
-      })
+      });
     } finally {
-      isCreatingRef.current = false
+      isCreatingRef.current = false;
     }
-  }, [createFileMutation]) // PERFORMANCE FIX: Use ref for collections, stable dependency array
+  }, [createFileMutation]); // PERFORMANCE FIX: Use ref for collections, stable dependency array
 
-  return { createNewFile }
-}
+  return { createNewFile };
+};

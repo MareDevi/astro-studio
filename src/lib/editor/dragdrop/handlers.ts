@@ -1,9 +1,12 @@
-import { EditorView } from '@codemirror/view'
-import { useEditorStore } from '../../../store/editorStore'
-import { useProjectStore } from '../../../store/projectStore'
-import { processDroppedFiles } from './fileProcessing'
-import { validateDropContext, buildFallbackMarkdownForPaths } from './edgeCases'
-import { FileDropPayload, DropResult } from './types'
+import type { EditorView } from '@codemirror/view';
+import { useEditorStore } from '../../../store/editorStore';
+import { useProjectStore } from '../../../store/projectStore';
+import { processDroppedFiles } from './fileProcessing';
+import {
+  validateDropContext,
+  buildFallbackMarkdownForPaths,
+} from './edgeCases';
+import type { FileDropPayload, DropResult } from './types';
 
 /**
  * Parse file drop payload from Tauri event
@@ -11,27 +14,27 @@ import { FileDropPayload, DropResult } from './types'
  * @returns FileDropPayload with paths and position
  */
 export const parseFileDropPayload = (
-  payload: unknown
+  payload: unknown,
 ): { paths: string[]; position?: { x: number; y: number } } => {
-  let filePaths: string[] = []
-  let position: { x: number; y: number } | undefined = undefined
+  let filePaths: string[] = [];
+  let position: { x: number; y: number } | undefined ;
 
   if (Array.isArray(payload)) {
-    filePaths = payload as string[]
+    filePaths = payload as string[];
   } else if (typeof payload === 'string') {
-    filePaths = [payload]
+    filePaths = [payload];
   } else if (payload && typeof payload === 'object' && 'paths' in payload) {
-    const payloadObj = payload as FileDropPayload
-    filePaths = payloadObj.paths || []
-    position = payloadObj.position
+    const payloadObj = payload as FileDropPayload;
+    filePaths = payloadObj.paths || [];
+    position = payloadObj.position;
   } else {
     // eslint-disable-next-line no-console
-    console.error('Unexpected payload format:', payload)
-    return { paths: [] }
+    console.error('Unexpected payload format:', payload);
+    return { paths: [] };
   }
 
-  return { paths: filePaths, position }
-}
+  return { paths: filePaths, position };
+};
 
 /**
  * Check if drop position is within element bounds
@@ -41,20 +44,20 @@ export const parseFileDropPayload = (
  */
 export const isDropWithinElement = (
   position: { x: number; y: number } | undefined,
-  element: Element | null
+  element: Element | null,
 ): boolean => {
   if (!position || !element) {
-    return false
+    return false;
   }
 
-  const rect = element.getBoundingClientRect()
+  const rect = element.getBoundingClientRect();
   return (
     position.x >= rect.left &&
     position.x <= rect.right &&
     position.y >= rect.top &&
     position.y <= rect.bottom
-  )
-}
+  );
+};
 
 /**
  * Handle Tauri file drop events
@@ -64,24 +67,32 @@ export const isDropWithinElement = (
  */
 export const handleTauriFileDrop = async (
   payload: unknown,
-  editorView: EditorView | null
+  editorView: EditorView | null,
 ): Promise<DropResult> => {
   if (!editorView) {
-    return { success: false, insertText: '', error: 'No editor view available' }
+    return {
+      success: false,
+      insertText: '',
+      error: 'No editor view available',
+    };
   }
 
   // Parse file paths and position from payload
-  const { paths: filePaths, position } = parseFileDropPayload(payload)
+  const { paths: filePaths, position } = parseFileDropPayload(payload);
 
   if (filePaths.length === 0) {
-    return { success: false, insertText: '', error: 'No files in drop payload' }
+    return {
+      success: false,
+      insertText: '',
+      error: 'No files in drop payload',
+    };
   }
 
   // Check if drop is within editor element bounds
   // This prevents conflicts with FileUploadButton and other UI elements
-  const editorElement = editorView.dom.closest('[data-editor-container]')
+  const editorElement = editorView.dom.closest('[data-editor-container]');
 
-  const isWithin = isDropWithinElement(position, editorElement)
+  const isWithin = isDropWithinElement(position, editorElement);
 
   if (!isWithin) {
     // Drop is outside editor bounds, ignore it
@@ -89,22 +100,22 @@ export const handleTauriFileDrop = async (
       success: false,
       insertText: '',
       error: 'Drop outside editor bounds',
-    }
+    };
   }
 
   // Get current project path and file from store
-  const { projectPath } = useProjectStore.getState()
-  const { currentFile } = useEditorStore.getState()
+  const { projectPath } = useProjectStore.getState();
+  const { currentFile } = useEditorStore.getState();
 
   // Validate context and handle edge cases
-  const validation = validateDropContext(projectPath, currentFile)
+  const validation = validateDropContext(projectPath, currentFile);
 
   if (!validation.canProceed) {
-    const fallbackText = buildFallbackMarkdownForPaths(filePaths)
+    const fallbackText = buildFallbackMarkdownForPaths(filePaths);
 
     // Insert fallback text
-    const { state } = editorView
-    const { from } = state.selection.main
+    const { state } = editorView;
+    const { from } = state.selection.main;
 
     editorView.dispatch({
       changes: {
@@ -112,13 +123,13 @@ export const handleTauriFileDrop = async (
         to: from,
         insert: fallbackText,
       },
-    })
+    });
 
     return {
       success: false,
       insertText: fallbackText,
       error: validation.reason,
-    }
+    };
   }
 
   // Process files normally
@@ -126,27 +137,29 @@ export const handleTauriFileDrop = async (
     const processedFiles = await processDroppedFiles(
       filePaths,
       projectPath!,
-      currentFile!.collection
-    )
+      currentFile!.collection,
+    );
 
-    const insertText = processedFiles.map(file => file.markdownText).join('\n')
+    const insertText = processedFiles
+      .map((file) => file.markdownText)
+      .join('\n');
 
     // Insert processed text at cursor position
-    const { state } = editorView
-    const { from } = state.selection.main
+    const { state } = editorView;
+    const { from } = state.selection.main;
 
     editorView.dispatch({
       changes: { from, insert: insertText },
       selection: { anchor: from + insertText.length },
-    })
+    });
 
-    return { success: true, insertText }
+    return { success: true, insertText };
   } catch {
     // Handle processing errors
-    const fallbackText = buildFallbackMarkdownForPaths(filePaths)
+    const fallbackText = buildFallbackMarkdownForPaths(filePaths);
 
-    const { state } = editorView
-    const { from } = state.selection.main
+    const { state } = editorView;
+    const { from } = state.selection.main;
 
     editorView.dispatch({
       changes: {
@@ -154,12 +167,12 @@ export const handleTauriFileDrop = async (
         to: from,
         insert: fallbackText,
       },
-    })
+    });
 
     return {
       success: false,
       insertText: fallbackText,
       error: 'Processing failed',
-    }
+    };
   }
-}
+};

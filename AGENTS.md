@@ -41,7 +41,7 @@
 4. **Batch Operations**: Use multiple tool calls in single responses
 5. **Match Code Style**: Follow existing formatting and patterns
 6. **Test Coverage**: Write comprehensive tests for business logic
-7. **Quality Gates**: Run `pnpm run check:all` after significant changes
+7. **Quality Gates**: Run `bun run check:all` after significant changes
 8. **No Dev Server**: Ask user to run and report back
 9. **No Unsolicited Commits**: Only when explicitly requested
 10. **Documentation**: Update `docs/developer/` guides for new patterns
@@ -160,7 +160,7 @@ The project has six specialized agents to help with complex implementation chall
 Use `/check` to verify work quality before completing tasks:
 - Checks adherence to architecture-guide.md patterns
 - Removes unnecessary comments and console.logs
-- Runs `pnpm run check:all` (includes ast-grep architectural linting) and fixes errors
+- Runs `bun run check:all` (includes ast-grep architectural linting) and fixes errors
 - Cleans up leftover code from failed approaches
 
 **When to use**: Before completing significant features or refactoring work.
@@ -195,11 +195,11 @@ Use the task completion script to mark tasks as done:
 
 ```bash
 # Complete a task (move from tasks-todo to tasks-done with today's date)
-pnpm task:complete <task-name>
+bun task:complete <task-name>
 
 # Examples:
-pnpm task:complete frontend-performance
-pnpm task:complete 2
+bun task:complete frontend-performance
+bun task:complete 2
 ```
 
 The script automatically:
@@ -219,7 +219,7 @@ The script automatically:
   - **Client State:** Zustand for UI state and editing state
 - **Styling:** Tailwind v4 + shadcn/ui
 - **Editor:** CodeMirror 6 (vanilla) with custom extensions
-  - **IMPORTANT:** All `@lezer/*` packages must use consistent versions across the dependency tree. We use `pnpm.overrides` in package.json to force `@lezer/common` to match CodeMirror's version. Mismatched versions break syntax highlighting and cause runtime errors because Tag/Tree objects from different versions are incompatible. Check with `pnpm why @lezer/common` and `pnpm why @lezer/highlight`.
+  - **IMPORTANT:** All `@lezer/*` packages must use consistent versions across the dependency tree. We use `bun.overrides` in package.json to force `@lezer/common` to match CodeMirror's version. Mismatched versions break syntax highlighting and cause runtime errors because Tag/Tree objects from different versions are incompatible. Check with `bun why @lezer/common` and `bun why @lezer/highlight`.
 - **Testing:** Vitest + React Testing Library, Cargo
 - **Quality:** ESLint (with React Compiler rules), Prettier, Clippy
 
@@ -232,7 +232,7 @@ Commands use **tauri-specta** for end-to-end type safety. TypeScript bindings ar
 **Adding a new command:**
 1. Define in Rust with `#[tauri::command]` and `#[specta::specta]`
 2. Add to `src-tauri/src/bindings.rs` `collect_commands![]`
-3. Run `pnpm tauri dev` briefly - bindings regenerate automatically in debug mode
+3. Run `bun tauri dev` briefly - bindings regenerate automatically in debug mode
 4. Commit the updated `src/lib/bindings.ts`
 5. Add JSDoc to `src/types/domain.ts` if exposing a new type
 
@@ -419,14 +419,14 @@ useHotkeys(
 ## Development Commands & Organization
 
 ```bash
-pnpm run dev              # Start dev server
-pnpm run tauri:build      # Build app
-pnpm run check:all        # All checks (TS + Rust + ast-grep + tests) - RUN BEFORE COMMITS
-pnpm run fix:all          # Auto-fix all issues
-pnpm run ast:lint         # Run ast-grep architectural linting
-pnpm run ast:fix          # Auto-fix ast-grep violations (where possible)
-pnpm run test             # Watch mode
-pnpm run test:run         # Run once
+bun run dev              # Start dev server
+bun run tauri:build      # Build app
+bun run check:all        # All checks (TS + Rust + ast-grep + tests) - RUN BEFORE COMMITS
+bun run fix:all          # Auto-fix all issues
+bun run ast:lint         # Run ast-grep architectural linting
+bun run ast:fix          # Auto-fix ast-grep violations (where possible)
+bun run test             # Watch mode
+bun run test:run         # Run once
 ```
 
 **Component Organization**: `kebab-case` directories, `PascalCase` components, `index.ts` barrel exports, domain-based grouping

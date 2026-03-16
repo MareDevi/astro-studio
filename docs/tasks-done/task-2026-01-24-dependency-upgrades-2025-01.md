@@ -13,7 +13,7 @@
 
 ### Phase 1 & 2: Dependency Updates
 
-Updated ~45 npm packages and ~100 Cargo crates via `pnpm update` and `cargo update`. Notable updates included CodeMirror packages, Tauri plugins, React 19.2.3, and various dev dependencies.
+Updated ~45 npm packages and ~100 Cargo crates via `bun update` and `cargo update`. Notable updates included CodeMirror packages, Tauri plugins, React 19.2.3, and various dev dependencies.
 
 ### Syntax Highlighting Regression (Fixed)
 

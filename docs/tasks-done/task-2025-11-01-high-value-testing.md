@@ -321,15 +321,15 @@ Split by feature/concern and extract shared setup:
 **Before splitting:**
 ```bash
 # Run tests and capture output
-pnpm test FrontmatterPanel > before.txt
-pnpm test migrations > before-migrations.txt
+bun test FrontmatterPanel > before.txt
+bun test migrations > before-migrations.txt
 ```
 
 **After splitting:**
 ```bash
 # Run all split test files
-pnpm test FrontmatterPanel > after.txt
-pnpm test migrations > after-migrations.txt
+bun test FrontmatterPanel > after.txt
+bun test migrations > after-migrations.txt
 
 # Compare outputs - all tests should still pass
 diff before.txt after.txt
@@ -385,36 +385,36 @@ rm -f src/store/sorting.test.ts
 
 ```bash
 # Establish baseline
-pnpm run check:all
-pnpm run test:run
+bun run check:all
+bun run test:run
 
 # Check current coverage
-pnpm run test:coverage
+bun run test:coverage
 ```
 
 ### During Implementation
 
 ```bash
 # Run tests in watch mode while developing
-pnpm run test
+bun run test
 
 # Run specific test file
-pnpm run test src/lib/schema.test.ts
+bun run test src/lib/schema.test.ts
 ```
 
 ### After Completing
 
 ```bash
 # Run all tests
-pnpm run test:run
+bun run test:run
 
 # Check coverage improvement
-pnpm run test:coverage
+bun run test:coverage
 
 # Compare coverage/index.html before vs after
 
 # Run all quality checks
-pnpm run check:all
+bun run check:all
 ```
 
 ---
@@ -428,9 +428,9 @@ pnpm run check:all
 - [ ] All utilities from Task 1 have test coverage
 - [ ] Long test files decomposed (FrontmatterPanel, migrations)
 - [ ] `sorting.test.ts` deleted
-- [ ] All tests passing: `pnpm run test:run`
-- [ ] Test coverage improved (check `pnpm run test:coverage`)
-- [ ] Quality checks pass: `pnpm run check:all`
+- [ ] All tests passing: `bun run test:run`
+- [ ] Test coverage improved (check `bun run test:coverage`)
+- [ ] Quality checks pass: `bun run check:all`
 - [ ] No test flakiness observed
 
 ---
@@ -451,19 +451,19 @@ pnpm run check:all
 **Testing Commands:**
 ```bash
 # Run tests in watch mode while developing
-pnpm run test
+bun run test
 
 # Run tests once
-pnpm run test:run
+bun run test:run
 
 # Run specific test file
-pnpm run test src/lib/schema.test.ts
+bun run test src/lib/schema.test.ts
 
 # Run all quality checks
-pnpm run check:all
+bun run check:all
 
 # Check coverage
-pnpm run test:coverage
+bun run test:coverage
 ```
 
 ---

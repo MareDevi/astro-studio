@@ -18,7 +18,7 @@ Run knip to find unused files, dependencies, and exports, then intelligently cle
 ### 1. Run Knip
 
 ```bash
-pnpm run knip
+bun run knip
 ```
 
 Capture and parse the output.
@@ -76,7 +76,7 @@ For each item in SAFE TO AUTO-REMOVE:
 
 **Unused dependencies:**
 ```bash
-pnpm remove <package-name>
+bun remove <package-name>
 ```
 
 **Unused files:**
@@ -166,7 +166,7 @@ Better to keep unused code than break the app. This command runs periodically du
 
 Run verification:
 ```bash
-pnpm run check:all
+bun run check:all
 ```
 
 Ensure nothing broke.

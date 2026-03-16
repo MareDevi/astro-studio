@@ -72,12 +72,12 @@ The installation instructions have been removed from the `releaseBody` template 
 
 #### 0b. Improve `prepare-release.js` — auto-version detection
 
-Currently the script requires `pnpm run prepare-release v1.0.9`. Improve it to:
+Currently the script requires `bun run prepare-release v1.0.9`. Improve it to:
 
 1. Read current version from `package.json`
 2. Propose a patch bump (e.g., `1.0.8` → `1.0.9`)
 3. Prompt: `Release version? (1.0.9):` — pressing Enter accepts the default, or type a different version
-4. Version argument still accepted as override: `pnpm run prepare-release v2.0.0` skips the prompt
+4. Version argument still accepted as override: `bun run prepare-release v2.0.0` skips the prompt
 5. Fix the `git tag` command: add `-m "Release vX.Y.Z"` to prevent the editor opening. The current `git tag ${tagVersion}` creates a lightweight tag, but the global git config has `tag.forceSignAnnotated = true`, which forces it into an annotated tag and opens `$EDITOR` for the tag message. Adding `-m` provides the message inline.
 
 **Modified file:** `scripts/prepare-release.js`
@@ -107,7 +107,7 @@ Currently the script requires `pnpm run prepare-release v1.0.9`. Improve it to:
 ### Phase 1: Add `marked` for Markdown Rendering
 
 ```bash
-pnpm add marked
+bun add marked
 ```
 
 `marked` is lightweight (~40KB), fast, and outputs HTML strings. DOMPurify is not needed since the markdown comes from our own GitHub Releases (trusted source). Render with `dangerouslySetInnerHTML` in a styled container.

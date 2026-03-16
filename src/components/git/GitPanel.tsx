@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { useProjectStore } from '../../store/projectStore'
-import { commands } from '../../lib/bindings'
-import { toast } from '../../lib/toast'
-import { Button } from '../ui/button'
-import { Input } from '../ui/input'
-import { ScrollArea } from '../ui/scroll-area'
+import type React from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useProjectStore } from '../../store/projectStore';
+import { commands } from '../../lib/bindings';
+import { toast } from '../../lib/toast';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { ScrollArea } from '../ui/scroll-area';
 import {
   GitCommit,
   RefreshCw,
@@ -14,148 +15,148 @@ import {
   Trash2,
   ArrowUpCircle,
   ArrowDownCircle,
-} from 'lucide-react'
-import { cn } from '../../lib/utils'
+} from 'lucide-react';
+import { cn } from '../../lib/utils';
 
 interface ChangedFile {
-  path: string
-  status: 'modified' | 'added' | 'deleted' | 'untracked' | 'renamed'
+  path: string;
+  status: 'modified' | 'added' | 'deleted' | 'untracked' | 'renamed';
 }
 
 export const GitPanel: React.FC = () => {
-  const projectPath = useProjectStore(state => state.projectPath)
-  const [changedFiles, setChangedFiles] = useState<ChangedFile[]>([])
-  const [commitMessage, setCommitMessage] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [isRefreshing, setIsRefreshing] = useState(false)
+  const projectPath = useProjectStore((state) => state.projectPath);
+  const [changedFiles, setChangedFiles] = useState<ChangedFile[]>([]);
+  const [commitMessage, setCommitMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const fetchStatus = useCallback(
     async (silent = false) => {
-      if (!projectPath) return
-      if (!silent) setIsRefreshing(true)
+      if (!projectPath) return;
+      if (!silent) setIsRefreshing(true);
 
       try {
-        const result = await commands.gitStatus(projectPath)
+        const result = await commands.gitStatus(projectPath);
         if (result.status === 'ok') {
           const files: ChangedFile[] = result.data
             .split('\n')
-            .filter(line => line.trim().length > 0)
-            .map(line => {
-              const statusIndicator = line.substring(0, 2)
-              const filePath = line.substring(3)
+            .filter((line) => line.trim().length > 0)
+            .map((line) => {
+              const statusIndicator = line.substring(0, 2);
+              const filePath = line.substring(3);
 
-              let status: ChangedFile['status'] = 'modified'
-              if (statusIndicator.includes('M')) status = 'modified'
-              else if (statusIndicator.includes('A')) status = 'added'
-              else if (statusIndicator.includes('D')) status = 'deleted'
-              else if (statusIndicator.includes('??')) status = 'untracked'
-              else if (statusIndicator.includes('R')) status = 'renamed'
+              let status: ChangedFile['status'] = 'modified';
+              if (statusIndicator.includes('M')) status = 'modified';
+              else if (statusIndicator.includes('A')) status = 'added';
+              else if (statusIndicator.includes('D')) status = 'deleted';
+              else if (statusIndicator.includes('??')) status = 'untracked';
+              else if (statusIndicator.includes('R')) status = 'renamed';
 
-              return { path: filePath, status }
-            })
-          setChangedFiles(files)
+              return { path: filePath, status };
+            });
+          setChangedFiles(files);
         }
       } catch {
         // Ignore errors for now
       } finally {
-        setIsRefreshing(false)
+        setIsRefreshing(false);
       }
     },
-    [projectPath]
-  )
+    [projectPath],
+  );
 
   useEffect(() => {
-    void fetchStatus()
+    void fetchStatus();
     // Refresh status every 10 seconds if panel is open
     const interval = setInterval(() => {
-      void fetchStatus(true)
-    }, 10000)
-    return () => clearInterval(interval)
-  }, [fetchStatus])
+      void fetchStatus(true);
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [fetchStatus]);
 
   const handleCommit = async () => {
-    if (!projectPath || !commitMessage.trim()) return
+    if (!projectPath || !commitMessage.trim()) return;
 
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      const result = await commands.gitCommit(projectPath, commitMessage)
+      const result = await commands.gitCommit(projectPath, commitMessage);
       if (result.status === 'ok') {
-        toast.success('Successfully committed changes')
-        setCommitMessage('')
-        void fetchStatus()
+        toast.success('Successfully committed changes');
+        setCommitMessage('');
+        void fetchStatus();
       } else {
-        toast.error('Git Commit Failed', { description: result.error })
+        toast.error('Git Commit Failed', { description: result.error });
       }
     } catch {
-      toast.error('An error occurred during commit')
+      toast.error('An error occurred during commit');
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handlePush = async () => {
-    if (!projectPath) return
-    setIsLoading(true)
+    if (!projectPath) return;
+    setIsLoading(true);
     try {
-      const result = await commands.gitPush(projectPath)
+      const result = await commands.gitPush(projectPath);
       if (result.status === 'ok') {
-        toast.success('Successfully pushed changes')
+        toast.success('Successfully pushed changes');
       } else {
-        toast.error('Git Push Failed', { description: result.error })
+        toast.error('Git Push Failed', { description: result.error });
       }
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handlePull = async () => {
-    if (!projectPath) return
-    setIsLoading(true)
+    if (!projectPath) return;
+    setIsLoading(true);
     try {
-      const result = await commands.gitPull(projectPath)
+      const result = await commands.gitPull(projectPath);
       if (result.status === 'ok') {
-        toast.success('Successfully pulled changes')
-        void fetchStatus()
+        toast.success('Successfully pulled changes');
+        void fetchStatus();
       } else {
-        toast.error('Git Pull Failed', { description: result.error })
+        toast.error('Git Pull Failed', { description: result.error });
       }
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const getStatusIcon = (status: ChangedFile['status']) => {
     switch (status) {
       case 'modified':
-        return <FileEdit className="size-3.5 text-blue-500" />
+        return <FileEdit className="size-3.5 text-blue-500" />;
       case 'added':
-        return <Plus className="size-3.5 text-green-500" />
+        return <Plus className="size-3.5 text-green-500" />;
       case 'untracked':
-        return <Plus className="size-3.5 text-green-500" />
+        return <Plus className="size-3.5 text-green-500" />;
       case 'deleted':
-        return <Trash2 className="size-3.5 text-red-500" />
+        return <Trash2 className="size-3.5 text-red-500" />;
       case 'renamed':
-        return <FileText className="size-3.5 text-purple-500" />
+        return <FileText className="size-3.5 text-purple-500" />;
       default:
-        return <FileText className="size-3.5 text-gray-400" />
+        return <FileText className="size-3.5 text-gray-400" />;
     }
-  }
+  };
 
   const getStatusColor = (status: ChangedFile['status']) => {
     switch (status) {
       case 'modified':
-        return 'text-blue-500'
+        return 'text-blue-500';
       case 'added':
       case 'untracked':
-        return 'text-green-500'
+        return 'text-green-500';
       case 'deleted':
-        return 'text-red-500'
+        return 'text-red-500';
       case 'renamed':
-        return 'text-purple-500'
+        return 'text-purple-500';
       default:
-        return 'text-gray-400'
+        return 'text-gray-400';
     }
-  }
+  };
 
   return (
     <div className="h-full flex flex-col bg-background">
@@ -169,7 +170,7 @@ export const GitPanel: React.FC = () => {
             size="sm"
             className="size-7 p-0"
             onClick={() => {
-              void fetchStatus()
+              void fetchStatus();
             }}
             disabled={isRefreshing}
           >
@@ -182,7 +183,7 @@ export const GitPanel: React.FC = () => {
             size="sm"
             className="size-7 p-0"
             onClick={() => {
-              void handlePull()
+              void handlePull();
             }}
             disabled={isLoading}
             title="Pull"
@@ -194,7 +195,7 @@ export const GitPanel: React.FC = () => {
             size="sm"
             className="size-7 p-0"
             onClick={() => {
-              void handlePush()
+              void handlePush();
             }}
             disabled={isLoading}
             title="Push"
@@ -208,10 +209,10 @@ export const GitPanel: React.FC = () => {
         <Input
           placeholder="Message (Cmd+Enter to commit)"
           value={commitMessage}
-          onChange={e => setCommitMessage(e.target.value)}
-          onKeyDown={e => {
+          onChange={(e) => setCommitMessage(e.target.value)}
+          onKeyDown={(e) => {
             if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
-              void handleCommit()
+              void handleCommit();
             }
           }}
           className="text-sm bg-muted/50 border-none focus-visible:ring-1"
@@ -219,7 +220,7 @@ export const GitPanel: React.FC = () => {
         <Button
           className="w-full gap-2 text-xs h-8"
           onClick={() => {
-            void handleCommit()
+            void handleCommit();
           }}
           disabled={
             isLoading || !commitMessage.trim() || changedFiles.length === 0
@@ -256,7 +257,7 @@ export const GitPanel: React.FC = () => {
                 <span
                   className={cn(
                     'text-[10px] font-bold uppercase px-1.5',
-                    getStatusColor(file.status)
+                    getStatusColor(file.status),
                   )}
                 >
                   {file.status === 'untracked'
@@ -275,5 +276,5 @@ export const GitPanel: React.FC = () => {
         </div>
       </ScrollArea>
     </div>
-  )
-}
+  );
+};

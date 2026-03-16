@@ -10,29 +10,29 @@ export function focusEditor(): boolean {
   try {
     // Look for CodeMirror editor content area
     const cmEditor = document.querySelector(
-      '.cm-editor .cm-content'
-    ) as HTMLElement
+      '.cm-editor .cm-content',
+    ) as HTMLElement;
 
     if (cmEditor) {
-      cmEditor.focus()
-      return true
+      cmEditor.focus();
+      return true;
     }
 
     // Fallback: try to find the editor container
     const editorContainer = document.querySelector(
-      '[data-editor-container]'
-    ) as HTMLElement
+      '[data-editor-container]',
+    ) as HTMLElement;
 
     if (editorContainer) {
-      editorContainer.focus()
-      return true
+      editorContainer.focus();
+      return true;
     }
 
-    return false
+    return false;
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.warn('Failed to focus editor:', error)
-    return false
+    console.warn('Failed to focus editor:', error);
+    return false;
   }
 }
 
@@ -42,6 +42,6 @@ export function focusEditor(): boolean {
  */
 export function focusEditorDelayed(delay = 100): void {
   setTimeout(() => {
-    focusEditor()
-  }, delay)
+    focusEditor();
+  }, delay);
 }

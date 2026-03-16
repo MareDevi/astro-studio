@@ -77,7 +77,7 @@ These require the `tauri` feature on specta:
 
 Either:
 - **Commit bindings** (recommended) - simpler CI
-- **Generate in CI** - add step before `pnpm run check:all`
+- **Generate in CI** - add step before `bun run check:all`
 
 ---
 
@@ -429,7 +429,7 @@ New documentation covering:
 After each phase:
 
 - [ ] `cargo check` passes
-- [ ] `pnpm run check:all` passes
+- [ ] `bun run check:all` passes
 - [ ] Generated bindings file exists and is valid TypeScript
 - [ ] IDE autocomplete works for commands
 - [ ] All existing functionality works correctly
@@ -525,7 +525,7 @@ Consider adding this in a follow-up task after commands are stable.
 1. All 43 commands have TypeScript bindings generated
 2. All 19 files using `invoke()` migrated to typed commands
 3. No manual type duplication between Rust and TypeScript
-4. `pnpm run check:all` passes
+4. `bun run check:all` passes
 5. IDE provides full autocomplete for Tauri commands
 6. Documentation updated with new command workflow
 7. Test mocks updated and all tests pass

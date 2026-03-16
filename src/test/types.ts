@@ -1,14 +1,14 @@
-import type { Mock } from 'vitest'
+import type { Mock } from 'vitest';
 
 declare global {
   var mockTauri: {
-    invoke: Mock<(cmd: string, args?: unknown) => Promise<unknown>>
+    invoke: Mock<(cmd: string, args?: unknown) => Promise<unknown>>;
     listen: Mock<
       (
         event: string,
-        handler: (payload: unknown) => void
+        handler: (payload: unknown) => void,
       ) => Promise<() => void>
-    >
-    reset: () => void
-  }
+    >;
+    reset: () => void;
+  };
 }

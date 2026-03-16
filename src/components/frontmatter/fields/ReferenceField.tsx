@@ -1,12 +1,12 @@
-import React from 'react'
-import { useEditorStore } from '../../../store/editorStore'
-import { getNestedValue } from '../../../lib/object-utils'
-import { useProjectStore } from '../../../store/projectStore'
-import { useCollectionsQuery } from '../../../hooks/queries/useCollectionsQuery'
-import { useCollectionFilesQuery } from '../../../hooks/queries/useCollectionFilesQuery'
-import { useFileBasedCollectionQuery } from '../../../hooks/queries/useFileBasedCollectionQuery'
-import { Button } from '../../ui/button'
-import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover'
+import React from 'react';
+import { useEditorStore } from '../../../store/editorStore';
+import { getNestedValue } from '../../../lib/object-utils';
+import { useProjectStore } from '../../../store/projectStore';
+import { useCollectionsQuery } from '../../../hooks/queries/useCollectionsQuery';
+import { useCollectionFilesQuery } from '../../../hooks/queries/useCollectionFilesQuery';
+import { useFileBasedCollectionQuery } from '../../../hooks/queries/useFileBasedCollectionQuery';
+import { Button } from '../../ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover';
 import {
   Command,
   CommandEmpty,
@@ -14,23 +14,23 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '../../ui/command'
-import { Badge } from '../../ui/badge'
-import { Check, ChevronsUpDown, X } from 'lucide-react'
-import { cn } from '../../../lib/utils'
-import { FieldWrapper } from './FieldWrapper'
-import { FieldType } from '../../../lib/schema'
-import type { FieldProps } from '../../../types/common'
-import type { SchemaField } from '../../../lib/schema'
-import { NONE_SENTINEL } from './constants'
+} from '../../ui/command';
+import { Badge } from '../../ui/badge';
+import { Check, ChevronsUpDown, X } from 'lucide-react';
+import { cn } from '../../../lib/utils';
+import { FieldWrapper } from './FieldWrapper';
+import { FieldType } from '../../../lib/schema';
+import type { FieldProps } from '../../../types/common';
+import type { SchemaField } from '../../../lib/schema';
+import { NONE_SENTINEL } from './constants';
 
 interface ReferenceFieldProps extends FieldProps {
-  field?: SchemaField
+  field?: SchemaField;
 }
 
 interface ReferenceOption {
-  value: string // slug/id
-  label: string // title from frontmatter or fallback
+  value: string; // slug/id
+  label: string; // title from frontmatter or fallback
 }
 
 export const ReferenceField: React.FC<ReferenceFieldProps> = ({
@@ -39,58 +39,61 @@ export const ReferenceField: React.FC<ReferenceFieldProps> = ({
   required,
   field,
 }) => {
-  const [open, setOpen] = React.useState(false)
-  const value = useEditorStore(state => getNestedValue(state.frontmatter, name))
+  const [open, setOpen] = React.useState(false);
+  const value = useEditorStore((state) =>
+    getNestedValue(state.frontmatter, name),
+  );
   const updateFrontmatterField = useEditorStore(
-    state => state.updateFrontmatterField
-  )
-  const projectPath = useProjectStore(state => state.projectPath)
+    (state) => state.updateFrontmatterField,
+  );
+  const projectPath = useProjectStore((state) => state.projectPath);
 
   // Determine if this is a multi-select (array reference) or single select
-  const isMultiSelect = field?.type === FieldType.Array && !!field?.subReference
+  const isMultiSelect =
+    field?.type === FieldType.Array && !!field?.subReference;
 
   // Get the referenced collection name
   const referencedCollection = isMultiSelect
     ? field?.subReference
-    : field?.reference || field?.referenceCollection
+    : field?.reference || field?.referenceCollection;
 
   const currentProjectSettings = useProjectStore(
-    state => state.currentProjectSettings
-  )
+    (state) => state.currentProjectSettings,
+  );
 
   // Get collections to find the collection path
   const { data: collections = [] } = useCollectionsQuery(
     projectPath,
-    currentProjectSettings
-  )
+    currentProjectSettings,
+  );
   const currentCollection = collections.find(
-    c => c.name === referencedCollection
-  )
+    (c) => c.name === referencedCollection,
+  );
 
   // Fetch files from the referenced collection (for regular glob-based collections)
   const { data: regularFiles, isLoading: isLoadingRegular } =
     useCollectionFilesQuery(
       projectPath,
       referencedCollection || '',
-      currentCollection?.path || null
-    )
+      currentCollection?.path || null,
+    );
 
   // Try file-based collection if not found in regular collections
   const { data: fileBasedFiles, isLoading: isLoadingFileBased } =
     useFileBasedCollectionQuery(
       projectPath,
-      !currentCollection ? referencedCollection || null : null
-    )
+      !currentCollection ? referencedCollection || null : null,
+    );
 
   // Use whichever query returned data
-  const files = regularFiles || fileBasedFiles
-  const isLoading = isLoadingRegular || isLoadingFileBased
+  const files = regularFiles || fileBasedFiles;
+  const isLoading = isLoadingRegular || isLoadingFileBased;
 
   // Build options from collection files
   const options: ReferenceOption[] = React.useMemo(() => {
-    if (!files) return []
+    if (!files) return [];
 
-    return files.map(file => {
+    return files.map((file) => {
       // Try common display fields in priority order
       // Don't search for "any string" - could grab description/bio
       const label =
@@ -101,55 +104,55 @@ export const ReferenceField: React.FC<ReferenceFieldProps> = ({
         // Final fallbacks - FileEntry properties
         file.id || // ID always exists
         file.name || // Filename always exists
-        'Untitled'
+        'Untitled';
 
       return {
         value: file.id, // Always use ID for the value
         label,
-      }
-    })
-  }, [files])
+      };
+    });
+  }, [files]);
 
   // Handle single select value
   const selectedValue = isMultiSelect
     ? undefined
     : typeof value === 'string'
       ? value
-      : ''
+      : '';
 
   // Handle multi-select values
   const selectedValues = isMultiSelect
     ? Array.isArray(value)
       ? (value as string[])
       : []
-    : []
+    : [];
 
   // Get current selection label for single select
-  const selectedOption = options.find(opt => opt.value === selectedValue)
+  const selectedOption = options.find((opt) => opt.value === selectedValue);
 
   // Get selected options for multi-select
   const selectedOptions = selectedValues
-    .map(val => options.find(opt => opt.value === val))
-    .filter((opt): opt is ReferenceOption => !!opt)
+    .map((val) => options.find((opt) => opt.value === val))
+    .filter((opt): opt is ReferenceOption => !!opt);
 
   // Handle multi-select toggle
   const handleMultiSelectToggle = (optionValue: string) => {
     const newValues = selectedValues.includes(optionValue)
-      ? selectedValues.filter(v => v !== optionValue)
-      : [...selectedValues, optionValue]
+      ? selectedValues.filter((v) => v !== optionValue)
+      : [...selectedValues, optionValue];
 
-    updateFrontmatterField(name, newValues.length > 0 ? newValues : undefined)
-  }
+    updateFrontmatterField(name, newValues.length > 0 ? newValues : undefined);
+  };
 
   // Handle removing a selected item in multi-select
   const handleRemoveItem = (
     optionValue: string,
-    e: React.MouseEvent | React.KeyboardEvent
+    e: React.MouseEvent | React.KeyboardEvent,
   ) => {
-    e.stopPropagation()
-    const newValues = selectedValues.filter(v => v !== optionValue)
-    updateFrontmatterField(name, newValues.length > 0 ? newValues : undefined)
-  }
+    e.stopPropagation();
+    const newValues = selectedValues.filter((v) => v !== optionValue);
+    updateFrontmatterField(name, newValues.length > 0 ? newValues : undefined);
+  };
 
   return (
     <FieldWrapper
@@ -170,13 +173,13 @@ export const ReferenceField: React.FC<ReferenceFieldProps> = ({
             aria-expanded={open}
             className={cn(
               'w-full justify-between',
-              isMultiSelect && 'h-auto min-h-10 py-2'
+              isMultiSelect && 'h-auto min-h-10 py-2',
             )}
           >
             <div className="flex flex-1 flex-wrap gap-1">
               {isMultiSelect ? (
                 selectedOptions.length > 0 ? (
-                  selectedOptions.map(opt => (
+                  selectedOptions.map((opt) => (
                     <Badge
                       key={opt.value}
                       variant="secondary"
@@ -186,11 +189,11 @@ export const ReferenceField: React.FC<ReferenceFieldProps> = ({
                       <span
                         role="button"
                         tabIndex={0}
-                        onClick={e => handleRemoveItem(opt.value, e)}
-                        onKeyDown={e => {
+                        onClick={(e) => handleRemoveItem(opt.value, e)}
+                        onKeyDown={(e) => {
                           if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault()
-                            handleRemoveItem(opt.value, e)
+                            e.preventDefault();
+                            handleRemoveItem(opt.value, e);
                           }
                         }}
                         className="rounded-full outline-hidden ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2 cursor-pointer"
@@ -234,14 +237,14 @@ export const ReferenceField: React.FC<ReferenceFieldProps> = ({
                   <CommandItem
                     value={NONE_SENTINEL}
                     onSelect={() => {
-                      updateFrontmatterField(name, undefined)
-                      setOpen(false)
+                      updateFrontmatterField(name, undefined);
+                      setOpen(false);
                     }}
                   >
                     <Check
                       className={cn(
                         'mr-2 h-4 w-4',
-                        !value ? 'opacity-100' : 'opacity-0'
+                        !value ? 'opacity-100' : 'opacity-0',
                       )}
                     />
                     <span className="text-muted-foreground">(None)</span>
@@ -249,16 +252,16 @@ export const ReferenceField: React.FC<ReferenceFieldProps> = ({
                 )}
 
                 {/* Reference options */}
-                {options.map(option => (
+                {options.map((option) => (
                   <CommandItem
                     key={option.value}
                     value={option.value}
-                    onSelect={currentValue => {
+                    onSelect={(currentValue) => {
                       if (isMultiSelect) {
-                        handleMultiSelectToggle(currentValue)
+                        handleMultiSelectToggle(currentValue);
                       } else {
-                        updateFrontmatterField(name, currentValue)
-                        setOpen(false)
+                        updateFrontmatterField(name, currentValue);
+                        setOpen(false);
                       }
                     }}
                   >
@@ -271,7 +274,7 @@ export const ReferenceField: React.FC<ReferenceFieldProps> = ({
                             : 'opacity-0'
                           : selectedValue === option.value
                             ? 'opacity-100'
-                            : 'opacity-0'
+                            : 'opacity-0',
                       )}
                     />
                     {option.label}
@@ -283,5 +286,5 @@ export const ReferenceField: React.FC<ReferenceFieldProps> = ({
         </PopoverContent>
       </Popover>
     </FieldWrapper>
-  )
-}
+  );
+};

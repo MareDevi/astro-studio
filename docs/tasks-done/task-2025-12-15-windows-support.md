@@ -159,7 +159,7 @@ fn validate_file_path(path: &str) -> Result<(), String> {
 **Prerequisites:**
 
 ```bash
-pnpm add @tauri-apps/plugin-os
+bun add @tauri-apps/plugin-os
 cargo add tauri-plugin-os  # in src-tauri
 ```
 

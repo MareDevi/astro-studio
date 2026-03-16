@@ -7,7 +7,7 @@
  * Fallback chain: Collection → Project → Global → Hard-coded default ('md')
  */
 
-import type { GlobalSettings, ProjectSettings } from './types'
+import type { GlobalSettings, ProjectSettings } from './types';
 
 /**
  * Resolves the default file type using three-tier fallback
@@ -28,28 +28,28 @@ import type { GlobalSettings, ProjectSettings } from './types'
 export const getDefaultFileType = (
   globalSettings: GlobalSettings | null,
   projectSettings: ProjectSettings | null,
-  collectionName?: string
+  collectionName?: string,
 ): 'md' | 'mdx' => {
   // Collection-level override (highest priority)
   if (collectionName && projectSettings?.collections) {
     const collectionSettings = projectSettings.collections.find(
-      c => c.name === collectionName
-    )
+      (c) => c.name === collectionName,
+    );
     if (collectionSettings?.settings?.defaultFileType) {
-      return collectionSettings.settings.defaultFileType
+      return collectionSettings.settings.defaultFileType;
     }
   }
 
   // Project-level override
   if (projectSettings?.defaultFileType) {
-    return projectSettings.defaultFileType
+    return projectSettings.defaultFileType;
   }
 
   // Global setting
   if (globalSettings?.general?.defaultFileType) {
-    return globalSettings.general.defaultFileType
+    return globalSettings.general.defaultFileType;
   }
 
   // Hard-coded default (maintains backwards compatibility)
-  return 'md'
-}
+  return 'md';
+};

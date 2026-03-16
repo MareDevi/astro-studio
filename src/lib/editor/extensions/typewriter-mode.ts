@@ -26,27 +26,27 @@
  * - Obsidian Typewriter Mode plugin (production reference)
  */
 
-import { StateField, StateEffect, EditorState } from '@codemirror/state'
-import { EditorView, ViewPlugin, ViewUpdate } from '@codemirror/view'
+import { StateField, StateEffect, EditorState } from '@codemirror/state';
+import { EditorView, ViewPlugin, type ViewUpdate } from '@codemirror/view';
 
 /** State effect to toggle typewriter mode on or off. */
-export const toggleTypewriterMode = StateEffect.define<boolean>()
+export const toggleTypewriterMode = StateEffect.define<boolean>();
 
 /** State field tracking whether typewriter mode is enabled. */
 export const typewriterModeState = StateField.define<{ enabled: boolean }>({
   create() {
-    return { enabled: false }
+    return { enabled: false };
   },
 
   update(value, tr) {
     for (const effect of tr.effects) {
       if (effect.is(toggleTypewriterMode)) {
-        return { enabled: effect.value }
+        return { enabled: effect.value };
       }
     }
-    return value
+    return value;
   },
-})
+});
 
 /**
  * Transaction extender: intercepts every non-pointer transaction that changes
@@ -62,26 +62,26 @@ export const typewriterModeState = StateField.define<{ enabled: boolean }>({
  * - tr.selection (non-pointer): keyboard selection changes (arrow keys, find/replace)
  * - toggleTypewriterMode effect: when mode is toggled on, immediately centre
  */
-const typewriterScrollExtender = EditorState.transactionExtender.of(tr => {
-  if (!tr.state.field(typewriterModeState).enabled) return null
+const typewriterScrollExtender = EditorState.transactionExtender.of((tr) => {
+  if (!tr.state.field(typewriterModeState).enabled) return null;
 
   // Skip pointer selections - handled by ViewPlugin after click completes
-  if (tr.isUserEvent('select.pointer')) return null
+  if (tr.isUserEvent('select.pointer')) return null;
 
   const justEnabled = tr.effects.some(
-    e => e.is(toggleTypewriterMode) && e.value
-  )
+    (e) => e.is(toggleTypewriterMode) && e.value,
+  );
 
   if (tr.selection || tr.docChanged || justEnabled) {
     return {
       effects: EditorView.scrollIntoView(tr.state.selection.main.head, {
         y: 'center',
       }),
-    }
+    };
   }
 
-  return null
-})
+  return null;
+});
 
 /**
  * ViewPlugin that:
@@ -91,70 +91,70 @@ const typewriterScrollExtender = EditorState.transactionExtender.of(tr => {
  */
 const typewriterPlugin = ViewPlugin.fromClass(
   class {
-    private pendingMouseup: (() => void) | null = null
-    private _destroyed = false
+    private pendingMouseup: (() => void) | null = null;
+    private _destroyed = false;
 
     constructor(private view: EditorView) {
-      this.syncClass()
+      this.syncClass();
     }
 
     update(update: ViewUpdate) {
-      const wasEnabled = update.startState.field(typewriterModeState).enabled
-      const isEnabled = update.state.field(typewriterModeState).enabled
+      const wasEnabled = update.startState.field(typewriterModeState).enabled;
+      const isEnabled = update.state.field(typewriterModeState).enabled;
 
       if (wasEnabled !== isEnabled) {
-        this.syncClass()
+        this.syncClass();
       }
 
       // Deferred centering for pointer clicks - must wait for mouseup to avoid
       // scroll between mousedown/mouseup causing CM6 to interpret click as drag
       if (
         isEnabled &&
-        update.transactions.some(tr => tr.isUserEvent('select.pointer'))
+        update.transactions.some((tr) => tr.isUserEvent('select.pointer'))
       ) {
-        this.cancelPendingMouseup()
+        this.cancelPendingMouseup();
 
         const handler = () => {
-          this.pendingMouseup = null
+          this.pendingMouseup = null;
           // rAF after mouseup ensures CM6 has finished processing the click
           requestAnimationFrame(() => {
-            if (this._destroyed) return
+            if (this._destroyed) return;
             this.view.dispatch({
               effects: EditorView.scrollIntoView(
                 this.view.state.selection.main.head,
-                { y: 'center' }
+                { y: 'center' },
               ),
-            })
-          })
-        }
+            });
+          });
+        };
 
         this.pendingMouseup = () =>
-          document.removeEventListener('mouseup', handler)
-        document.addEventListener('mouseup', handler, { once: true })
+          document.removeEventListener('mouseup', handler);
+        document.addEventListener('mouseup', handler, { once: true });
       }
     }
 
     syncClass() {
-      const enabled = this.view.state.field(typewriterModeState).enabled
-      this.view.scrollDOM.classList.toggle('cm-typewriter-active', enabled)
+      const enabled = this.view.state.field(typewriterModeState).enabled;
+      this.view.scrollDOM.classList.toggle('cm-typewriter-active', enabled);
     }
 
     private cancelPendingMouseup() {
       if (this.pendingMouseup) {
-        this.pendingMouseup()
-        this.pendingMouseup = null
+        this.pendingMouseup();
+        this.pendingMouseup = null;
       }
     }
 
     destroy() {
-      this._destroyed = true
-      this.cancelPendingMouseup()
-      this.view.scrollDOM.classList.remove('cm-typewriter-active')
+      this._destroyed = true;
+      this.cancelPendingMouseup();
+      this.view.scrollDOM.classList.remove('cm-typewriter-active');
     }
-  }
-)
+  },
+);
 
 /** Creates the combined typewriter mode extension. */
 export function createTypewriterModeExtension() {
-  return [typewriterModeState, typewriterScrollExtender, typewriterPlugin]
+  return [typewriterModeState, typewriterScrollExtender, typewriterPlugin];
 }

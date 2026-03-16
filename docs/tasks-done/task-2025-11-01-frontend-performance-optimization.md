@@ -300,7 +300,7 @@ If POC is successful and shows clear improvement, proceed with remaining compone
 - [ ] All existing tests pass
 - [ ] Manual testing checklist complete
 - [ ] Code follows existing patterns and style
-- [ ] `pnpm run check:all` passes
+- [ ] `bun run check:all` passes
 
 ## Estimated Effort
 

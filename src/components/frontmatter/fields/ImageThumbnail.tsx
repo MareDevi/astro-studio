@@ -1,77 +1,78 @@
-import React, { useEffect, useState } from 'react'
-import { convertFileSrc } from '@tauri-apps/api/core'
-import { commands } from '@/lib/bindings'
-import { useProjectStore } from '../../../store/projectStore'
-import { useEditorStore } from '../../../store/editorStore'
+import type React from 'react';
+import { useEffect, useState } from 'react';
+import { convertFileSrc } from '@tauri-apps/api/core';
+import { commands } from '@/lib/bindings';
+import { useProjectStore } from '../../../store/projectStore';
+import { useEditorStore } from '../../../store/editorStore';
 
 interface ImageThumbnailProps {
-  path: string
+  path: string;
 }
 
-type LoadingState = 'idle' | 'loading' | 'success' | 'error'
+type LoadingState = 'idle' | 'loading' | 'success' | 'error';
 
 export const ImageThumbnail: React.FC<ImageThumbnailProps> = ({ path }) => {
-  const [imageUrl, setImageUrl] = useState<string | null>(null)
-  const [loadingState, setLoadingState] = useState<LoadingState>('idle')
-  const projectPath = useProjectStore(state => state.projectPath)
-  const currentFile = useEditorStore(state => state.currentFile)
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [loadingState, setLoadingState] = useState<LoadingState>('idle');
+  const projectPath = useProjectStore((state) => state.projectPath);
+  const currentFile = useEditorStore((state) => state.currentFile);
 
   useEffect(() => {
     if (!path || !projectPath) {
-      return
+      return;
     }
 
-    let cancelled = false
+    let cancelled = false;
 
     const loadImage = async () => {
-      setLoadingState('loading')
+      setLoadingState('loading');
 
       try {
         // Check if it's a remote URL
         if (path.startsWith('http://') || path.startsWith('https://')) {
           if (!cancelled) {
-            setImageUrl(path)
-            setLoadingState('success')
+            setImageUrl(path);
+            setLoadingState('success');
           }
-          return
+          return;
         }
 
         // For local paths, resolve to absolute path
         const result = await commands.resolveImagePath(
           path,
           projectPath,
-          currentFile?.path ?? null
-        )
+          currentFile?.path ?? null,
+        );
         if (result.status === 'error') {
-          throw new Error(result.error)
+          throw new Error(result.error);
         }
 
         if (!cancelled) {
           // Convert to asset protocol URL
-          const assetUrl = convertFileSrc(result.data)
-          setImageUrl(assetUrl)
-          setLoadingState('success')
+          const assetUrl = convertFileSrc(result.data);
+          setImageUrl(assetUrl);
+          setLoadingState('success');
         }
       } catch {
         // Fail silently - don't show error state
         if (!cancelled) {
-          setLoadingState('error')
+          setLoadingState('error');
         }
       }
-    }
+    };
 
-    void loadImage()
+    void loadImage();
 
     // Cleanup: only set cancelled flag to prevent stale updates
     // Keep cached state to prevent flicker during transitions
     return () => {
-      cancelled = true
-    }
-  }, [path, projectPath, currentFile?.path])
+      cancelled = true;
+    };
+  }, [path, projectPath, currentFile?.path]);
 
   // Don't render anything if no path or if error state (fail silently)
   if (!path || loadingState === 'error') {
-    return null
+    return null;
   }
 
   return (
@@ -88,10 +89,10 @@ export const ImageThumbnail: React.FC<ImageThumbnailProps> = ({ path }) => {
           alt="Preview"
           className="max-w-full max-h-[150px] object-contain rounded-md border border-border"
           onError={() => {
-            setLoadingState('error')
+            setLoadingState('error');
           }}
         />
       )}
     </div>
-  )
-}
+  );
+};

@@ -1,10 +1,10 @@
-import React from 'react'
-import { Separator } from '@/components/ui/separator'
-import { FieldGroup } from '@/components/ui/field'
+import type React from 'react';
+import { Separator } from '@/components/ui/separator';
+import { FieldGroup } from '@/components/ui/field';
 
 interface SettingsSectionProps {
-  title: string
-  children: React.ReactNode
+  title: string;
+  children: React.ReactNode;
 }
 
 export const SettingsSection: React.FC<SettingsSectionProps> = ({
@@ -18,4 +18,4 @@ export const SettingsSection: React.FC<SettingsSectionProps> = ({
     </div>
     <FieldGroup>{children}</FieldGroup>
   </div>
-)
+);

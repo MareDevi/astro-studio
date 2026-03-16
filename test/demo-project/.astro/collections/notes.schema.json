@@ -50,9 +50,7 @@
           "format": "date-time"
         }
       },
-      "required": [
-        "category"
-      ],
+      "required": ["category"],
       "additionalProperties": false
     },
     "coverImage": {
@@ -72,10 +70,6 @@
       "type": "string"
     }
   },
-  "required": [
-    "title",
-    "draft",
-    "pubDate"
-  ],
+  "required": ["title", "draft", "pubDate"],
   "additionalProperties": false
 }

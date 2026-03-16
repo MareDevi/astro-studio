@@ -1,28 +1,28 @@
-import React from 'react'
-import { getCurrentWindow } from '@tauri-apps/api/window'
-import { Minus, Square, X } from 'lucide-react'
+import type React from 'react';
+import { getCurrentWindow } from '@tauri-apps/api/window';
+import { Minus, Square, X } from 'lucide-react';
 
 /** Windows-style window controls (minimize, maximize, close). */
 export const WindowsControls: React.FC = () => {
   const handleMinimize = async () => {
-    const window = getCurrentWindow()
-    await window.minimize()
-  }
+    const window = getCurrentWindow();
+    await window.minimize();
+  };
 
   const handleToggleMaximize = async () => {
-    const window = getCurrentWindow()
-    const isMaximized = await window.isMaximized()
+    const window = getCurrentWindow();
+    const isMaximized = await window.isMaximized();
     if (isMaximized) {
-      await window.unmaximize()
+      await window.unmaximize();
     } else {
-      await window.maximize()
+      await window.maximize();
     }
-  }
+  };
 
   const handleClose = async () => {
-    const window = getCurrentWindow()
-    await window.close()
-  }
+    const window = getCurrentWindow();
+    await window.close();
+  };
 
   return (
     <div className="flex items-center -my-1.5 -mr-3">
@@ -48,5 +48,5 @@ export const WindowsControls: React.FC = () => {
         <X className="size-4 text-gray-700 dark:text-gray-300 group-hover:text-white" />
       </button>
     </div>
-  )
-}
+  );
+};

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Settings, Folder, Layers, Wrench } from 'lucide-react'
+import React, { useState } from 'react';
+import { Settings, Folder, Layers, Wrench } from 'lucide-react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,13 +7,13 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
+} from '@/components/ui/breadcrumb';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
-} from '@/components/ui/dialog'
+} from '@/components/ui/dialog';
 import {
   Sidebar,
   SidebarContent,
@@ -23,19 +23,19 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-} from '@/components/ui/sidebar'
-import { GeneralPane } from './panes/GeneralPane'
-import { ProjectSettingsPane } from './panes/ProjectSettingsPane'
-import { CollectionSettingsPane } from './panes/CollectionSettingsPane'
-import { DebugPane } from './panes/DebugPane'
-import { usePreferences } from '../../hooks/usePreferences'
+} from '@/components/ui/sidebar';
+import { GeneralPane } from './panes/GeneralPane';
+import { ProjectSettingsPane } from './panes/ProjectSettingsPane';
+import { CollectionSettingsPane } from './panes/CollectionSettingsPane';
+import { DebugPane } from './panes/DebugPane';
+import { usePreferences } from '../../hooks/usePreferences';
 
 interface PreferencesDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-type PreferencePane = 'general' | 'project' | 'collections' | 'debug'
+type PreferencePane = 'general' | 'project' | 'collections' | 'debug';
 
 const getNavigationItems = (hasProject: boolean) =>
   [
@@ -63,37 +63,37 @@ const getNavigationItems = (hasProject: boolean) =>
       icon: Wrench,
       available: true,
     },
-  ].filter(item => item.available)
+  ].filter((item) => item.available);
 
 const getPaneTitle = (pane: PreferencePane): string => {
   switch (pane) {
     case 'general':
-      return 'General'
+      return 'General';
     case 'project':
-      return 'Project Settings'
+      return 'Project Settings';
     case 'collections':
-      return 'Collections'
+      return 'Collections';
     case 'debug':
-      return 'Advanced'
+      return 'Advanced';
     default:
-      return 'General'
+      return 'General';
   }
-}
+};
 
 export const PreferencesDialog: React.FC<PreferencesDialogProps> = ({
   open,
   onOpenChange,
 }) => {
-  const [activePane, setActivePane] = useState<PreferencePane>('general')
-  const { hasProject } = usePreferences()
-  const navigationItems = getNavigationItems(hasProject)
+  const [activePane, setActivePane] = useState<PreferencePane>('general');
+  const { hasProject } = usePreferences();
+  const navigationItems = getNavigationItems(hasProject);
 
   // Reset to general pane if current pane becomes unavailable
   React.useEffect(() => {
-    if (!navigationItems.some(item => item.id === activePane)) {
-      setActivePane('general')
+    if (!navigationItems.some((item) => item.id === activePane)) {
+      setActivePane('general');
     }
-  }, [navigationItems, activePane])
+  }, [navigationItems, activePane]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -109,7 +109,7 @@ export const PreferencesDialog: React.FC<PreferencesDialogProps> = ({
               <SidebarGroup>
                 <SidebarGroupContent>
                   <SidebarMenu>
-                    {navigationItems.map(item => (
+                    {navigationItems.map((item) => (
                       <SidebarMenuItem key={item.id}>
                         <SidebarMenuButton
                           asChild
@@ -162,5 +162,5 @@ export const PreferencesDialog: React.FC<PreferencesDialogProps> = ({
         </SidebarProvider>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};

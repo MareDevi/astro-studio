@@ -1,13 +1,13 @@
-import { useCallback } from 'react'
-import { info, error as logError } from '@tauri-apps/plugin-log'
-import { useQueryClient } from '@tanstack/react-query'
-import { commands, type Collection, type JsonValue } from '@/types'
-import { useEditorStore } from '../../store/editorStore'
-import { useProjectStore } from '../../store/projectStore'
-import { saveRecoveryData, saveCrashReport } from '../../lib/recovery'
-import { toast } from '../../lib/toast'
-import { queryKeys } from '../../lib/query-keys'
-import { deserializeCompleteSchema } from '../../lib/schema'
+import { useCallback } from 'react';
+import { info, error as logError } from '@tauri-apps/plugin-log';
+import { useQueryClient } from '@tanstack/react-query';
+import { commands, type Collection, type JsonValue } from '@/types';
+import { useEditorStore } from '../../store/editorStore';
+import { useProjectStore } from '../../store/projectStore';
+import { saveRecoveryData, saveCrashReport } from '../../lib/recovery';
+import { toast } from '../../lib/toast';
+import { queryKeys } from '../../lib/query-keys';
+import { deserializeCompleteSchema } from '../../lib/schema';
 
 /**
  * Editor action hooks following the Hybrid Action Hooks pattern.
@@ -24,7 +24,7 @@ import { deserializeCompleteSchema } from '../../lib/schema'
  * - Standard React patterns
  */
 export function useEditorActions() {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const saveFile = useCallback(
     async (showToast = true) => {
@@ -35,37 +35,39 @@ export function useEditorActions() {
         rawFrontmatter,
         isFrontmatterDirty,
         imports,
-      } = useEditorStore.getState()
-      if (!currentFile) return
+      } = useEditorStore.getState();
+      if (!currentFile) return;
 
       // Get project path using direct store access pattern
-      const { projectPath } = useProjectStore.getState()
+      const { projectPath } = useProjectStore.getState();
 
       if (!projectPath) {
-        throw new Error('No project path available')
+        throw new Error('No project path available');
       }
 
       try {
         // Get schema field order from collections data - NO EVENTS!
         // Direct synchronous access to query cache
-        let schemaFieldOrder: string[] | null = null
+        let schemaFieldOrder: string[] | null = null;
         if (currentFile) {
           try {
             const collections = queryClient.getQueryData<Collection[]>(
-              queryKeys.collections(projectPath)
-            )
+              queryKeys.collections(projectPath),
+            );
             if (collections && Array.isArray(collections)) {
               const collection = collections.find(
-                (c: Collection) => c.name === currentFile.collection
-              )
+                (c: Collection) => c.name === currentFile.collection,
+              );
               const schema = collection?.complete_schema
                 ? deserializeCompleteSchema(collection.complete_schema)
-                : null
-              schemaFieldOrder = schema ? schema.fields.map(f => f.name) : null
+                : null;
+              schemaFieldOrder = schema
+                ? schema.fields.map((f) => f.name)
+                : null;
             }
           } catch (error) {
             // eslint-disable-next-line no-console
-            console.warn('Could not get schema field order:', error)
+            console.warn('Could not get schema field order:', error);
           }
         }
 
@@ -79,40 +81,40 @@ export function useEditorActions() {
           editorContent,
           imports,
           schemaFieldOrder,
-          projectPath
-        )
+          projectPath,
+        );
         if (result.status === 'error') {
-          throw new Error(result.error)
+          throw new Error(result.error);
         }
 
         // Clear auto-save timeout since we just saved
-        const { autoSaveTimeoutId } = useEditorStore.getState()
+        const { autoSaveTimeoutId } = useEditorStore.getState();
         if (autoSaveTimeoutId) {
-          clearTimeout(autoSaveTimeoutId)
-          useEditorStore.setState({ autoSaveTimeoutId: null })
+          clearTimeout(autoSaveTimeoutId);
+          useEditorStore.setState({ autoSaveTimeoutId: null });
         }
 
         // Only mark as clean if content hasn't changed during save (race condition protection)
         // Check both content AND frontmatter to avoid dropping unsaved edits
-        const currentState = useEditorStore.getState()
-        const contentUnchanged = currentState.editorContent === editorContent
+        const currentState = useEditorStore.getState();
+        const contentUnchanged = currentState.editorContent === editorContent;
         const frontmatterUnchanged =
           JSON.stringify(currentState.frontmatter) ===
-          JSON.stringify(frontmatter)
+          JSON.stringify(frontmatter);
 
         useEditorStore.setState({
           isDirty: !contentUnchanged || !frontmatterUnchanged,
           isFrontmatterDirty:
             currentState.isFrontmatterDirty || !frontmatterUnchanged,
           lastSaveTimestamp: Date.now(),
-        })
+        });
 
         // Invalidate queries to update UI
         if (projectPath) {
           // Invalidate file content query to refresh cached content
           void queryClient.invalidateQueries({
             queryKey: queryKeys.fileContent(projectPath, currentFile.id),
-          })
+          });
 
           // Invalidate directory scans for this collection (root + all subdirectories)
           if (currentFile.collection) {
@@ -123,43 +125,43 @@ export function useEditorActions() {
                 currentFile.collection,
                 'directory',
               ],
-            })
+            });
           }
         }
 
         // Show success toast only if requested
         if (showToast) {
-          toast.success('File saved successfully')
+          toast.success('File saved successfully');
         }
       } catch (error) {
         toast.error('Save failed', {
           description: `Could not save file: ${error instanceof Error ? error.message : 'Unknown error occurred'}. Recovery data has been saved.`,
-        })
-        await logError(`Save failed: ${String(error)}`)
-        await info('Attempting to save recovery data...')
+        });
+        await logError(`Save failed: ${String(error)}`);
+        await info('Attempting to save recovery data...');
 
         // Save recovery data
-        const state = useEditorStore.getState()
+        const state = useEditorStore.getState();
         await saveRecoveryData({
           currentFile: state.currentFile,
           projectPath,
           editorContent: state.editorContent,
           frontmatter: state.frontmatter,
-        })
+        });
 
         // Save crash report
         await saveCrashReport(error as Error, {
           currentFile: state.currentFile?.path,
           projectPath: projectPath || undefined,
           action: 'save',
-        })
+        });
 
         // Keep the file marked as dirty since save failed
-        useEditorStore.setState({ isDirty: true })
+        useEditorStore.setState({ isDirty: true });
       }
     },
-    [queryClient]
-  )
+    [queryClient],
+  );
 
-  return { saveFile }
+  return { saveFile };
 }

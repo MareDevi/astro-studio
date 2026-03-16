@@ -7,8 +7,8 @@
  * 3. Hard-coded default (from ASTRO_PATHS)
  */
 
-import { ProjectSettings } from './types'
-import { ASTRO_PATHS } from '../constants'
+import type { ProjectSettings } from './types';
+import { ASTRO_PATHS } from '../constants';
 
 /**
  * Get effective settings for a specific collection with three-tier fallback
@@ -19,21 +19,21 @@ import { ASTRO_PATHS } from '../constants'
  */
 export function getCollectionSettings(
   projectSettings: ProjectSettings | null | undefined,
-  collectionName: string
+  collectionName: string,
 ): {
   pathOverrides: {
-    contentDirectory: string
-    assetsDirectory: string
-    mdxComponentsDirectory: string
-  }
+    contentDirectory: string;
+    assetsDirectory: string;
+    mdxComponentsDirectory: string;
+  };
   frontmatterMappings: {
-    publishedDate: string | string[]
-    title: string
-    description: string
-    draft: string
-  }
-  useRelativeAssetPaths: boolean
-  urlPattern?: string
+    publishedDate: string | string[];
+    title: string;
+    description: string;
+    draft: string;
+  };
+  useRelativeAssetPaths: boolean;
+  urlPattern?: string;
 } {
   // Handle null/undefined projectSettings
   if (!projectSettings) {
@@ -51,12 +51,12 @@ export function getCollectionSettings(
       },
       useRelativeAssetPaths: true,
       urlPattern: undefined,
-    }
+    };
   }
   // Find collection-specific settings
   const collectionSettings = projectSettings.collections?.find(
-    c => c.name === collectionName
-  )?.settings
+    (c) => c.name === collectionName,
+  )?.settings;
 
   // Define hard-coded defaults
   const defaults = {
@@ -71,7 +71,7 @@ export function getCollectionSettings(
       description: 'description',
       draft: 'draft',
     },
-  }
+  };
 
   // Implement three-tier fallback for path overrides
   const effectivePathOverrides = {
@@ -86,7 +86,7 @@ export function getCollectionSettings(
     mdxComponentsDirectory:
       projectSettings.pathOverrides?.mdxComponentsDirectory ||
       defaults.pathOverrides.mdxComponentsDirectory,
-  }
+  };
 
   // Implement three-tier fallback for frontmatter mappings
   const effectiveFrontmatterMappings = {
@@ -106,7 +106,7 @@ export function getCollectionSettings(
       collectionSettings?.frontmatterMappings?.draft ||
       projectSettings.frontmatterMappings?.draft ||
       defaults.frontmatterMappings.draft,
-  }
+  };
 
   // Three-tier fallback for useAbsoluteAssetPaths (inverted to useRelativeAssetPaths)
   // undefined or false → use relative paths (true)
@@ -114,12 +114,12 @@ export function getCollectionSettings(
   const useAbsolutePaths =
     collectionSettings?.useAbsoluteAssetPaths ??
     projectSettings.useAbsoluteAssetPaths ??
-    false // Default to false (use relative paths, Astro convention)
+    false; // Default to false (use relative paths, Astro convention)
 
   return {
     pathOverrides: effectivePathOverrides,
     frontmatterMappings: effectiveFrontmatterMappings,
     useRelativeAssetPaths: !useAbsolutePaths, // Invert: absolute=false means relative=true
     urlPattern: collectionSettings?.urlPattern,
-  }
+  };
 }

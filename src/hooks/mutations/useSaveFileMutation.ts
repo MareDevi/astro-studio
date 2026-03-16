@@ -1,20 +1,20 @@
 // src/hooks/mutations/useSaveFileMutation.ts
 
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { commands, type JsonValue } from '@/types'
-import { queryKeys } from '@/lib/query-keys'
-import { toast } from '@/lib/toast'
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { commands, type JsonValue } from '@/types';
+import { queryKeys } from '@/lib/query-keys';
+import { toast } from '@/lib/toast';
 
 // The payload for our Tauri command
 interface SaveFilePayload {
-  filePath: string
-  fileId: string // File ID for cache invalidation
-  frontmatter: Record<string, unknown>
-  content: string
-  imports: string
-  schemaFieldOrder: string[] | null
-  projectPath: string // Need this for invalidating queries
-  collectionName: string // Need this to invalidate collection files query
+  filePath: string;
+  fileId: string; // File ID for cache invalidation
+  frontmatter: Record<string, unknown>;
+  content: string;
+  imports: string;
+  schemaFieldOrder: string[] | null;
+  projectPath: string; // Need this for invalidating queries
+  collectionName: string; // Need this to invalidate collection files query
 }
 
 const saveFile = async (payload: SaveFilePayload) => {
@@ -25,16 +25,16 @@ const saveFile = async (payload: SaveFilePayload) => {
     payload.content,
     payload.imports,
     payload.schemaFieldOrder,
-    payload.projectPath
-  )
+    payload.projectPath,
+  );
   if (result.status === 'error') {
-    throw new Error(result.error)
+    throw new Error(result.error);
   }
-  return result.data
-}
+  return result.data;
+};
 
 export const useSaveFileMutation = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: saveFile,
@@ -46,9 +46,9 @@ export const useSaveFileMutation = () => {
       void queryClient.invalidateQueries({
         queryKey: queryKeys.fileContent(
           variables.projectPath,
-          variables.fileId
+          variables.fileId,
         ),
-      })
+      });
 
       // Also invalidate directory contents to update any metadata changes (title, draft, pubDate, etc.)
       // This invalidates all directory scans for this collection (root + all subdirectories)
@@ -59,16 +59,16 @@ export const useSaveFileMutation = () => {
           variables.collectionName,
           'directory',
         ],
-      })
+      });
 
-      toast.success('File saved successfully')
+      toast.success('File saved successfully');
     },
-    onError: error => {
+    onError: (error) => {
       const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error occurred'
+        error instanceof Error ? error.message : 'Unknown error occurred';
       toast.error('Save failed', {
         description: `Could not save file: ${errorMessage}. Recovery data has been saved.`,
-      })
+      });
     },
-  })
-}
+  });
+};

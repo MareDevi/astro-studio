@@ -1,5 +1,5 @@
-import { styleTags } from '@lezer/highlight'
-import { markdownTags } from './markdownTags'
+import { styleTags } from '@lezer/highlight';
+import { markdownTags } from './markdownTags';
 
 /**
  * Style extension that maps Lezer parser nodes to our custom markdown tags.
@@ -90,4 +90,4 @@ export const markdownStyleExtension = {
       FootnoteDefinition: markdownTags.footnote,
     }),
   ],
-}
+};

@@ -3,10 +3,10 @@
  * This avoids UTC conversion which can shift dates by a day in some timezones.
  */
 export function formatIsoDate(date: Date): string {
-  const year = date.getFullYear()
-  const month = String(date.getMonth() + 1).padStart(2, '0')
-  const day = String(date.getDate()).padStart(2, '0')
-  return `${year}-${month}-${day}`
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 /**
@@ -23,42 +23,42 @@ export function formatIsoDate(date: Date): string {
  */
 export function parseIsoDate(dateString: string): Date | undefined {
   // Extract just the date portion (before any 'T' or space)
-  const datePart = dateString.split(/[T\s]/)[0]
-  if (!datePart) return undefined
+  const datePart = dateString.split(/[T\s]/)[0];
+  if (!datePart) return undefined;
 
   // Match YYYY-MM-DD or YYYY-M-D (padded or unpadded)
-  const match = datePart.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/)
-  if (!match) return undefined
+  const match = datePart.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  if (!match) return undefined;
 
-  const [, year, month, day] = match
-  const y = Number(year)
-  const m = Number(month)
-  const d = Number(day)
+  const [, year, month, day] = match;
+  const y = Number(year);
+  const m = Number(month);
+  const d = Number(day);
 
   // Create the date and verify components match (catches invalid dates like Feb 31)
-  const date = new Date(y, m - 1, d)
+  const date = new Date(y, m - 1, d);
   if (
     date.getFullYear() !== y ||
     date.getMonth() !== m - 1 ||
     date.getDate() !== d
   ) {
-    return undefined
+    return undefined;
   }
 
-  return date
+  return date;
 }
 
 export function todayIsoDate(): string {
-  return formatIsoDate(new Date())
+  return formatIsoDate(new Date());
 }
 
 /**
  * Format a Date as a full ISO datetime string (YYYY-MM-DDTHH:mm:ss.sssZ).
  */
 export function formatIsoDateTime(date: Date): string {
-  return date.toISOString()
+  return date.toISOString();
 }
 
 export function todayIsoDateTime(): string {
-  return formatIsoDateTime(new Date())
+  return formatIsoDateTime(new Date());
 }
