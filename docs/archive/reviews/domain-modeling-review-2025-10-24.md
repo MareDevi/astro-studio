@@ -1,6 +1,6 @@
 # Domain Modeling Consistency Review - 2025-10-24
 
-As requested, this document contains a review of the Astro Editor codebase for consistency in its domain modeling. The review covers naming conventions, data structures, and the overall "shape" of objects across the entire application stack (Rust, React, UI, etc.).
+As requested, this document contains a review of the Astro Studio codebase for consistency in its domain modeling. The review covers naming conventions, data structures, and the overall "shape" of objects across the entire application stack (Rust, React, UI, etc.).
 
 ## Initial Findings
 
@@ -55,7 +55,7 @@ The Rust backend demonstrates a very high level of internal consistency in its d
 
 ## Conclusion
 
-Overall, the Astro Editor project exhibits a high degree of consistency in its domain modeling across both the frontend and backend. The data structures are logical, the naming is consistent, and the data flow is clear.
+Overall, the Astro Studio project exhibits a high degree of consistency in its domain modeling across both the frontend and backend. The data structures are logical, the naming is consistent, and the data flow is clear.
 
 The backend, in particular, is exceptionally well-structured and serves as a solid foundation for the application. The frontend is also in good shape, with the main area for improvement being the centralization of its domain model types.
 

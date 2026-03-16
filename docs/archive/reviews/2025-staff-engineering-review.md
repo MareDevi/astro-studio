@@ -1,11 +1,11 @@
-# Staff Engineering Review: Astro Editor Codebase
+# Staff Engineering Review: Astro Studio Codebase
 **Date:** January 2025
 **Reviewer Perspective:** Experienced Staff Engineer (React/Rust/Tauri)
 **Review Scope:** Complete codebase architectural analysis
 
 ## Executive Summary
 
-Astro Editor is a well-architected application with strong foundations: decomposed state management, comprehensive documentation, and thoughtful separation of concerns. However, several architectural patterns have accumulated complexity that will increasingly impact maintainability, reliability, and developer velocity as the project scales.
+Astro Studio is a well-architected application with strong foundations: decomposed state management, comprehensive documentation, and thoughtful separation of concerns. However, several architectural patterns have accumulated complexity that will increasingly impact maintainability, reliability, and developer velocity as the project scales.
 
 This review focuses on **substantial architectural recommendations**, not nitpicks. Each issue identified has real impact on:
 - **Reliability**: Risk of data loss, race conditions, or unexpected behavior
@@ -853,7 +853,7 @@ These foundations make the codebase a good candidate for the refactoring recomme
 
 ## Conclusion
 
-Astro Editor has a solid architectural foundation, but several patterns have evolved in ways that will increasingly impact reliability and maintainability. The most critical issues involve data integrity (auto-save, file watcher races) and maintainability (event communication complexity, testing gaps).
+Astro Studio has a solid architectural foundation, but several patterns have evolved in ways that will increasingly impact reliability and maintainability. The most critical issues involve data integrity (auto-save, file watcher races) and maintainability (event communication complexity, testing gaps).
 
 The good news: All identified issues have clear, implementable solutions. The architecture's strong foundations (decomposed state, query management, type safety) make these refactorings straightforward rather than requiring ground-up rewrites.
 

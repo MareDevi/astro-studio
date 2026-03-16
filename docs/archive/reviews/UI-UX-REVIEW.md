@@ -1,4 +1,4 @@
-# UI/UX Consistency Review - Astro Editor
+# UI/UX Consistency Review - Astro Studio
 
 **Review Date:** November 1, 2025
 **Reviewer:** Claude Code (UI/UX Expert Analysis)
@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-The Astro Editor codebase demonstrates **excellent overall UI/UX architecture** with:
+The Astro Studio codebase demonstrates **excellent overall UI/UX architecture** with:
 - Comprehensive shadcn/ui component library (40+ components)
 - Sophisticated hybrid color system (CSS variables + Tailwind)
 - Consistent focus/hover state management
@@ -744,7 +744,7 @@ const handleToggleDraftsOnly = useCallback(() => {
 
 **Overall Grade: A-**
 
-The Astro Editor demonstrates **excellent UI/UX architecture** with:
+The Astro Studio demonstrates **excellent UI/UX architecture** with:
 - Production-ready component system
 - Sophisticated color and theming approach
 - Consistent accessibility implementation

@@ -874,7 +874,7 @@ PreferencesDialog
 
 **How Content Directory Path Resolution Currently Works:**
 
-Astro Editor uses a two-tier path resolution strategy:
+Astro Studio uses a two-tier path resolution strategy:
 
 1. **Content Directory Base Path:**
    - Default: `src/content` (defined in `src/lib/constants.ts:3`)

@@ -888,12 +888,12 @@ fn validate_app_data_path(file_path: &str, app_data_dir: &str) -> Result<PathBuf
     // Create app data directory if it doesn't exist
     if !app_data_dir.exists() {
         info!(
-            "Astro Editor [PROJECT_REGISTRY] Creating app data directory: {}",
+            "Astro Studio [PROJECT_REGISTRY] Creating app data directory: {}",
             app_data_dir.display()
         );
         std::fs::create_dir_all(app_data_dir)
             .map_err(|e| format!("Failed to create app data directory: {e}"))?;
-        info!("Astro Editor [PROJECT_REGISTRY] App data directory created successfully");
+        info!("Astro Studio [PROJECT_REGISTRY] App data directory created successfully");
     }
 
     // If file_path is relative (just a filename), join it with app_data_dir
@@ -912,7 +912,7 @@ fn validate_app_data_path(file_path: &str, app_data_dir: &str) -> Result<PathBuf
                 // Ensure parent directory exists
                 if !parent.as_os_str().is_empty() && !parent.exists() {
                     info!(
-                        "Astro Editor [PROJECT_REGISTRY] Creating parent directory: {}",
+                        "Astro Studio [PROJECT_REGISTRY] Creating parent directory: {}",
                         parent.display()
                     );
                     if let Err(e) = std::fs::create_dir_all(parent) {

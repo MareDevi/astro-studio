@@ -1,4 +1,4 @@
-# Claude / AI Agent Instructions for Astro Editor
+# Claude / AI Agent Instructions for Astro Studio
 
 ## Current Status
 

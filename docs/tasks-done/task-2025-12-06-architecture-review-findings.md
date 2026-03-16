@@ -646,7 +646,7 @@ console.error('Failed to load MDX components:', error)
 
 // After
 import { error as logError } from '@tauri-apps/plugin-log'
-void logError(`Astro Editor [MDX] Failed to load components: ${String(error)}`)
+void logError(`Astro Studio [MDX] Failed to load components: ${String(error)}`)
 ```
 
 **AI Instructions Addition to logging.md:**
@@ -658,7 +658,7 @@ When writing new code:
 
 1. Default to Tauri logger for any error or warning
 2. Never commit `console.log` for debugging
-3. Use the `[TAG]` format: `Astro Editor [COMPONENT_NAME] message`
+3. Use the `[TAG]` format: `Astro Studio [COMPONENT_NAME] message`
 4. For temporary debugging, use `console.log` with a `// TODO: remove` comment
 ```
 

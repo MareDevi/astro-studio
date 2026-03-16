@@ -1,6 +1,6 @@
 # Documentation Index
 
-This directory contains all documentation for the Astro Editor project.
+This directory contains all documentation for the Astro Studio project.
 
 ## Developer Documentation Philosophy
 
@@ -24,7 +24,7 @@ This directory contains all documentation for the Astro Editor project.
 **When to Create a New Doc**:
 
 - Topic is fundamental architectural pattern
-- System is complex and specific to Astro Editor
+- System is complex and specific to Astro Studio
 - Content is deep reference material (Astro schemas, decisions log)
 - Feature serves as implementation example for a feature we are likeley to use as reference for other features in the future, or which significantly diverges from standard patterns in this app (eg. image preview)
 

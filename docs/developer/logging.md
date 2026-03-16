@@ -1,6 +1,6 @@
-# Logging in Astro Editor
+# Logging in Astro Studio
 
-Astro Editor uses [Tauri's log plugin](https://v2.tauri.app/plugin/log) to integrate with each platform's native logging system.
+Astro Studio uses [Tauri's log plugin](https://v2.tauri.app/plugin/log) to integrate with each platform's native logging system.
 
 ## Getting Support Logs
 
@@ -10,13 +10,13 @@ Astro Editor uses [Tauri's log plugin](https://v2.tauri.app/plugin/log) to integ
 
 **Option 1: Complete Log File (Recommended)**
 1. Open Finder and navigate to: `~/Library/Logs/is.danny.astroeditor/`
-2. Copy the file `Astro Editor.log`
+2. Copy the file `Astro Studio.log`
 3. Send this file along with a description of your issue
 
 **Option 2: Console.app for Live Monitoring**
 1. Open Console.app (`/Applications/Utilities/Console.app`)
-2. Search for "Astro Editor" to see all app logs
-3. For project setup issues specifically, search for "Astro Editor [PROJECT_SETUP]"
+2. Search for "Astro Studio" to see all app logs
+3. For project setup issues specifically, search for "Astro Studio [PROJECT_SETUP]"
 4. Copy the relevant logs and send them to support
 
 **Note:** The complete log file contains all historical logs and is usually more helpful for debugging than individual Console.app entries.
@@ -35,12 +35,12 @@ Astro Editor uses [Tauri's log plugin](https://v2.tauri.app/plugin/log) to integ
 
 **Common Search Terms:**
 
-- `Astro Editor` - All app logs including startup info with version
-- `Astro Editor [PROJECT_SETUP]` - Step-by-step project setup process
-- `Astro Editor [PROJECT_SCAN]` - Backend project scanning operations
-- `Astro Editor [PROJECT_DISCOVERY]` - Project metadata discovery
-- `Astro Editor [JS_ERROR]` - JavaScript runtime errors
-- `Astro Editor [PROMISE_REJECTION]` - Unhandled promise rejections
+- `Astro Studio` - All app logs including startup info with version
+- `Astro Studio [PROJECT_SETUP]` - Step-by-step project setup process
+- `Astro Studio [PROJECT_SCAN]` - Backend project scanning operations
+- `Astro Studio [PROJECT_DISCOVERY]` - Project metadata discovery
+- `Astro Studio [JS_ERROR]` - JavaScript runtime errors
+- `Astro Studio [PROMISE_REJECTION]` - Unhandled promise rejections
 
 ## Viewing Logs
 
@@ -72,13 +72,13 @@ log stream --predicate 'process == "astro-editor"'
 
 ```powershell
 # View log file
-Get-Content "$env:LOCALAPPDATA\is.danny.astroeditor\logs\Astro Editor.log"
+Get-Content "$env:LOCALAPPDATA\is.danny.astroeditor\logs\Astro Studio.log"
 
 # View recent entries
-Get-Content "$env:LOCALAPPDATA\is.danny.astroeditor\logs\Astro Editor.log" -Tail 50
+Get-Content "$env:LOCALAPPDATA\is.danny.astroeditor\logs\Astro Studio.log" -Tail 50
 
 # Search for specific issues
-Select-String -Path "$env:LOCALAPPDATA\is.danny.astroeditor\logs\Astro Editor.log" -Pattern "PROJECT_SETUP"
+Select-String -Path "$env:LOCALAPPDATA\is.danny.astroeditor\logs\Astro Studio.log" -Pattern "PROJECT_SETUP"
 ```
 
 ### Linux

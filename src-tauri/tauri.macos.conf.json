@@ -3,7 +3,7 @@
   "app": {
     "windows": [
       {
-        "title": "Astro Editor",
+        "title": "Astro Studio",
         "width": 1400,
         "height": 900,
         "minWidth": 1000,

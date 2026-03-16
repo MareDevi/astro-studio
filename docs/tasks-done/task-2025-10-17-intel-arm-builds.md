@@ -150,9 +150,9 @@ This is the simplest and most user-friendly approach. Single DMG works on all Ma
     # ... existing env vars ...
   with:
     tagName: ${{ github.ref_name || inputs.version }}
-    releaseName: 'Astro Editor ${{ github.ref_name || inputs.version }}'
+    releaseName: 'Astro Studio ${{ github.ref_name || inputs.version }}'
     releaseBody: |
-      ## Astro Editor ${{ github.ref_name || inputs.version }}
+      ## Astro Studio ${{ github.ref_name || inputs.version }}
 
       ### Installation Instructions
       - **macOS**: Download the `.dmg` file (Universal - works on both Intel and Apple Silicon)
@@ -190,7 +190,7 @@ This is the simplest and most user-friendly approach. Single DMG works on all Ma
 **Files to update:**
 1. `docs/release-process.md`:
    - Add note about universal binary build
-   - Update artifact list to show `Astro Editor_0.1.X_universal.dmg`
+   - Update artifact list to show `Astro Studio_0.1.X_universal.dmg`
    - Explain that single DMG works for both architectures
 
 2. `docs/developer/apple-signing-setup.md`:
@@ -284,10 +284,10 @@ args: ${{ matrix.args }}
 **4. Updated Release Body (line 102)**
 ```yaml
 # BEFORE:
-- **macOS**: Download the `.dmg` file and drag Astro Editor to the Applications folder.
+- **macOS**: Download the `.dmg` file and drag Astro Studio to the Applications folder.
 
 # AFTER:
-- **macOS**: Download the `.dmg` file (Universal - works on both Intel and Apple Silicon) and drag Astro Editor to the Applications folder.
+- **macOS**: Download the `.dmg` file (Universal - works on both Intel and Apple Silicon) and drag Astro Studio to the Applications folder.
 ```
 - **Purpose**: Clearly communicates that single DMG works on all Macs
 
@@ -422,7 +422,7 @@ git push origin add-intel-build --tags
 ### Test Verification Checklist
 
 **1. Draft Release Verification (GitHub Releases page):**
-- [ ] DMG filename includes "universal" (e.g., `Astro Editor_0.1.26_universal.dmg`)
+- [ ] DMG filename includes "universal" (e.g., `Astro Studio_0.1.26_universal.dmg`)
 - [ ] File size is approximately 12-13MB (double the current 6.2MB)
 - [ ] `.sig` signature file present
 - [ ] Release body shows "Universal - works on both Intel and Apple Silicon"

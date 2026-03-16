@@ -2,7 +2,7 @@
 
 ## Goal
 
-Restructure developer documentation to combine Tauri Template's clear organization with Astro Editor's rich implementation details. Focus on progressive disclosure, clear naming, and right-sized docs for AI agents and human developers.
+Restructure developer documentation to combine Tauri Template's clear organization with Astro Studio's rich implementation details. Focus on progressive disclosure, clear naming, and right-sized docs for AI agents and human developers.
 
 ## Reference Materials
 
@@ -14,7 +14,7 @@ Restructure developer documentation to combine Tauri Template's clear organizati
 - `docs/developer/state-management.md` - For structure/organization inspiration
 - `docs/developer/command-system.md` - For structure/organization inspiration
 
-**CRITICAL**: Do NOT simply copy template content without editing it to ensure it matches Astro Editor's ACTUAL implementation. Much will be similar.
+**CRITICAL**: Do NOT simply copy template content without editing it to ensure it matches Astro Studio's ACTUAL implementation. Much will be similar.
 
 ## Actions Required
 
@@ -104,7 +104,7 @@ Restructure developer documentation to combine Tauri Template's clear organizati
 
 **Reference Template**: https://github.com/dannysmith/tauri-template/blob/main/docs/developer/bundle-optimization.md
 
-**IMPORTANT**: This is NEW content (not extracted). Use template for as a starting point, but ensure it's reflective to Astro Editor's reality.
+**IMPORTANT**: This is NEW content (not extracted). Use template for as a starting point, but ensure it's reflective to Astro Studio's reality.
 
 **Content to Create** (~150-200 lines):
 
@@ -488,7 +488,7 @@ User has already updated this file. Verify it matches final structure:
 - [ ] 1 file removed (unified-title-bar.md)
 - [ ] SVG positioning fix preserved in ui-patterns.md
 - [ ] architecture-guide.md simplified and streamlined (~450-500 lines)
-- [ ] All valuable Astro Editor content preserved:
+- [ ] All valuable Astro Studio content preserved:
   - [ ] Onion pattern and getState() examples
   - [ ] Direct Store Pattern explanation
   - [ ] Bridge pattern (store → query)
@@ -514,7 +514,7 @@ User has already updated this file. Verify it matches final structure:
 
 ### Content Preservation
 
-**CRITICAL**: Do NOT lose any valuable Astro Editor content during this refactor:
+**CRITICAL**: Do NOT lose any valuable Astro Studio content during this refactor:
 
 - All performance patterns and gotchas
 - All Direct Store Pattern examples and rationale
@@ -525,9 +525,9 @@ User has already updated this file. Verify it matches final structure:
 
 ### What NOT to Copy from Template
 
-- Do NOT copy template code examples (use Astro Editor examples)
+- Do NOT copy template code examples (use Astro Studio examples)
 - Do NOT copy template-specific content (use for structure only)
-- Template is a starter - Astro Editor has real implementation details to preserve
+- Template is a starter - Astro Studio has real implementation details to preserve
 
 ### File Operations
 

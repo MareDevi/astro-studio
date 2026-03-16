@@ -2,7 +2,7 @@
 
 ## Overview
 
-Astro Editor uses a **hybrid state management approach** with three distinct layers, each handling different types of state based on data source, persistence needs, and update frequency. This guide provides comprehensive coverage of when and how to use each layer.
+Astro Studio uses a **hybrid state management approach** with three distinct layers, each handling different types of state based on data source, persistence needs, and update frequency. This guide provides comprehensive coverage of when and how to use each layer.
 
 > **React Compiler Note**: While React Compiler (v1.0) automatically handles most component-level memoization, **it does not optimize Zustand store subscriptions**. All patterns in this document remain critical for performance. The compiler optimizes React components and hooks, but external state management like Zustand requires manual optimization through selector syntax and `useShallow`.
 
@@ -107,7 +107,7 @@ For complete details, see `docs/tasks-done/task-2025-11-07-fix-zustand-subscript
 
 ## The "Onion" Pattern
 
-State management in Astro Editor follows a layered "Onion" pattern, from outermost to innermost:
+State management in Astro Studio follows a layered "Onion" pattern, from outermost to innermost:
 
 ```
 ┌─────────────────────────────────────────┐
@@ -159,7 +159,7 @@ Use TanStack Query for state that:
 
 ### Our Specific Queries
 
-Astro Editor uses these primary queries:
+Astro Studio uses these primary queries:
 
 ```typescript
 // Collections list
@@ -243,7 +243,7 @@ export const useSaveFileMutation = () => {
 
 ### Why Decomposed Stores?
 
-Astro Editor uses **three focused stores** instead of one monolithic store:
+Astro Studio uses **three focused stores** instead of one monolithic store:
 
 ```typescript
 // 1. Editor Store (most volatile - every keystroke)

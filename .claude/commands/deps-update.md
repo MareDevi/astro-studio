@@ -292,7 +292,7 @@ Check `package.json` for any exact pins (versions without `^` or `~`). Run `bun 
 Ask user to:
 1. Run `bun run dev` in the test site
 2. Check the site builds and renders correctly in browser
-3. Open the project in Astro Editor and verify collections load and frontmatter forms work
+3. Open the project in Astro Studio and verify collections load and frontmatter forms work
 
 Use AskUserQuestion to confirm site works.
 
@@ -408,7 +408,7 @@ If any bun overrides or version pins were removed because issues were fixed upst
 
 ### 6. Manual Smoke Test
 
-Ask user to perform manual smoke test of Astro Editor. If there have been major updates or breaking changes to dependencies, suggest specific smoke tests related to them if it makes sense (Eg. if we have updated CodeMirror, suggest some targetted editor-focussed smoke tests; if we updated tauri-plugin-clipboard-manager then strongly suggest some tests of clipboard-related features etc.)
+Ask user to perform manual smoke test of Astro Studio. If there have been major updates or breaking changes to dependencies, suggest specific smoke tests related to them if it makes sense (Eg. if we have updated CodeMirror, suggest some targetted editor-focussed smoke tests; if we updated tauri-plugin-clipboard-manager then strongly suggest some tests of clipboard-related features etc.)
 
 Use AskUserQuestion to confirm smoke test passed.
 

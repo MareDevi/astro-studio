@@ -16,5 +16,5 @@ pub fn run() {
 }
 
 fn main() {
-    astro_editor_lib::run()
+    astro_studio_lib::run()
 }

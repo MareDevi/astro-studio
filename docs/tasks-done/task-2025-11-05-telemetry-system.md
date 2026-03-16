@@ -4,7 +4,7 @@
 
 Currently have no visibility into:
 
-- How many users have installed Astro Editor
+- How many users have installed Astro Studio
 - Which versions are in use
 - Update adoption rates
 
@@ -424,7 +424,7 @@ wrangler d1 execute astro-telemetry --command "SELECT * FROM telemetry_events" -
 
 After implementation, we can answer:
 
-- How many unique users have installed Astro Editor?
+- How many unique users have installed Astro Studio?
 - What versions are people running?
 - How quickly do users update to new versions?
 - Approximately how often is the app being used? (via update check frequency)

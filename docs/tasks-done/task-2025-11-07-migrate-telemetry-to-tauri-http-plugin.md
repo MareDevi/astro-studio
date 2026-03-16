@@ -185,7 +185,7 @@ Find this section:
 .setup(|app| {
     // Log app startup information
     let package_info = app.package_info();
-    log::info!("Astro Editor v{} starting up", package_info.version);
+    log::info!("Astro Studio v{} starting up", package_info.version);
     log::info!("Platform: {}", std::env::consts::OS);
     log::info!("Architecture: {}", std::env::consts::ARCH);
 ```
@@ -321,7 +321,7 @@ Should output:
 bun run tauri build
 ```
 
-Install the built app from `src-tauri/target/release/bundle/macos/Astro Editor.app` and verify:
+Install the built app from `src-tauri/target/release/bundle/macos/Astro Studio.app` and verify:
 - App launches successfully
 - Same UUID is used (persistent across dev/prod)
 - Telemetry event appears in database

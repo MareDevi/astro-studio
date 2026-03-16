@@ -30,7 +30,7 @@ Enter Full Screen   F11
 ─────────────────────────────
 Preferences...      Ctrl+,
 Check for Updates...
-About Astro Editor
+About Astro Studio
 ─────────────────────────────
 Exit
 ```
@@ -75,8 +75,8 @@ onClick={async () => {
 // About dialog (matches Rust implementation)
 onClick={async () => {
   await message(
-    'Astro Editor\nVersion X.X.X\n\nA native markdown editor for Astro content collections.\n\nBuilt with Tauri and React.',
-    { title: 'About Astro Editor', kind: 'info' }
+    'Astro Studio\nVersion X.X.X\n\nA native markdown editor for Astro content collections.\n\nBuilt with Tauri and React.',
+    { title: 'About Astro Studio', kind: 'info' }
   )
 }}
 

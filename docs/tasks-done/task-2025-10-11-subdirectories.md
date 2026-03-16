@@ -45,7 +45,7 @@ Many Astro sites organize the md/mdx files within a single content collection us
 
 ## Requirements
 
-Astro Editor should support this in the left File browser sidebar. It should show any subdirectories at the top of the file browser and when drilling down into one should show the "breadcrumbs" at the top of the sidebar alongside the currently open collection. It should be easy to navigate back up. Basically, as you would expect a file browser sidebar to work. I don't think the UI should include expandable and collapsible file trees here. I think that will clutter the UI too much.
+Astro Studio should support this in the left File browser sidebar. It should show any subdirectories at the top of the file browser and when drilling down into one should show the "breadcrumbs" at the top of the sidebar alongside the currently open collection. It should be easy to navigate back up. Basically, as you would expect a file browser sidebar to work. I don't think the UI should include expandable and collapsible file trees here. I think that will clutter the UI too much.
 
 ### Specific Requirements
 

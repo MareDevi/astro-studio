@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document covers the core architectural patterns and principles used in Astro Editor. It focuses on the **essential patterns you need daily**. For specialized topics, see the [Specialized Guides](#specialized-guides) section.
+This document covers the core architectural patterns and principles used in Astro Studio. It focuses on the **essential patterns you need daily**. For specialized topics, see the [Specialized Guides](#specialized-guides) section.
 
 ## Core Architecture Principles
 

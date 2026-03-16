@@ -19,7 +19,7 @@ Ergo: we should be inserting **relative** paths to these files, not absolute pat
 
 ## The Problem
 
-Astro Editor is intentionally designed to ignore as much as possible about the structure of Astro sites because as a minimalist content editor it only needs to care about:
+Astro Studio is intentionally designed to ignore as much as possible about the structure of Astro sites because as a minimalist content editor it only needs to care about:
 
 1. Where to find content collections content and schema config (usually `src/content`).
 2. Where to find components intended for use in MDX files.
@@ -27,10 +27,10 @@ Astro Editor is intentionally designed to ignore as much as possible about the s
 
 All of which are **totally independent** from each other. The file browser, editor and frontmatter features (1) don't care where MDX components or assets live beyond knowing a simple path to each, which is all configurable in the settings. And the code which adds images dragged into the editor doesn't care about the structure of the current content collection – it just needs to know the current collection name and a path to the right "assets" directory.
 
-Supporting relative paths for assets **requires Astro Editor to understand and care about the directory structure of Astro sites**, at lest as far as the relative relationship between content directories and the location of their assets. I don't like this because:
+Supporting relative paths for assets **requires Astro Studio to understand and care about the directory structure of Astro sites**, at lest as far as the relative relationship between content directories and the location of their assets. I don't like this because:
 
-1. The file structure of an Astro site is a **Coder Mode** concern. As a **Writer Mode** tool, Astro Editor should not depend on coder-mode implementation details.
-2. Relative paths are poor UX when you don't have the project's file tree to hand, which you obviously don't in Astro Editor.
+1. The file structure of an Astro site is a **Coder Mode** concern. As a **Writer Mode** tool, Astro Studio should not depend on coder-mode implementation details.
+2. Relative paths are poor UX when you don't have the project's file tree to hand, which you obviously don't in Astro Studio.
 3. For Astro sites using any sort of [custom image component](https://github.com/dannysmith/dannyis-astro/blob/main/src/components/mdx/BasicImage.astro), relative paths are probably gonna be harder to handle reliably, in which cae users might prefer the current absolute paths.
 
 ## Potential Solutions
@@ -678,7 +678,7 @@ All projects (new and existing) will use relative paths by default. Document thi
 ```markdown
 ## Breaking Change: Relative Asset Paths
 
-Astro Editor now uses **relative paths** for images by default, matching Astro's conventions.
+Astro Studio now uses **relative paths** for images by default, matching Astro's conventions.
 
 **Before:** `/src/assets/articles/image.png`
 **After:** `../../assets/articles/image.png`
@@ -704,7 +704,7 @@ will use the new default.
 If you've configured your Astro site to handle absolute paths, you can either:
 
 - Revert that configuration (recommended)
-- Disable relative paths in Astro Editor settings
+- Disable relative paths in Astro Studio settings
 ```
 
 #### 6.2 Update User Guide
@@ -714,7 +714,7 @@ If there's a user guide section on asset management, add:
 ```markdown
 ### Asset Path Styles
 
-Astro Editor can generate paths in two styles:
+Astro Studio can generate paths in two styles:
 
 - **Relative paths** (default): `../../assets/articles/image.png`
   - Paths are relative to the current markdown file

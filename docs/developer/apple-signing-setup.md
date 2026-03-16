@@ -1,6 +1,6 @@
 # Apple Signing Setup
 
-This guide helps you set up Apple code signing for Astro Editor.
+This guide helps you set up Apple code signing for Astro Studio.
 
 ## Prerequisites
 
@@ -11,7 +11,7 @@ This guide helps you set up Apple code signing for Astro Editor.
 
 1. Go to [App Store Connect](https://appstoreconnect.apple.com/) → **Users and Access** → **Integrations**
 2. Click **Generate API Key**
-3. Name it (e.g., "Astro Editor CI") and select **Developer** role
+3. Name it (e.g., "Astro Studio CI") and select **Developer** role
 4. Download the `.p8` file (⚠️ can only download once!)
 5. Note the **Key ID** and **Issuer ID**
 

@@ -1,6 +1,6 @@
 # Testing Guide
 
-Comprehensive testing strategies for the Astro Editor codebase.
+Comprehensive testing strategies for the Astro Studio codebase.
 
 ## Table of Contents
 

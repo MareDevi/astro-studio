@@ -72,7 +72,7 @@ pub fn run() {
         .setup(|app| {
             // Log app startup information
             let package_info = app.package_info();
-            log::info!("Astro Editor v{} starting up", package_info.version);
+            log::info!("Astro Studio v{} starting up", package_info.version);
             log::info!("Platform: {}", std::env::consts::OS);
             log::info!("Architecture: {}", std::env::consts::ARCH);
 
@@ -231,23 +231,23 @@ pub fn run() {
 
             let app_menu = Submenu::with_items(
                 app,
-                "Astro Editor",
+                "Astro Studio",
                 true,
                 &[
-                    &MenuItem::with_id(app, "about", "About Astro Editor", true, None::<&str>)?,
+                    &MenuItem::with_id(app, "about", "About Astro Studio", true, None::<&str>)?,
                     &PredefinedMenuItem::separator(app)?,
                     &MenuItem::with_id(app, "check_updates", "Check for Updates...", true, None::<&str>)?,
                     &PredefinedMenuItem::separator(app)?,
                     &MenuItem::with_id(app, "preferences", "Preferences...", true, Some("Cmd+,"))?,
                     &PredefinedMenuItem::separator(app)?,
-                    &PredefinedMenuItem::hide(app, Some("Hide Astro Editor"))?,
+                    &PredefinedMenuItem::hide(app, Some("Hide Astro Studio"))?,
                     &PredefinedMenuItem::hide_others(app, Some("Hide Others"))?,
                     &PredefinedMenuItem::show_all(app, Some("Show All"))?,
                     &PredefinedMenuItem::separator(app)?,
                     &MenuItem::with_id(
                         app,
                         "quit",
-                        "Quit Astro Editor",
+                        "Quit Astro Studio",
                         true,
                         Some("CmdOrCtrl+Q"),
                     )?,
@@ -301,11 +301,11 @@ pub fn run() {
                         let name = &package_info.name;
 
                         let message = format!(
-                            "{name}\nVersion {version}\n\nA native macOS markdown editor for Astro content collections.\n\nBuilt with Tauri and React.\n\nCopyright © 2025 Danny Smith. All rights reserved."
+                            "{name}\nVersion {version}\n\nA cross-platform application based on astro-editor, designed to enhance Astro content creation.\n\nBased on astro-editor by Danny Smith. \nExtensions © 2025 MareDevi. All rights reserved."
                         );
                         let _ = app_handle.dialog()
                             .message(message)
-                            .title("About Astro Editor")
+                            .title("About Astro Studio")
                             .kind(MessageDialogKind::Info)
                             .blocking_show();
                     });

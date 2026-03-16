@@ -54,33 +54,33 @@ Add detailed logging at each step of project setup:
 **Frontend (projectStore.ts):**
 ```typescript
 // App startup context (log once on app start)
-await info(`Astro Editor v${appVersion} started on ${platform}`)
+await info(`Astro Studio v${appVersion} started on ${platform}`)
 
 // Project setup steps
-await info(`Astro Editor [PROJECT_SETUP] Starting project setup: ${path}`)
-await info(`Astro Editor [PROJECT_SETUP] Registering project: ${path}`)
-await debug(`Astro Editor [PROJECT_SETUP] Project ID generated: ${projectId}`)
-await info(`Astro Editor [PROJECT_SETUP] Loading project settings for: ${projectId}`)
-await info(`Astro Editor [PROJECT_SETUP] Starting file watcher`)
-await info(`Astro Editor [PROJECT_SETUP] Project setup completed successfully: ${projectId}`)
+await info(`Astro Studio [PROJECT_SETUP] Starting project setup: ${path}`)
+await info(`Astro Studio [PROJECT_SETUP] Registering project: ${path}`)
+await debug(`Astro Studio [PROJECT_SETUP] Project ID generated: ${projectId}`)
+await info(`Astro Studio [PROJECT_SETUP] Loading project settings for: ${projectId}`)
+await info(`Astro Studio [PROJECT_SETUP] Starting file watcher`)
+await info(`Astro Studio [PROJECT_SETUP] Project setup completed successfully: ${projectId}`)
 
 // Enhanced error logging with step identification
-await error(`Astro Editor [PROJECT_SETUP] Failed at step: ${currentStep} - Path: ${path} - Error: ${error.message}`)
+await error(`Astro Studio [PROJECT_SETUP] Failed at step: ${currentStep} - Path: ${path} - Error: ${error.message}`)
 ```
 
 **Backend (Rust commands):**
 ```rust
 // In scan_project command
-info!("Astro Editor [PROJECT_SCAN] Scanning project at path: {}", project_path);
-info!("Astro Editor [PROJECT_SCAN] Content directory: {:?}", content_directory.as_deref().unwrap_or("src/content"));
+info!("Astro Studio [PROJECT_SCAN] Scanning project at path: {}", project_path);
+info!("Astro Studio [PROJECT_SCAN] Content directory: {:?}", content_directory.as_deref().unwrap_or("src/content"));
 
 // In project discovery/registration
-info!("Astro Editor [PROJECT_DISCOVERY] Reading package.json: {}/package.json", project_path);
-info!("Astro Editor [PROJECT_DISCOVERY] Project name found: {}", project_name);
+info!("Astro Studio [PROJECT_DISCOVERY] Reading package.json: {}/package.json", project_path);
+info!("Astro Studio [PROJECT_DISCOVERY] Project name found: {}", project_name);
 
 // Error handling - ensure all Rust errors make it to logs
-error!("Astro Editor [PROJECT_SCAN] Scan failed for {}: {}", project_path, error);
-error!("Astro Editor [PROJECT_DISCOVERY] Package.json read failed for {}: {}", project_path, error);
+error!("Astro Studio [PROJECT_SCAN] Scan failed for {}: {}", project_path, error);
+error!("Astro Studio [PROJECT_DISCOVERY] Package.json read failed for {}: {}", project_path, error);
 ```
 
 ### 3. JavaScript Error Logging
@@ -90,11 +90,11 @@ Ensure uncaught JavaScript errors also go to console:
 ```typescript
 // Add to main.tsx or App.tsx
 window.addEventListener('error', async (event) => {
-  await error(`Astro Editor [JS_ERROR] ${event.error?.message || event.message} at ${event.filename}:${event.lineno}`)
+  await error(`Astro Studio [JS_ERROR] ${event.error?.message || event.message} at ${event.filename}:${event.lineno}`)
 })
 
 window.addEventListener('unhandledrejection', async (event) => {
-  await error(`Astro Editor [PROMISE_REJECTION] ${event.reason}`)
+  await error(`Astro Studio [PROMISE_REJECTION] ${event.reason}`)
 })
 ```
 
@@ -136,23 +136,23 @@ window.addEventListener('unhandledrejection', async (event) => {
 After implementation, when a user reports project setup issues:
 
 **You tell them:**
-"Please open Console.app and search for 'Astro Editor' to see the logs, then copy and send me everything from the last few minutes."
+"Please open Console.app and search for 'Astro Studio' to see the logs, then copy and send me everything from the last few minutes."
 
 **Or more specifically:**
-"In Console.app, search for 'Astro Editor [PROJECT_SETUP]' to see exactly where the project setup failed."
+"In Console.app, search for 'Astro Studio [PROJECT_SETUP]' to see exactly where the project setup failed."
 
 ### 7. Log Categories and Levels
 
 **Info Level:**
-- `Astro Editor [PROJECT_SETUP]` - Step-by-step project setup progress
-- `Astro Editor [PROJECT_SCAN]` - Backend project scanning operations  
-- `Astro Editor [PROJECT_DISCOVERY]` - Project metadata discovery
-- `Astro Editor` startup with version info
+- `Astro Studio [PROJECT_SETUP]` - Step-by-step project setup progress
+- `Astro Studio [PROJECT_SCAN]` - Backend project scanning operations  
+- `Astro Studio [PROJECT_DISCOVERY]` - Project metadata discovery
+- `Astro Studio` startup with version info
 
 **Error Level:**
 - All failures with step identification and full context
-- `Astro Editor [JS_ERROR]` - JavaScript runtime errors
-- `Astro Editor [PROMISE_REJECTION]` - Unhandled promise rejections
+- `Astro Studio [JS_ERROR]` - JavaScript runtime errors
+- `Astro Studio [PROMISE_REJECTION]` - Unhandled promise rejections
 
 **Debug Level:**
 - Project ID generation details
@@ -178,8 +178,8 @@ After implementation, when a user reports project setup issues:
 - Verify all scenarios produce searchable logs in Console.app
 
 **Verification:**
-- Search for `Astro Editor [PROJECT_SETUP]` shows complete project setup flow
-- Search for `Astro Editor` shows all app logs including startup info with version
+- Search for `Astro Studio [PROJECT_SETUP]` shows complete project setup flow
+- Search for `Astro Studio` shows all app logs including startup info with version
 - All error scenarios include project path and step context
 - Logs are easily filterable from macOS Console noise
 

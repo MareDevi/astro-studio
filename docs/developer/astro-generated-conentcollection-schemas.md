@@ -1006,7 +1006,7 @@ Even though the root uses `$ref` to reference definitions, **nested schemas do n
 | `.transform(fn)`                | **LOST** - no representation                                               |
 | `.refine(fn)`                   | **LOST** - no representation                                               |
 
-## Parsing Strategy for Astro Editor
+## Parsing Strategy for Astro Studio
 
 Based on this analysis, here's a recommended parsing strategy:
 

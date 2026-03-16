@@ -2,7 +2,7 @@
 
 ## Overview
 
-This review provides high-level architectural recommendations for the Astro Editor codebase. The project is well-structured with a clear separation of concerns between the Rust backend and the React frontend. The documentation of core patterns is excellent. The following recommendations are intended to build upon this solid foundation, focusing on improving maintainability, robustness, and decoupling.
+This review provides high-level architectural recommendations for the Astro Studio codebase. The project is well-structured with a clear separation of concerns between the Rust backend and the React frontend. The documentation of core patterns is excellent. The following recommendations are intended to build upon this solid foundation, focusing on improving maintainability, robustness, and decoupling.
 
 ---
 

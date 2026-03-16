@@ -363,7 +363,7 @@ Create the new domain types file with the 5 core domain types:
 // src/types/domain.ts
 
 /**
- * Domain types for Astro Editor.
+ * Domain types for Astro Studio.
  * These types mirror Rust structs from src-tauri/src/models/
  */
 

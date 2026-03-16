@@ -3,7 +3,7 @@ import { glob, file } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 // Authors collection - file-based JSON collection for reference testing
-// NOTE: This uses file() loader, not glob(), so it won't be loaded by Astro Editor
+// NOTE: This uses file() loader, not glob(), so it won't be loaded by Astro Studio
 // It only exists for testing reference() fields in other collections
 const authors = defineCollection({
   loader: file('./src/content/authors.json'),

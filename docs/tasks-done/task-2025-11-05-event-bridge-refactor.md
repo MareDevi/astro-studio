@@ -1074,7 +1074,7 @@ Both patterns are technically excellent and eliminate all issues with the curren
 - **Hybrid Action Hooks**: React-first, hooks for orchestration, stores for state
 - **Callback Registry**: Tauri-first, stores for everything, bridge for data access
 
-**For Astro Editor**: **Hybrid Action Hooks is the right choice** based on existing codebase patterns, team composition, and React-heavy architecture. The pattern:
+**For Astro Studio**: **Hybrid Action Hooks is the right choice** based on existing codebase patterns, team composition, and React-heavy architecture. The pattern:
 
 - Eliminates polling, race conditions, and type safety issues
 - Follows existing React patterns team understands

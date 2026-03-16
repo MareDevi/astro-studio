@@ -1,0 +1,26 @@
+Astro Studio
+Copyright (C) 2025 MareDevi. All rights reserved.
+
+This project is a derivative work of "astro-editor" (https://github.com/dannysmith/astro-editor)
+Copyright (C) 2025 Danny Smith. All rights reserved.
+
+The original project is licensed under the GNU Affero General Public License v3.0 or later (AGPL-3.0-or-later).
+
+This derivative work includes the following modifications and additions:
+- Live preview functionality
+- Integrated Git control features
+- Various UI/UX enhancements
+
+Both the original work and this derivative work are licensed under AGPL-3.0-or-later.
+You can find the full license text in the LICENSE file.
+
+---
+
+Original Project: https://github.com/dannysmith/astro-editor
+Derivative Project: https://github.com/MareDevi/astro-studio
+
+This project uses the following third-party components with their respective licenses:
+- Tauri: MIT/Apache-2.0
+- React: MIT
+- CodeMirror: MIT
+- And other dependencies as listed in package.json and Cargo.toml

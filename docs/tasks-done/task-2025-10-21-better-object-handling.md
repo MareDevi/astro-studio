@@ -239,7 +239,7 @@ This suggests the implementation **may have been recently added** (based on syst
 ### Next Steps for User
 
 **To verify the fix**:
-1. Open the Astro Editor with the test dummy project
+1. Open the Astro Studio with the test dummy project
 2. Open the test file `2024-03-15-object-field-test.md`
 3. Check the frontmatter panel to see if:
    - There is NO input field for "metadata" itself
@@ -313,4 +313,4 @@ Added regression test `test_parse_nested_object_with_additional_properties_false
 
 ### Next Steps
 
-Restart the Astro Editor to see the fix in action. The "Metadata" text input should disappear, replaced by properly grouped fields.
+Restart the Astro Studio to see the fix in action. The "Metadata" text input should disappear, replaced by properly grouped fields.

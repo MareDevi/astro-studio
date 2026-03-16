@@ -1,7 +1,7 @@
 
 # Rust Test Suite Effectiveness Review - 2025-10-24
 
-This report analyzes the effectiveness of the Rust test suite in the Astro Editor codebase. The focus is on identifying areas for improvement to maximize the value and reliability of the tests.
+This report analyzes the effectiveness of the Rust test suite in the Astro Studio codebase. The focus is on identifying areas for improvement to maximize the value and reliability of the tests.
 
 ## Executive Summary
 

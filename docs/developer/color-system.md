@@ -1,6 +1,6 @@
 # Color System and Dark Mode
 
-This document outlines the color system implementation in Astro Editor, including dark mode support and theming architecture.
+This document outlines the color system implementation in Astro Studio, including dark mode support and theming architecture.
 
 ## Overview
 

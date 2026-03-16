@@ -4,7 +4,7 @@
 
 ## Overview
 
-Astro Editor currently only works on macOS. This task prepares the codebase for cross-platform support through careful refactoring that **doesn't break macOS functionality**.
+Astro Studio currently only works on macOS. This task prepares the codebase for cross-platform support through careful refactoring that **doesn't break macOS functionality**.
 
 This is **Part A** of the cross-platform work - everything that can be done on macOS, merged to main, and released. Parts B (Windows testing) and C (Linux testing) are separate tasks that require their respective environments.
 
@@ -473,7 +473,7 @@ How to Test
    git commit -m "Add Windows and Linux builds to release workflow"
    git push origin windows-support
 2. Trigger the workflow manually:
-   - Go to GitHub → Actions → "Release Astro Editor"
+   - Go to GitHub → Actions → "Release Astro Studio"
    - Click "Run workflow"
    - Select windows-support branch
    - Enter a test version like v0.0.0-test.1

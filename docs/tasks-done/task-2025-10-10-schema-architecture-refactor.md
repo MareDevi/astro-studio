@@ -1748,7 +1748,7 @@ for collection in &mut collections {
         load_json_schema_for_collection(&project_path, &collection.name)
     {
         debug!(
-            "Astro Editor [PROJECT_SCAN] Loaded JSON schema for collection: {}",
+            "Astro Studio [PROJECT_SCAN] Loaded JSON schema for collection: {}",
             collection.name
         );
         collection.json_schema = Some(json_schema);
@@ -1785,21 +1785,21 @@ fn generate_complete_schema(collection: &mut Collection, project_path: &str) {
         Ok(complete_schema) => match serde_json::to_string(&complete_schema) {
             Ok(serialized) => {
                 debug!(
-                    "Astro Editor [SCHEMA_MERGER] Generated complete schema for collection: {}",
+                    "Astro Studio [SCHEMA_MERGER] Generated complete schema for collection: {}",
                     collection.name
                 );
                 collection.complete_schema = Some(serialized);
             }
             Err(e) => {
                 warn!(
-                    "Astro Editor [SCHEMA_MERGER] Failed to serialize complete schema for {}: {}",
+                    "Astro Studio [SCHEMA_MERGER] Failed to serialize complete schema for {}: {}",
                     collection.name, e
                 );
             }
         },
         Err(e) => {
             warn!(
-                "Astro Editor [SCHEMA_MERGER] Failed to create complete schema for {}: {}",
+                "Astro Studio [SCHEMA_MERGER] Failed to create complete schema for {}: {}",
                 collection.name, e
             );
         }

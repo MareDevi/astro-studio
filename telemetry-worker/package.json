@@ -2,7 +2,7 @@
   "name": "astro-telemetry-worker",
   "version": "1.0.0",
   "private": true,
-  "description": "Cloudflare Worker for Astro Editor telemetry",
+  "description": "Cloudflare Worker for Astro Studio telemetry",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",

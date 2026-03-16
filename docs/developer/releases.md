@@ -1,6 +1,6 @@
 # Release Process Guide
 
-This document explains how to create releases for Astro Editor and how the release infrastructure works.
+This document explains how to create releases for Astro Studio and how the release infrastructure works.
 
 ## Creating a Release
 
@@ -36,7 +36,7 @@ bun run prepare-release v2.0.0
 
 After pushing the tag, the build workflow runs automatically:
 
-1. Go to **GitHub → Actions** and watch the "Release Astro Editor" workflow
+1. Go to **GitHub → Actions** and watch the "Release Astro Studio" workflow
 2. Once complete, go to **GitHub → Releases** — a draft release will be waiting
 3. **Edit the draft** — write release notes describing the changes
 4. Click **Publish release**

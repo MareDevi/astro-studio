@@ -24,4 +24,4 @@ When contributing:
 
 ## About This Application
 
-Astro Editor is a local-first application that stores data on your machine and does not transmit content to external servers. It uses Tauri v2's security framework with sandboxed web views and validated IPC communication.
+Astro Studio is a local-first application that stores data on your machine and does not transmit content to external servers. It uses Tauri v2's security framework with sandboxed web views and validated IPC communication.

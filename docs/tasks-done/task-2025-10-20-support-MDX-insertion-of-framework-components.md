@@ -406,7 +406,7 @@ mod tests {
 
 Manual testing with real Astro project:
 1. Create test fixtures: `src/components/mdx/test/Button.tsx`, `Alert.vue`, `Card.svelte`
-2. Open project in Astro Editor
+2. Open project in Astro Studio
 3. Open MDX file, press Cmd+/
 4. Verify all components appear with correct framework badges
 5. Select each component type and verify props are detected

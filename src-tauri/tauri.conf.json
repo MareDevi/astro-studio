@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Astro Editor",
+  "productName": "Astro Studio",
   "version": "1.0.10",
-  "identifier": "is.danny.astroeditor",
+  "identifier": "moe.maredevi.astro-studio",
   "build": {
     "beforeDevCommand": "bun run dev",
     "devUrl": "http://localhost:1420",
@@ -13,7 +13,7 @@
   "app": {
     "windows": [
       {
-        "title": "Astro Editor",
+        "title": "Astro Studio",
         "width": 1400,
         "height": 900,
         "minWidth": 1000,
@@ -29,7 +29,7 @@
       }
     ],
     "security": {
-      "csp": "default-src 'self' ipc: http://ipc.localhost; connect-src 'self' https://updateserver.dny.li; img-src 'self' asset: http://asset.localhost data:; style-src 'self' 'unsafe-inline'",
+      "csp": "default-src 'self' ipc: http://ipc.localhost; connect-src 'self' https://github.com; img-src 'self' asset: http://asset.localhost data:; style-src 'self' 'unsafe-inline'",
       "assetProtocol": {
         "enable": true,
         "scope": ["**"]
@@ -48,11 +48,11 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-    "publisher": "Danny Smith",
+    "publisher": "MareDevi",
     "category": "DeveloperTool",
-    "shortDescription": "A beautiful markdown editor for Astro content collections",
-    "longDescription": "Astro Editor is a native macOS application designed specifically for editing Astro content collections. It provides a distraction-free writing environment with seamless frontmatter editing capabilities. It also provides a component builder for MDX files, and a number of writing modes to help you write.",
-    "copyright": "Copyright © 2025 Danny Smith. All rights reserved.",
+    "shortDescription": "A cross-platform application based on astro-editor, designed to enhance Astro content creation",
+    "longDescription": "Astro Studio is a native macOS markdown editor for Astro content collections. Based on astro-editor by Danny Smith, with added preview and Git control features. It provides a distraction-free writing environment with seamless frontmatter editing capabilities.",
+    "copyright": "Based on astro-editor by Danny Smith. Extensions © 2025 MareDevi. All rights reserved.",
     "fileAssociations": [
       {
         "ext": ["md"],
@@ -86,7 +86,7 @@
     "updater": {
       "active": true,
       "endpoints": [
-        "https://github.com/dannysmith/astro-editor/releases/latest/download/latest.json"
+        "https://github.com/MareDevi/astro-studio/releases/latest/download/latest.json"
       ],
       "dialog": false,
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEIxRjIwNEJDQkRFRDcwRDkKUldUWmNPMjl2QVR5c2VhQjRwTXBqRi9ZMk81azVERVlXMk1tQmdpZ01QdlY0RWExdE5yZXA4SS8K"

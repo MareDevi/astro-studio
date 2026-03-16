@@ -2,7 +2,7 @@
 
 ## Overview
 
-Astro Editor supports macOS, Windows, and Linux. This guide documents the patterns and configurations used to achieve cross-platform compatibility while maintaining platform-native experiences.
+Astro Studio supports macOS, Windows, and Linux. This guide documents the patterns and configurations used to achieve cross-platform compatibility while maintaining platform-native experiences.
 
 ## Platform Support Summary
 
@@ -82,7 +82,7 @@ The base config uses safe cross-platform defaults (serves as fallback if no plat
 {
   "app": {
     "windows": [{
-      "title": "Astro Editor",
+      "title": "Astro Studio",
       "width": 1400,
       "height": 900,
       "minWidth": 1000,
@@ -100,7 +100,7 @@ The base config uses safe cross-platform defaults (serves as fallback if no plat
 {
   "app": {
     "windows": [{
-      "title": "Astro Editor",
+      "title": "Astro Studio",
       "width": 1400,
       "height": 900,
       "minWidth": 1000,
@@ -120,7 +120,7 @@ The base config uses safe cross-platform defaults (serves as fallback if no plat
 {
   "app": {
     "windows": [{
-      "title": "Astro Editor",
+      "title": "Astro Studio",
       "width": 1400,
       "height": 900,
       "minWidth": 1000,
@@ -138,7 +138,7 @@ The base config uses safe cross-platform defaults (serves as fallback if no plat
 {
   "app": {
     "windows": [{
-      "title": "Astro Editor",
+      "title": "Astro Studio",
       "width": 1400,
       "height": 900,
       "minWidth": 1000,

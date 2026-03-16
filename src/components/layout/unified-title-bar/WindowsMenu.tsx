@@ -106,8 +106,8 @@ export const WindowsMenu: React.FC = () => {
     }
 
     await message(
-      `Astro Editor\nVersion ${version}\n\nA native markdown editor for Astro content collections.\n\nBuilt with Tauri and React.`,
-      { title: 'About Astro Editor', kind: 'info' },
+      `A cross-platform application based on astro-editor, designed to enhance Astro content creation.\n\nBuilt with Tauri and React.`,
+      { title: 'About Astro Studio', kind: 'info' },
     );
   };
 
@@ -172,7 +172,7 @@ export const WindowsMenu: React.FC = () => {
           Check for Updates...
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => void handleAbout()}>
-          About Astro Editor
+          About Astro Studio
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />

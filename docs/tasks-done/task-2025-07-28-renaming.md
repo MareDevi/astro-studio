@@ -1,8 +1,8 @@
-# Naming Recommendations for Astro Editor
+# Naming Recommendations for Astro Studio
 
 ## Executive Summary
 
-After a comprehensive review of the entire Astro Editor codebase (TypeScript and Rust), the project demonstrates strong naming conventions with excellent consistency. The codebase follows established conventions for both languages and maintains clear, descriptive names throughout. Only minor improvements are recommended to enhance consistency in edge cases.
+After a comprehensive review of the entire Astro Studio codebase (TypeScript and Rust), the project demonstrates strong naming conventions with excellent consistency. The codebase follows established conventions for both languages and maintains clear, descriptive names throughout. Only minor improvements are recommended to enhance consistency in edge cases.
 
 ## Specific Recommendations
 

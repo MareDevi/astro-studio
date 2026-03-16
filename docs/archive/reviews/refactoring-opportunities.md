@@ -1,11 +1,11 @@
-# Refactoring Opportunities - Astro Editor
+# Refactoring Opportunities - Astro Studio
 
 **Analysis Date:** November 1, 2025  
 **Codebase Version:** code-improvements-oct-2025 branch
 
 ## Executive Summary
 
-After a comprehensive analysis of the Astro Editor codebase (TypeScript/React and Rust), I've identified several pragmatic refactoring opportunities that would improve maintainability and readability. The codebase is generally well-structured with good architectural patterns already in place. The opportunities listed focus on extracting complex logic into smaller, more focused functions—primarily low-hanging fruit that offers clear value without major risk.
+After a comprehensive analysis of the Astro Studio codebase (TypeScript/React and Rust), I've identified several pragmatic refactoring opportunities that would improve maintainability and readability. The codebase is generally well-structured with good architectural patterns already in place. The opportunities listed focus on extracting complex logic into smaller, more focused functions—primarily low-hanging fruit that offers clear value without major risk.
 
 ### Overall Code Quality Assessment
 - **Strong architectural foundation**: Well-documented patterns, clear separation between server and client state
@@ -529,7 +529,7 @@ After completing all refactorings:
 
 ## Conclusion
 
-The Astro Editor codebase demonstrates strong architectural principles and good engineering practices. The refactoring opportunities identified are primarily about **making good code even better** through:
+The Astro Studio codebase demonstrates strong architectural principles and good engineering practices. The refactoring opportunities identified are primarily about **making good code even better** through:
 
 1. **Reducing cognitive load:** Breaking large functions into focused helpers
 2. **Improving testability:** Isolated functions are easier to test thoroughly

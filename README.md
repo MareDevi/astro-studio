@@ -1,10 +1,14 @@
-# Astro Editor
+# Astro Studio
 
-![Screenshots of Astro Editor](docs/assets/header.png)
+![Screenshots of Astro Studio](docs/assets/header.png)
 
 A native macOS markdown editor for Astro content collections. Clean writing interface with automatic frontmatter editing based on your collection schemas.
 
 https://github.com/user-attachments/assets/dc32dd12-2094-47c4-ab90-620ecd11ba48
+
+## Project Origin
+
+This project is based on [astro-editor](https://github.com/dannysmith/astro-editor) by Danny Smith. Astro Studio extends the original editor with additional features including live preview and integrated Git control.
 
 ## Features
 
@@ -38,6 +42,12 @@ https://github.com/user-attachments/assets/dc32dd12-2094-47c4-ab90-620ecd11ba48
 - Context menu for rename, duplicate, reveal in Finder, copy path.
 - Command palette (`Cmd + P`) for quick file switching and command access.
 
+**Preview & Git Control (New Features)**
+
+- Live preview of your markdown content
+- Integrated Git control for version management
+- View changes, commit, and manage branches directly within the editor
+
 **Project Configuration**
 
 - Per-project and per-collection settings for custom directory structures.
@@ -66,11 +76,7 @@ my-astro-site
 
 ## Installation
 
-Download the [latest Release](https://github.com/dannysmith/astro-editor/releases) or install with Homebrew:
-
-```
-brew install --cask astro-editor
-```
+Download the [latest Release](https://github.com/MareDevi/astro-studio/releases).
 
 **Other Platforms:** Windows (.msi) and Linux (.AppImage, .deb) builds are available from the releases page but are not officially supported yet. Use at your own risk.
 
@@ -85,21 +91,18 @@ Work in progress. Commit your Astro project regularly when using the editor.
 
 ## Contributing
 
-Bug reports and feature requests are welcome. See the [issue tracker](https://github.com/dannysmith/astro-editor/issues).
+Bug reports and feature requests are welcome. See the [issue tracker](https://github.com/MareDevi/astro-studio/issues).
 
 **Project Philosophy:**
 
-- This is a tool for "writer mode", not "coder mode". Features related to git, publishing, deployment, or code editing are out of scope.
+- This is a tool for "writer mode", not "coder mode". Features related to publishing, deployment, or code editing are out of scope.
 - The UI is intentionally opinionated for simplicity. Customization options are limited to what's needed to work with different Astro project structures.
 
 Pull requests welcome. See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for development setup.
 
-## Roadmap
-
-See the [GitHub Project](https://github.com/users/dannysmith/projects/5/)
-
 ## Credits
 
+- **[astro-editor](https://github.com/dannysmith/astro-editor)** by Danny Smith - The original project that serves as the foundation for Astro Studio
 - [iA Writer](https://ia.net/writer) for inspiration and [typography](https://github.com/iaolo/iA-Fonts)
 - [DarkMatter](https://getdarkmatter.dev/) by [Vadim Demedes](https://vadimdemedes.com/)
 

@@ -1,6 +1,6 @@
-# Astro Editor Telemetry Worker
+# Astro Studio Telemetry Worker
 
-Cloudflare Worker for collecting anonymous telemetry from Astro Editor. Only collects anonymous UUIDs with minimal metadata (version, event type, platform).
+Cloudflare Worker for collecting anonymous telemetry from Astro Studio. Only collects anonymous UUIDs with minimal metadata (version, event type, platform).
 
 ## Data Format
 

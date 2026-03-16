@@ -1,4 +1,4 @@
-# Contributing to Astro Editor
+# Contributing to Astro Studio
 
 This document provides guidelines and information for contributors.
 

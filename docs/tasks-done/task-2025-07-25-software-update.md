@@ -6,7 +6,7 @@
 
 ## Executive Summary
 
-This document provides a comprehensive technical implementation plan for adding auto-update functionality and professional release management to the Astro Editor. Based on extensive research into Tauri v2 best practices, GitHub Actions workflows, and 2025 code signing requirements, this plan balances functionality, security, and cost for a single-developer project.
+This document provides a comprehensive technical implementation plan for adding auto-update functionality and professional release management to the Astro Studio. Based on extensive research into Tauri v2 best practices, GitHub Actions workflows, and 2025 code signing requirements, this plan balances functionality, security, and cost for a single-developer project.
 
 **Key Decisions Made:**
 

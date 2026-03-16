@@ -1,11 +1,11 @@
-# Front-End Testing Review - Astro Editor
+# Front-End Testing Review - Astro Studio
 
 **Review Date**: 2025-11-01
 **Reviewer**: TypeScript Test Engineer Agent
 
 ## Executive Summary
 
-The Astro Editor test suite demonstrates **strong fundamentals with significant gaps**. The project has 28 test files covering 194 TypeScript source files (14.4% file coverage). Tests that exist are well-designed, with comprehensive coverage of tested modules (many achieving 100% line coverage). However, **critical application logic remains untested**, particularly stores, hooks, and high-level integration workflows.
+The Astro Studio test suite demonstrates **strong fundamentals with significant gaps**. The project has 28 test files covering 194 TypeScript source files (14.4% file coverage). Tests that exist are well-designed, with comprehensive coverage of tested modules (many achieving 100% line coverage). However, **critical application logic remains untested**, particularly stores, hooks, and high-level integration workflows.
 
 **Overall Test Suite Health: 6/10**
 
@@ -411,7 +411,7 @@ src/lib/recovery                    : 10% (critical gap)
 
 ## Summary
 
-The Astro Editor has a **solid foundation** with excellent tests for business logic modules. However, **critical gaps** in store testing, hook testing, and integration testing create significant risk. The architecture is testable (Direct Store Pattern, decomposed stores), but tests haven't been written for most of it yet.
+The Astro Studio has a **solid foundation** with excellent tests for business logic modules. However, **critical gaps** in store testing, hook testing, and integration testing create significant risk. The architecture is testable (Direct Store Pattern, decomposed stores), but tests haven't been written for most of it yet.
 
 **Immediate Actions:**
 1. Add tests for all Zustand stores (componentBuilderStore, mdxComponentsStore, projectStore)

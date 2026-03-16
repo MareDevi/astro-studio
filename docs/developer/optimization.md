@@ -2,7 +2,7 @@
 
 ## Overview
 
-Documents current optimizations in Astro Editor. We prioritize **measurement before optimization**.
+Documents current optimizations in Astro Studio. We prioritize **measurement before optimization**.
 
 ## Current Optimizations
 

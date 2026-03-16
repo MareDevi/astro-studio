@@ -1,4 +1,4 @@
-# Security Audit Report - Astro Editor
+# Security Audit Report - Astro Studio
 
 **Date:** January 28, 2025  
 **Version:** 0.1.9  
@@ -11,7 +11,7 @@
 
 ### Overall Security Posture: **GOOD** (Revised for Local App Context)
 
-After expert security analysis considering Astro Editor's context as a **local desktop markdown editor**, the original audit overstated risks by applying web application security standards to a desktop application. The application demonstrates appropriate security controls for its intended use case.
+After expert security analysis considering Astro Studio's context as a **local desktop markdown editor**, the original audit overstated risks by applying web application security standards to a desktop application. The application demonstrates appropriate security controls for its intended use case.
 
 ### Actual Risk Areas (Revised):
 
@@ -24,7 +24,7 @@ After expert security analysis considering Astro Editor's context as a **local d
 
 ## **Local Desktop App Context**
 
-This security review has been **revised** to account for the fact that Astro Editor is a:
+This security review has been **revised** to account for the fact that Astro Studio is a:
 - **Local desktop application** (not a web app)
 - **Markdown editor for trusted user projects** (not handling untrusted content from the web)
 - **Single-user application** (no authentication or multi-tenancy concerns)
@@ -313,7 +313,7 @@ Add basic complexity validation for user regex patterns.
 
 ## Conclusion (Revised)
 
-After expert security analysis considering the local desktop application context, **Astro Editor demonstrates appropriate security controls for its intended use case**. The original audit overstated risks by applying web application security standards to a desktop application.
+After expert security analysis considering the local desktop application context, **Astro Studio demonstrates appropriate security controls for its intended use case**. The original audit overstated risks by applying web application security standards to a desktop application.
 
 ### Key Findings:
 - **Only 2 issues require immediate attention** (path traversal and shell argument sanitization)

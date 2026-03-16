@@ -1,12 +1,12 @@
-# Task: Astro Editor Website & Docs Site
+# Task: Astro Studio Website & Docs Site
 
 https://github.com/dannysmith/astro-editor/issues/6
 
-Create a simple, effective website for Astro Editor that serves as the primary marketing and documentation hub, hosted using GitHub Pages with automated deployment.
+Create a simple, effective website for Astro Studio that serves as the primary marketing and documentation hub, hosted using GitHub Pages with automated deployment.
 
 ## Overview
 
-Build a minimal but professional website that showcases Astro Editor's features, provides user documentation, and maintains a changelog. The site should be simple to maintain and automatically deploy from the main repository.
+Build a minimal but professional website that showcases Astro Studio's features, provides user documentation, and maintains a changelog. The site should be simple to maintain and automatically deploy from the main repository.
 
 ## Inspiration
 

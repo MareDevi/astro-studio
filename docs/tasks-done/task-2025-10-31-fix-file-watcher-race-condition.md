@@ -555,7 +555,7 @@ Plus `isProgrammaticUpdate` flag prevents triggering onChange (line 238).
 
 ### 4. Multiple Instances
 
-**Scenario**: Two Astro Editor windows, same file
+**Scenario**: Two Astro Studio windows, same file
 
 **Behavior**:
 - Instance A saves → watcher fires in both
@@ -859,14 +859,14 @@ Run these manual tests in order:
    - Open file
    - Type something (don't save)
    - Edit same file in VS Code
-   - Astro Editor keeps YOUR changes
+   - Astro Studio keeps YOUR changes
    - Console shows: "Ignoring external change - file has unsaved edits"
 
 4. **File watcher - syncs**
    - Open file
    - DON'T type anything (or save after typing)
    - Edit same file in VS Code
-   - Astro Editor shows VS Code changes
+   - Astro Studio shows VS Code changes
    - Console shows: "External change detected - reloading"
 
 5. **Auto-save scenario**

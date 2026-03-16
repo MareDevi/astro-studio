@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Astro Editor Telemetry Stats
+# Astro Studio Telemetry Stats
 # Run with: ./stats.sh or bun run stats
 
 set -e
@@ -22,7 +22,7 @@ header() {
 
 echo ""
 echo -e "${BOLD}═══════════════════════════════════════════════════════════${RESET}"
-echo -e "${BOLD}  ✨ ASTRO EDITOR STATS${RESET}"
+echo -e "${BOLD}  ✨ Astro Studio STATS${RESET}"
 echo -e "${BOLD}═══════════════════════════════════════════════════════════${RESET}"
 
 header "⭐ GITHUB"

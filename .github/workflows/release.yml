@@ -1,4 +1,4 @@
-name: 'Release Astro Editor'
+name: 'Release Astro Studio'
 
 on:
   push:
@@ -103,9 +103,9 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         with:
           tagName: ${{ github.ref_name || inputs.version }}
-          releaseName: 'Astro Editor ${{ github.ref_name || inputs.version }}'
+          releaseName: 'Astro Studio ${{ github.ref_name || inputs.version }}'
           releaseBody: |
-            ## Astro Editor ${{ github.ref_name || inputs.version }}
+            ## Astro Studio ${{ github.ref_name || inputs.version }}
 
           releaseDraft: true
           prerelease: false

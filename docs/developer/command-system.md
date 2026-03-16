@@ -2,7 +2,7 @@
 
 ## Overview
 
-Astro Editor uses a **command pattern** to centralize all user-triggered actions. This creates a single source of truth for operations, enabling keyboard shortcuts, native menus, and the command palette to share the same logic without duplication.
+Astro Studio uses a **command pattern** to centralize all user-triggered actions. This creates a single source of truth for operations, enabling keyboard shortcuts, native menus, and the command palette to share the same logic without duplication.
 
 ## What is the Command Pattern?
 
@@ -719,7 +719,7 @@ When adding a new command:
 - [ ] Document command behavior
 - [ ] Test from all integration points
 
-## Real Examples from Astro Editor
+## Real Examples from Astro Studio
 
 ### Example 1: Save File
 

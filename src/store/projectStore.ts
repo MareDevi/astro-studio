@@ -62,22 +62,22 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
     void (async () => {
       try {
         await info(
-          `Astro Editor [PROJECT_SETUP] Starting project setup: ${path}`,
+          `Astro Studio [PROJECT_SETUP] Starting project setup: ${path}`,
         );
 
         // Close any currently open file when switching projects
         useEditorStore.getState().closeCurrentFile();
 
         // Register the project and get its ID
-        await info(`Astro Editor [PROJECT_SETUP] Registering project: ${path}`);
+        await info(`Astro Studio [PROJECT_SETUP] Registering project: ${path}`);
         const projectId = await projectRegistryManager.registerProject(path);
         await debug(
-          `Astro Editor [PROJECT_SETUP] Project ID generated: ${projectId}`,
+          `Astro Studio [PROJECT_SETUP] Project ID generated: ${projectId}`,
         );
 
         // Load project settings
         await info(
-          `Astro Editor [PROJECT_SETUP] Loading project settings for: ${projectId}`,
+          `Astro Studio [PROJECT_SETUP] Loading project settings for: ${projectId}`,
         );
         const projectSettings =
           await projectRegistryManager.getEffectiveSettings(projectId);
@@ -92,11 +92,11 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
 
         // Project persistence is now handled by the project registry system
 
-        await info(`Astro Editor [PROJECT_SETUP] Starting file watcher`);
+        await info(`Astro Studio [PROJECT_SETUP] Starting file watcher`);
         await get().startFileWatcher();
 
         await info(
-          `Astro Editor [PROJECT_SETUP] Project setup completed successfully: ${projectId}`,
+          `Astro Studio [PROJECT_SETUP] Project setup completed successfully: ${projectId}`,
         );
       } catch (error) {
         const errorMsg = formatErrorForLogging(
@@ -300,13 +300,13 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
   initializeProjectRegistry: async () => {
     try {
       await info(
-        'Astro Editor [PROJECT_REGISTRY] Initializing project registry',
+        'Astro Studio [PROJECT_REGISTRY] Initializing project registry',
       );
       await projectRegistryManager.initialize();
       const globalSettings = projectRegistryManager.getGlobalSettings();
       set({ globalSettings });
       await info(
-        'Astro Editor [PROJECT_REGISTRY] Project registry initialized successfully',
+        'Astro Studio [PROJECT_REGISTRY] Project registry initialized successfully',
       );
     } catch (error) {
       const errorMsg = formatErrorForLogging(
@@ -326,7 +326,7 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
 
       // Don't throw - allow app to continue without registry if needed
       await info(
-        'Astro Editor [PROJECT_REGISTRY] Continuing without registry - some features may be limited',
+        'Astro Studio [PROJECT_REGISTRY] Continuing without registry - some features may be limited',
       );
     }
   },
@@ -362,13 +362,13 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
         if (currentFile) {
           // Auto-save current file before settings change
           await info(
-            'Astro Editor [PREFERENCES] Path settings changing while file is open - auto-saving',
+            'Astro Studio [PREFERENCES] Path settings changing while file is open - auto-saving',
           );
           try {
             await useEditorStore.getState().saveFile();
           } catch (saveError) {
             await logError(
-              `Astro Editor [PREFERENCES] Failed to auto-save before settings change: ${String(saveError)}`,
+              `Astro Studio [PREFERENCES] Failed to auto-save before settings change: ${String(saveError)}`,
             );
           }
 
@@ -414,7 +414,7 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
 
           // Restart file watcher with new paths
           await info(
-            'Astro Editor [PREFERENCES] Path overrides changed - restarting file watcher',
+            'Astro Studio [PREFERENCES] Path overrides changed - restarting file watcher',
           );
           await get().stopFileWatcher();
           await get().startFileWatcher();

@@ -2,13 +2,13 @@
 
 ## Overview
 
-This guide documents common UI patterns and best practices specific to Astro Editor. It serves as a reference for consistent component implementation across the application and provides solutions to common rendering and styling challenges.
+This guide documents common UI patterns and best practices specific to Astro Studio. It serves as a reference for consistent component implementation across the application and provides solutions to common rendering and styling challenges.
 
 As we discover new patterns and solutions, they should be documented here to ensure consistency and prevent duplicate problem-solving.
 
 ## shadcn/ui Usage
 
-Astro Editor uses [shadcn/ui](https://ui.shadcn.com/) as the foundation for UI components. shadcn/ui provides unstyled, accessible components built on [Radix UI](https://www.radix-ui.com/) that we customize to match our design system.
+Astro Studio uses [shadcn/ui](https://ui.shadcn.com/) as the foundation for UI components. shadcn/ui provides unstyled, accessible components built on [Radix UI](https://www.radix-ui.com/) that we customize to match our design system.
 
 ### Component Location
 
@@ -125,7 +125,7 @@ All icon-only buttons in the application follow this consistent pattern:
 - ❌ Not needed for text buttons without icons
 - ❌ Not needed for buttons with icon + text (shift less noticeable)
 
-**Real Examples from Astro Editor**:
+**Real Examples from Astro Studio**:
 
 ```tsx
 // UnifiedTitleBar.tsx - Save button
@@ -369,7 +369,7 @@ import { Loader2 } from 'lucide-react'
 
 ### Using CSS Variables
 
-Astro Editor uses CSS variables for theming:
+Astro Studio uses CSS variables for theming:
 
 ```tsx
 // ✅ GOOD: Uses theme variables

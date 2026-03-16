@@ -1,11 +1,11 @@
-# Astro Editor User Guide
+# Astro Studio User Guide
 
 ![overview-clean](assets/overview-clean.png)
 ![overview-editor](assets/Editor-mode.png)
 
 ## Overview
 
-Astro Editor provides a clean, pleasant user experience for authoring and editing [Markdown](https://www.markdownguide.org/) & [MDX](https://mdxjs.com/) files in the content collections of local [Astro](https://astro.build/) sites.
+Astro Studio provides a clean, pleasant user experience for authoring and editing [Markdown](https://www.markdownguide.org/) & [MDX](https://mdxjs.com/) files in the content collections of local [Astro](https://astro.build/) sites.
 
 ### Philosophy
 
@@ -19,17 +19,17 @@ Because of this, it's common for folks to **write** in tools like iA Writer or O
 4. Build & run locally to check everything works
 5. Push to github and deploy/publish
 
-Steps 1-3 are very much _writer mode_ tasks, while 4 & 5 are definitely _coder mode_ tasks. Astro Editor is only concerned with the former, which means:
+Steps 1-3 are very much _writer mode_ tasks, while 4 & 5 are definitely _coder mode_ tasks. Astro Studio is only concerned with the former, which means:
 
 - Code blocks are not syntax highlighted. If you have code examples in your files you're better off authoring them in a coding tool which can properly lint, format and check your code examples.
-- There's no mechanism for comitting or publishing in Astro Editor. You should do that in a code editor or terminal.
+- There's no mechanism for comitting or publishing in Astro Studio. You should do that in a code editor or terminal.
 - There's no way to preview your writing. The best way to do that is by running your astro site locally with `bun run dev` and looking at it there.
 
-Because the goal of this **simplicity when in writer mode**, Astro Editor is intentionally opinionated about its UI and limits the user customisation features to _"making it work with your Astro project and no more"_. It's not possible to customise the colour schemes, typeface etc. If you need fine-grained customization & extensibility we recommend using a custom profile in VSCode (or Obsidian) which you've set up for Markdown editing.
+Because the goal of this **simplicity when in writer mode**, Astro Studio is intentionally opinionated about its UI and limits the user customisation features to _"making it work with your Astro project and no more"_. It's not possible to customise the colour schemes, typeface etc. If you need fine-grained customization & extensibility we recommend using a custom profile in VSCode (or Obsidian) which you've set up for Markdown editing.
 
 ### Astro Requirements
 
-Astro Editor will only work properly with Astro projects which:
+Astro Studio will only work properly with Astro projects which:
 
 - Are using Astro 5+ _(it might work with Astro 4+ but you should expect a few bugs)_
 - Use Astro [Content Collections](https://docs.astro.build/en/guides/content-collections/) and have a `src/content/config.ts` or `src/content.config.ts` file.
@@ -40,7 +40,7 @@ Content collections can contain non-markdown/MDX files, but they will not be sho
 
 Some features require you to have certain properties in your schema. A date field is required for proper ordering in the file list. A boolean field is required to show and filter drafts. A text field is required to show titles in the sidebar. Etc.
 
-By default, Astro Editor expects the following structure in your Astro project:
+By default, Astro Studio expects the following structure in your Astro project:
 
 ```
 my-astro-site
@@ -61,13 +61,13 @@ The paths to the _Assets_, _Content_, and _MDX Components_ directories (relative
 
 ### Directory Restrictions
 
-For security reasons, Astro Editor cannot open projects located in certain system directories. If you attempt to open a project in one of these locations, you'll see an error message asking you to choose a different location.
+For security reasons, Astro Studio cannot open projects located in certain system directories. If you attempt to open a project in one of these locations, you'll see an error message asking you to choose a different location.
 
 ### Quick Start
 
-Getting started with Astro Editor takes just a few steps. The application is designed to work with existing Astro projects that use content collections.
+Getting started with Astro Studio takes just a few steps. The application is designed to work with existing Astro projects that use content collections.
 
-1. **Open an Astro Project**: Use `File > Open Project` to select your Astro project directory. Astro Editor will automatically scan for content collections defined in your `src/content/config.ts` file.
+1. **Open an Astro Project**: Use `File > Open Project` to select your Astro project directory. Astro Studio will automatically scan for content collections defined in your `src/content/config.ts` file.
 
 2. **Select a Collection**: Once your project opens, you'll see your content collections listed in the left sidebar. Click on any collection name to view the files it contains.
 
@@ -77,7 +77,7 @@ Getting started with Astro Editor takes just a few steps. The application is des
 
 5. **Edit Frontmatter**: Use the right sidebar to edit metadata fields. These forms are automatically generated from your Astro content collection schemas.
 
-That's it. Astro Editor handles project discovery, file management, and frontmatter editing automatically based on your existing Astro setup.
+That's it. Astro Studio handles project discovery, file management, and frontmatter editing automatically based on your existing Astro setup.
 
 ### Interface Overview
 
@@ -85,7 +85,7 @@ That's it. Astro Editor handles project discovery, file management, and frontmat
 
 ![overview of app in with file open ](<assets/Overview 2.png>)
 
-Astro Editor uses a clean three-panel layout designed to minimize distractions while providing easy access to files and metadata:
+Astro Studio uses a clean three-panel layout designed to minimize distractions while providing easy access to files and metadata:
 
 | Interface Area    | Purpose                                                                      |
 | ----------------- | ---------------------------------------------------------------------------- |
@@ -102,7 +102,7 @@ The editor window shows the entire contents of your markdown or MDX files with t
 
 ### Auto-Save
 
-Astro Editor automatically saves your work with two complementary mechanisms:
+Astro Studio automatically saves your work with two complementary mechanisms:
 
 1. **Pause-based save**: Automatically saves your changes after you stop typing (configurable in preferences, default is 2 seconds)
 2. **Flow-state backup**: An additional save occurs every 10 seconds while you're actively typing, ensuring content is written to disk during extended writing sessions
@@ -123,7 +123,7 @@ When you're editing in the main editor, you can quickly preview images by holdin
 
 ### Editor Keyboard Shortcuts
 
-Astro Editor includes the following keyboard shortcuts.
+Astro Studio includes the following keyboard shortcuts.
 
 | Shortcut       | Action            | Description                                          |
 | -------------- | ----------------- | ---------------------------------------------------- |
@@ -151,11 +151,11 @@ The frontmatter sidebar automatically generates editing forms based on your Astr
 
 ### How Schema Parsing Works
 
-Astro Editor uses a flexible multi-source approach to read your content collection schemas, ensuring maximum compatibility with different Astro project setups.
+Astro Studio uses a flexible multi-source approach to read your content collection schemas, ensuring maximum compatibility with different Astro project setups.
 
 **Primary Method: JSON Schema Files** (Recommended)
 
-Astro Editor first looks for JSON schema files in your project. These can be in two locations:
+Astro Studio first looks for JSON schema files in your project. These can be in two locations:
 
 1. **Astro-generated schemas**: Files in `.astro/collections/` directory (like `blog.schema.json`)
 2. **Custom schema files**: `content.config.json` or `content/config.json` in your project root
@@ -164,21 +164,21 @@ To ensure Astro-generated files are available:
 
 1. Run `bun run dev` or `astro sync` in your project directory
 2. Astro will automatically generate schema files in `.astro/collections/`
-3. Astro Editor reads these schemas and builds the frontmatter forms
+3. Astro Studio reads these schemas and builds the frontmatter forms
 
 **Support for Schema Imports**
 
-Astro Editor supports `content.config.json` files that import schemas from other sources. This is particularly useful for sites using frameworks like [Starlight](https://starlight.astro.build/), which provide their own schema definitions. If your project imports schemas rather than defining them inline, Astro Editor can still read and use them.
+Astro Studio supports `content.config.json` files that import schemas from other sources. This is particularly useful for sites using frameworks like [Starlight](https://starlight.astro.build/), which provide their own schema definitions. If your project imports schemas rather than defining them inline, Astro Studio can still read and use them.
 
 **Fallback Method: Zod Schema Parsing**
 
-If JSON schema files aren't found, Astro Editor falls back to parsing your Zod schema definitions directly from `src/content/config.ts` or `src/content.config.ts`. This works for most cases but has limitations with complex schemas, dynamically built schemas, or third-party schema definitions.
+If JSON schema files aren't found, Astro Studio falls back to parsing your Zod schema definitions directly from `src/content/config.ts` or `src/content.config.ts`. This works for most cases but has limitations with complex schemas, dynamically built schemas, or third-party schema definitions.
 
-**Best Practice**: Always run `astro sync` after modifying your content collection schemas to ensure Astro Editor has the latest field definitions.
+**Best Practice**: Always run `astro sync` after modifying your content collection schemas to ensure Astro Studio has the latest field definitions.
 
 ### How Schema Fields Become Forms
 
-Astro Editor converts schema definitions into appropriate form controls. The mapping works as follows:
+Astro Studio converts schema definitions into appropriate form controls. The mapping works as follows:
 
 | Zod Schema Type           | Form Control      | Behavior                                   |
 | ------------------------- | ----------------- | ------------------------------------------ |
@@ -268,7 +268,7 @@ When you have an image field, you'll see:
 
 **How image copying works:**
 
-When you select or drag an image into an image field, Astro Editor:
+When you select or drag an image into an image field, Astro Studio:
 
 1. Copies the image to your collection's configured assets directory
 2. Renames it following the same pattern as the current file (YYYY-MM-DD-name.ext)
@@ -283,7 +283,7 @@ When you select or drag an image into an image field, Astro Editor:
 
 **Special cases:**
 
-- If the image is already inside your Astro project's directory structure, it's not copied - Astro Editor uses the path as-is
+- If the image is already inside your Astro project's directory structure, it's not copied - Astro Studio uses the path as-is
 - Manual path editing (via the edit button) allows you to reference images that are already in place
 - Image paths are validated - you'll see an error if the path doesn't exist or is outside your project
 
@@ -333,7 +333,7 @@ The left sidebar provides your primary interface for navigating between files an
 
 **Collection Selection**: Click on any collection name to view its files. The currently selected collection is highlighted, and its files appear below.
 
-**Subfolder Support**: Collections can be organized into subdirectories, and Astro Editor fully supports this structure. When you open a collection, you'll see:
+**Subfolder Support**: Collections can be organized into subdirectories, and Astro Studio fully supports this structure. When you open a collection, you'll see:
 
 - **Subdirectories** listed at the top (sorted alphabetically)
 - **Files** listed below subdirectories (sorted by date)
@@ -393,7 +393,7 @@ Articles / 2024 / January
 
 ![alt text](assets/command-palette.png)
 
-The command palette provides quick access to all major functions in Astro Editor. It's designed for keyboard-driven workflows.
+The command palette provides quick access to all major functions in Astro Studio. It's designed for keyboard-driven workflows.
 
 **Opening the Palette**: Press `Cmd+P` from anywhere in the application to open the command palette. Start typing immediately to search.
 
@@ -498,7 +498,7 @@ Each component in the list shows a small badge indicating which framework it's w
 
 After insertion, you can tab through the various prop values to fill them in. The component builder automatically detects which props are available by reading the component's source code.
 
-**Subdirectory Support**: Components can be organized in subdirectories within your MDX components folder. Astro Editor scans recursively and shows all available components regardless of how deeply nested they are.
+**Subdirectory Support**: Components can be organized in subdirectories within your MDX components folder. Astro Studio scans recursively and shows all available components regardless of how deeply nested they are.
 
 _[Gif needed: Using the component builder]_
 
@@ -565,7 +565,7 @@ If you leave the URL pattern empty, the Content Linker falls back to relative fi
 
 ## Preferences & Configuration
 
-Astro Editor provides global preferences, project-specific settings, and collection-scoped overrides to accommodate different workflows and project structures.
+Astro Studio provides global preferences, project-specific settings, and collection-scoped overrides to accommodate different workflows and project structures.
 
 ### General Preferences
 
@@ -583,7 +583,7 @@ Access global preferences through `Cmd+,` or the application menu. These setting
 - `cursor` for Cursor
 - `subl` for Sublime Text
 
-**Auto-save Delay**: Configure how frequently Astro Editor automatically saves your work (default is 2 seconds).
+**Auto-save Delay**: Configure how frequently Astro Studio automatically saves your work (default is 2 seconds).
 
 **Default File Type for New Files**: Choose whether newly created files use Markdown (`.md`) or MDX (`.mdx`) format. Applies across all projects unless overridden at the project or collection level.
 
@@ -607,7 +607,7 @@ Project-level path overrides apply to all collections unless a collection has it
 
 - **Default File Type for New Files**: Override the global default for newly created files in this project. Choose between Markdown (`.md`) or MDX (`.mdx`), or inherit the global setting.
 
-**Field Mappings**: Configure which fields Astro Editor should use for common purposes:
+**Field Mappings**: Configure which fields Astro Studio should use for common purposes:
 
 - **Title Field**: Which field to display as the title in the file list (default: `title`)
 - **Date Field**: Which field(s) to use for sorting files by date (e.g., `pubDate`, `date`, or `publishedDate`)
@@ -659,7 +659,7 @@ You can configure settings for individual collections, allowing different collec
 
 **How Settings Work (Three-Tier Fallback)**:
 
-When Astro Editor needs a setting (like content directory), it looks in this order:
+When Astro Studio needs a setting (like content directory), it looks in this order:
 
 1. **Collection setting** (if configured for this collection)
 2. **Project setting** (if configured at project level)
@@ -681,11 +681,11 @@ Projects are identified by their `package.json` name and automatically migrate i
 
 ## Troubleshooting & Support
 
-If you're experiencing issues with Astro Editor, you can collect detailed logs to help with troubleshooting.
+If you're experiencing issues with Astro Studio, you can collect detailed logs to help with troubleshooting.
 
 ### Getting Diagnostic Logs
 
-Astro Editor automatically logs detailed information to help diagnose setup problems, crashes, or other issues.
+Astro Studio automatically logs detailed information to help diagnose setup problems, crashes, or other issues.
 
 **To collect logs for support:**
 
@@ -699,15 +699,15 @@ Astro Editor automatically logs detailed information to help diagnose setup prob
 **Method 2: Complete Log File**
 
 1. **Open Finder** and navigate to: `~/Library/Logs/is.danny.astroeditor/`
-2. **Copy the file** `Astro Editor.log`
+2. **Copy the file** `Astro Studio.log`
 3. **Send this file** along with a description of your issue
 
 **Method 3: Console.app for Live Monitoring**
 
 1. **Open Console.app** (Applications > Utilities > Console)
-2. **Search for "Astro Editor"** in the search bar
+2. **Search for "Astro Studio"** in the search bar
 3. **Reproduce the issue** you're experiencing (try opening the project again, etc.)
-4. **Filter the results** by typing "Astro Editor" to see only relevant log entries
+4. **Filter the results** by typing "Astro Studio" to see only relevant log entries
 5. **Select and copy** the relevant log entries
 6. **Send the logs** along with a description of your issue
 
@@ -715,10 +715,10 @@ Astro Editor automatically logs detailed information to help diagnose setup prob
 
 **Useful search terms in Console.app:**
 
-- `Astro Editor [PROJECT_SETUP]` - Project opening and setup issues
-- `Astro Editor [PROJECT_SCAN]` - Collection and file discovery problems
-- `Astro Editor [PROJECT_REGISTRY]` - Project registration and management
-- `Astro Editor [PROJECT_DISCOVERY]` - Project metadata detection
+- `Astro Studio [PROJECT_SETUP]` - Project opening and setup issues
+- `Astro Studio [PROJECT_SCAN]` - Collection and file discovery problems
+- `Astro Studio [PROJECT_REGISTRY]` - Project registration and management
+- `Astro Studio [PROJECT_DISCOVERY]` - Project metadata detection
 
 ## Global Keyboard Shortcuts
 

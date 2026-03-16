@@ -1,4 +1,4 @@
-// Central type exports for Astro Editor
+// Central type exports for Astro Studio
 
 // Export UI component types
 export * from './common';
