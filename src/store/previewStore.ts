@@ -40,7 +40,7 @@ export const usePreviewStore = create<PreviewState>((set, get) => ({
       }
       set({ isRunning: true, isStarting: false });
       toast.info('Preview starting...', {
-        description: 'bun dev is running in the background',
+        description: 'Dev server is starting in the background',
       });
     } catch (error) {
       set({ isStarting: false, isRunning: false });

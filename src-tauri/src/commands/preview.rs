@@ -32,16 +32,16 @@ pub async fn start_preview(
 
     let augmented_path = crate::utils::shell::get_augmented_path();
 
-    let cmd_name = "bun";
+    let cmd_name = crate::utils::detect_package_manager(&project_path);
 
-    let mut child = Command::new(cmd_name)
+    let mut child = Command::new(&cmd_name)
         .arg("dev")
         .current_dir(&project_path)
         .env("PATH", &augmented_path)
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
         .spawn()
-        .map_err(|e| format!("Failed to start bun dev: {e}"))?;
+        .map_err(|e| format!("Failed to start {} dev: {e}", cmd_name))?;
 
     let stdout = child.stdout.take().expect("Failed to open stdout");
     let stderr = child.stderr.take().expect("Failed to open stderr");

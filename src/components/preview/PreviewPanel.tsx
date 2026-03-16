@@ -205,7 +205,7 @@ export const PreviewPanel: React.FC = () => {
                 ))}
                 {logs.length === 0 && (
                   <div className="italic opacity-30 py-4 text-center">
-                    No logs yet. Output from bun dev will appear here.
+                    No logs yet. Output from the dev server will appear here.
                   </div>
                 )}
               </div>
