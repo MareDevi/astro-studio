@@ -26,9 +26,9 @@ jobs:
           - platform: 'macos-14'
             args: '--target universal-apple-darwin --bundles app,dmg'
           - platform: 'windows-latest'
-            args: '--bundles msi'
+            args: '--bundles msi,nsis'
           - platform: 'ubuntu-22.04'
-            args: '--bundles appimage'
+            args: '--bundles appimage,deb,rpm'
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -96,7 +96,7 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
           # Apple code signing (macOS only - ignored on other platforms)
-          APPLE_SIGNING_IDENTITY: 'Developer ID Application: Daniel Smith (XT349SJG9U)'
+          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
           APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
           APPLE_API_KEY: ${{ secrets.APPLE_API_KEY }}
           APPLE_API_KEY_PATH: ~/private_keys/AuthKey_${{ secrets.APPLE_API_KEY }}.p8

@@ -1,8 +1,8 @@
 # Astro Studio
 
-![Screenshots of Astro Studio](docs/assets/header.png)
+A native macOS and Windows markdown editor designed specifically for [Astro](https://astro.build) content collections.
 
-A native macOS markdown editor for Astro content collections. Clean writing interface with automatic frontmatter editing based on your collection schemas.
+![Astro Studio Header](docs/assets/header.png)
 
 https://github.com/user-attachments/assets/dc32dd12-2094-47c4-ab90-620ecd11ba48
 
@@ -13,90 +13,38 @@ This project is based on [astro-editor](https://github.com/dannysmith/astro-edit
 ## Features
 
 **Writing Environment**
+- **Schema-Aware Forms:** Automatically generates frontmatter forms based on your Zod schemas.
+- **MDX Support:** Intelligent component insertion for Astro, React, Vue, and Svelte.
+- **Focus Mode:** Dims everything but the current sentence for distraction-free writing.
+- **Copyedit Mode:** Highlights parts of speech to help refine your prose.
+- **Smart Images:** Live previews, drag-and-drop support, and relative path handling.
 
-- Clean markdown/MDX editor with syntax highlighting. Frontmatter and imports are hidden while editing, shown in a dedicated sidebar.
-- Focus mode (highlights current sentence), copyedit mode (highlights parts of speech), and typewriter mode (keeps the cursor centered on screen).
-- Customizable heading colors with separate settings for dark and light themes.
-- Image preview on hover (Option + hover over paths).
-- Comprehensive keyboard shortcuts for formatting, headings, and navigation.
-- Auto-save: saves 2 seconds after you stop typing (configurable) with backup saves every 10 seconds while typing. Crash recovery included.
-
-**Frontmatter & Schema Integration**
-
-- Generates editing forms from your Astro collection schemas with proper validation.
-- Supports all Zod types: strings, numbers, dates, booleans, enums, arrays, nested objects, references, and image fields.
-- Image fields provide drag-and-drop with automatic copying to your assets directory using relative paths by default (configurable per project/collection).
-- Field constraints (min/max, character limits) enforced in the UI.
-
-**MDX Components**
-
-- `Cmd + /` opens component builder showing all components in your `src/components/mdx/` directory.
-- Supports Astro, React, Vue, and Svelte components.
-- Automatically detects available props and lets you tab through values after insertion.
-
-**File Management**
-
-- Collections and files automatically discovered from your `content.config.ts`.
-- Full support for subdirectories within collections.
-- Files sorted by publication date (configurable field name) with draft indicators.
-- Context menu for rename, duplicate, reveal in Finder, copy path.
-- Command palette (`Cmd + P`) for quick file switching and command access.
-
-**Preview & Git Control (New Features)**
-
-- Live preview of your markdown content
-- Integrated Git control for version management
-- View changes, commit, and manage branches directly within the editor
-
-**Project Configuration**
-
-- Per-project and per-collection settings for custom directory structures.
-- Configurable field mappings (title, date, draft, description fields).
-- Light/dark theme with system integration.
-- IDE integration (open files/projects in VSCode, Cursor, etc.).
-
-## Supported Astro Projects
-
-- **Astro Version**: 5.x (may work with 4.x but expect bugs)
-- **Content Collections**: Must use the `glob` loader and have a schema defined with `defineCollection`
-- **Configuration**: Requires `src/content/config.ts` or `src/content.config.ts`
-
-Non-markdown/MDX files in collections are ignored.
-
-Default directory structure (all paths are configurable per project and per collection):
-
-```
-my-astro-site
-└── src
-    ├── assets/mycollection/      # Images and media
-    ├── components/mdx/            # Astro/React/Vue/Svelte components for MDX
-    ├── content/mycollection/      # Markdown and MDX files
-    └── content.config.ts          # Collection definitions
-```
+**Project Management**
+- **Collection Explorer:** Organize your content by collection, draft status, and date.
+- **Command Palette:** Quick access to files and commands with `Cmd+K`.
+- **Project Switcher:** Seamlessly move between different Astro projects.
+- **Crash Recovery:** Automatic backups and recovery to ensure you never lose work.
 
 ## Installation
 
 Download the [latest Release](https://github.com/MareDevi/astro-studio/releases).
 
-**Other Platforms:** Windows (.msi) and Linux (.AppImage, .deb) builds are available from the releases page but are not officially supported yet. Use at your own risk.
+**macOS:**
+1. Download `astro-editor-latest.dmg`.
+2. Open and drag Astro Studio to your Applications folder.
 
-## Documentation
+**Windows:**
+1. Download `astro-editor-latest.msi`.
+2. Run the installer.
 
-- **[User Guide](docs/user-guide.md)** - Complete feature documentation
-- **[Contributing](docs/CONTRIBUTING.md)** - Development setup and guidelines
+**Homebrew (macOS):**
+```bash
+brew install --cask astro-editor
+```
 
-## Disclaimer
-
-Work in progress. Commit your Astro project regularly when using the editor.
-
-## Contributing
+## Feedback
 
 Bug reports and feature requests are welcome. See the [issue tracker](https://github.com/MareDevi/astro-studio/issues).
-
-**Project Philosophy:**
-
-- This is a tool for "writer mode", not "coder mode". Features related to publishing, deployment, or code editing are out of scope.
-- The UI is intentionally opinionated for simplicity. Customization options are limited to what's needed to work with different Astro project structures.
 
 Pull requests welcome. See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for development setup.
 
@@ -108,20 +56,18 @@ Pull requests welcome. See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for developme
 
 ## Development
 
-See [CONTRIBUTING.md](docs/CONTRIBUTING.md) and [developer docs](docs/developer/) for setup and architecture details.
+Astro Studio is built with [Tauri](https://tauri.app), [React](https://reactjs.org), and [CodeMirror 6](https://codemirror.net).
 
-**Quick start:**
+**Prerequisites:**
+- [Bun](https://bun.sh)
+- [Rust](https://www.rust-lang.org)
+- [Tauri dependencies](https://tauri.app/v1/guides/getting-started/prerequisites)
 
-```bash
-bun install
-bun reset:testdata  # Creates test Astro project
-bun run tauri:dev   # Starts dev server
-```
+**Setup:**
+1. Clone the repository.
+2. Run `bun install`.
+3. Start development mode with `bun run tauri:dev`.
 
-**Development commands:**
+## License
 
-```bash
-bun run check:all       # Run all checks (TypeScript, Rust, tests)
-bun run fix:all         # Auto-fix linting/formatting issues
-bun task:complete <name> # Mark a task as complete (see docs/TASKS.md)
-```
+AGPL-3.0-or-later

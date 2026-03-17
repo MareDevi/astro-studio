@@ -26,7 +26,7 @@ echo -e "${BOLD}  ✨ Astro Studio STATS${RESET}"
 echo -e "${BOLD}═══════════════════════════════════════════════════════════${RESET}"
 
 header "⭐ GITHUB"
-stars=$(gh api repos/dannysmith/astro-editor --jq '.stargazers_count' 2>/dev/null)
+stars=$(gh api repos/MareDevi/astro-studio --jq '.stargazers_count' 2>/dev/null)
 echo -e "   ${BOLD}${GREEN}${stars}${RESET} stars"
 
 header "🍺 HOMEBREW INSTALLS"
