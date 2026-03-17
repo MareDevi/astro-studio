@@ -106,7 +106,7 @@ export const WindowsMenu: React.FC = () => {
     }
 
     await message(
-      `A cross-platform application based on astro-editor, designed to enhance Astro content creation.\n\nBuilt with Tauri and React.`,
+      `A cross-platform application based on astro-editor, designed to enhance Astro content creation.\n\nVersion: ${version}\n\nBuilt with Tauri and React.`,
       { title: 'About Astro Studio', kind: 'info' },
     );
   };
