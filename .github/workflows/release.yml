@@ -31,6 +31,9 @@ jobs:
             args: '--bundles appimage,deb,rpm'
 
     runs-on: ${{ matrix.platform }}
+    env:
+      APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+      APPLE_API_KEY: ${{ secrets.APPLE_API_KEY }}
     steps:
       - uses: actions/checkout@v6
 
@@ -66,14 +69,14 @@ jobs:
           rustup target add x86_64-apple-darwin
 
       - name: Import Code-Signing Certificates
-        if: matrix.platform == 'macos-14' && secrets.APPLE_CERTIFICATE != ''
+        if: matrix.platform == 'macos-14' && env.APPLE_CERTIFICATE != ''
         uses: apple-actions/import-codesign-certs@v6
         with:
           p12-file-base64: ${{ secrets.APPLE_CERTIFICATE }}
           p12-password: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
 
       - name: Create API Key file
-        if: matrix.platform == 'macos-14' && secrets.APPLE_API_KEY != ''
+        if: matrix.platform == 'macos-14' && env.APPLE_API_KEY != ''
         run: |
           # Create directory for API key
           mkdir -p ~/private_keys
