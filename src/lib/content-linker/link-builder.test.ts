@@ -1,11 +1,11 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
+import type { FileEntry } from '@/types';
 import {
+  buildContentLink,
   buildRelativePath,
   resolveSlug,
   resolveUrlPattern,
-  buildContentLink,
 } from './link-builder';
-import type { FileEntry } from '@/types';
 
 function makeFile(overrides: Partial<FileEntry>): FileEntry {
   return {

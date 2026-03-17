@@ -1,17 +1,17 @@
 import React from 'react';
-import { useEditorStore } from '../../../store/editorStore';
 import { useEffectiveSettings } from '../../../hooks/settings/useEffectiveSettings';
 import { FieldType, type SchemaField } from '../../../lib/schema';
-import { StringField } from './StringField';
-import { TextareaField } from './TextareaField';
-import { NumberField } from './NumberField';
+import { useEditorStore } from '../../../store/editorStore';
+import { ArrayField } from './ArrayField';
 import { BooleanField } from './BooleanField';
 import { DateField } from './DateField';
 import { EnumField } from './EnumField';
-import { ArrayField } from './ArrayField';
-import { ReferenceField } from './ReferenceField';
-import { YamlField } from './YamlField';
 import { ImageField } from './ImageField';
+import { NumberField } from './NumberField';
+import { ReferenceField } from './ReferenceField';
+import { StringField } from './StringField';
+import { TextareaField } from './TextareaField';
+import { YamlField } from './YamlField';
 
 interface FrontmatterFieldProps {
   name: string;

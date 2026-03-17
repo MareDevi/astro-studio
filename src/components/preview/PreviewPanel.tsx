@@ -1,19 +1,19 @@
+import { openPath } from '@tauri-apps/plugin-opener';
+import {
+  ExternalLink,
+  Loader2,
+  Play,
+  RotateCcw,
+  Square,
+  Terminal,
+} from 'lucide-react';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { openPath } from '@tauri-apps/plugin-opener';
-import { usePreviewStore } from '@/store/previewStore';
-import { useProjectStore } from '@/store/projectStore';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import {
-  Play,
-  Square,
-  RotateCcw,
-  ExternalLink,
-  Terminal,
-  Loader2,
-} from 'lucide-react';
+import { usePreviewStore } from '@/store/previewStore';
+import { useProjectStore } from '@/store/projectStore';
 
 export const PreviewPanel: React.FC = () => {
   const {
@@ -184,6 +184,7 @@ export const PreviewPanel: React.FC = () => {
                 </span>
               </div>
               <button
+                type="button"
                 onClick={clearLogs}
                 className="hover:text-white transition-colors opacity-50 hover:opacity-100 text-[9px] bg-white/5 px-1.5 py-0.5 rounded"
               >
@@ -194,13 +195,13 @@ export const PreviewPanel: React.FC = () => {
               <div className="space-y-0.5">
                 {logs.map((log, i) => (
                   <div
-                    key={i}
+                    key={log.id}
                     className="whitespace-pre-wrap break-all opacity-80 hover:opacity-100"
                   >
                     <span className="mr-2 opacity-30 select-none">
                       {(i + 1).toString().padStart(3, '0')}
                     </span>
-                    {log}
+                    {log.message}
                   </div>
                 ))}
                 {logs.length === 0 && (

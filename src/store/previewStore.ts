@@ -1,13 +1,18 @@
+import { listen, type UnlistenFn } from '@tauri-apps/api/event';
 import { create } from 'zustand';
 import { commands } from '@/lib/bindings';
-import { listen, type UnlistenFn } from '@tauri-apps/api/event';
 import { toast } from '../lib/toast';
+
+interface LogEntry {
+  id: string;
+  message: string;
+}
 
 interface PreviewState {
   isStarting: boolean;
   isRunning: boolean;
   url: string | null;
-  logs: string[];
+  logs: LogEntry[];
 
   // Event listener cleanup functions
   _unlistenUrl: UnlistenFn | null;
@@ -79,13 +84,25 @@ export const usePreviewStore = create<PreviewState>((set, get) => ({
 
     const unlistenStdout = await listen<string>('preview-stdout', (event) => {
       set((state) => ({
-        logs: [...state.logs.slice(-99), event.payload],
+        logs: [
+          ...state.logs.slice(-99),
+          {
+            id: Math.random().toString(36).substring(2),
+            message: event.payload,
+          },
+        ],
       }));
     });
 
     const unlistenStderr = await listen<string>('preview-stderr', (event) => {
       set((state) => ({
-        logs: [...state.logs.slice(-99), `ERR: ${event.payload}`],
+        logs: [
+          ...state.logs.slice(-99),
+          {
+            id: Math.random().toString(36).substring(2),
+            message: `ERR: ${event.payload}`,
+          },
+        ],
       }));
     });
 

@@ -1,9 +1,9 @@
 import type React from 'react';
-import { useState, useEffect, useRef } from 'react';
-import { Badge } from '../ui/badge';
+import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { getPublishedDate, getTitle } from '../../lib/files/sorting';
 import type { FileEntry } from '@/types';
+import { getPublishedDate, getTitle } from '../../lib/files/sorting';
+import { Badge } from '../ui/badge';
 
 type FrontmatterMappings = {
   publishedDate: string | string[];
@@ -17,7 +17,7 @@ export function formatDate(dateValue: unknown): string {
 
   try {
     const date = new Date(dateValue as string | number | Date);
-    if (isNaN(date.getTime())) return '';
+    if (Number.isNaN(date.getTime())) return '';
     return date.toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
@@ -121,6 +121,7 @@ export const FileItem: React.FC<FileItemProps> = ({
 
   return (
     <button
+      type="button"
       onClick={() => onFileClick(file)}
       onContextMenu={(e) => void onContextMenu(e, file)}
       className={cn(
@@ -149,7 +150,6 @@ export const FileItem: React.FC<FileItemProps> = ({
                 onKeyDown={handleRenameKeyDown}
                 onBlur={handleRenameBlur}
                 className="bg-background border border-border rounded px-1 py-0.5 text-xs font-mono w-full text-foreground"
-                autoFocus
                 onClick={(e) => e.stopPropagation()}
               />
             ) : file.extension ? (

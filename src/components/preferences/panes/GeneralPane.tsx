@@ -1,5 +1,13 @@
 import type React from 'react';
 import { useCallback } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldLabel,
+} from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -7,19 +15,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-  Field,
-  FieldLabel,
-  FieldDescription,
-  FieldContent,
-} from '@/components/ui/field';
 import { usePreferences } from '../../../hooks/usePreferences';
 import { useTheme } from '../../../lib/theme-provider';
-import { SettingsSection } from '../SettingsSection';
-import { PreferencesTextInput } from '../PreferencesTextInput';
 import { FontSelector } from '../FontSelector';
+import { PreferencesTextInput } from '../PreferencesTextInput';
+import { SettingsSection } from '../SettingsSection';
 
 export const GeneralPane: React.FC = () => {
   const { globalSettings, updateGlobal } = usePreferences();
@@ -88,7 +88,7 @@ export const GeneralPane: React.FC = () => {
   const handleEditorBaseFontSizeChange = useCallback(
     (value: string) => {
       const parsed = parseInt(value, 10);
-      if (isNaN(parsed)) return;
+      if (Number.isNaN(parsed)) return;
       const size = Math.max(1, Math.min(30, parsed));
       void updateGlobal({ appearance: { editorBaseFontSize: size } });
     },

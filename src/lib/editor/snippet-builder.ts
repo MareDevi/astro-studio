@@ -43,10 +43,10 @@ export function buildSnippet(
   const allAttrs = [propsString, directiveString].filter(Boolean).join(' ');
 
   if (component.has_slot) {
-    const attrsPrefix = allAttrs ? ' ' + allAttrs : '';
+    const attrsPrefix = allAttrs ? ` ${allAttrs}` : '';
     return `<${component.name}${attrsPrefix}>\${${placeholderIndex}}</${component.name}>\${}`;
   }
 
-  const attrsPrefix = allAttrs ? ' ' + allAttrs : '';
+  const attrsPrefix = allAttrs ? ` ${allAttrs}` : '';
   return `<${component.name}${attrsPrefix} />\${}`;
 }

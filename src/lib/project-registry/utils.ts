@@ -3,8 +3,8 @@
  */
 
 import { commands } from '@/lib/bindings';
-import type { ProjectMetadata } from './types';
 import { safeLog } from '../diagnostics';
+import type { ProjectMetadata } from './types';
 
 /**
  * Simple hash function for generating project IDs

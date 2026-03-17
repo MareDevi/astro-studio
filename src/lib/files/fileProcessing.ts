@@ -1,6 +1,6 @@
 import { commands } from '@/lib/bindings';
-import { getEffectiveAssetsDirectory } from '../project-registry';
 import { ASTRO_PATHS } from '../constants';
+import { getEffectiveAssetsDirectory } from '../project-registry';
 import type {
   ProcessFileToAssetsOptions,
   ProcessFileToAssetsResult,
@@ -51,7 +51,7 @@ export async function processFileToAssets(
       collection,
     );
 
-    let result;
+    let result: any;
     if (assetsDirectory !== ASTRO_PATHS.ASSETS_DIR) {
       // Use collection-specific or project-level override
       result = await commands.copyFileToAssetsWithOverride(

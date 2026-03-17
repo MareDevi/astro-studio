@@ -1,12 +1,12 @@
 import React from 'react';
-import { useEditorStore } from '../../../store/editorStore';
 import { getNestedValue } from '../../../lib/object-utils';
-import { TagInput, type Tag } from '../../ui/tag-input';
+import type { SchemaField } from '../../../lib/schema';
+import { FieldType } from '../../../lib/schema';
+import { useEditorStore } from '../../../store/editorStore';
+import type { FieldProps } from '../../../types/common';
+import { type Tag, TagInput } from '../../ui/tag-input';
 import { tagsToStringArray } from '../utils';
 import { FieldWrapper } from './FieldWrapper';
-import { FieldType } from '../../../lib/schema';
-import type { FieldProps } from '../../../types/common';
-import type { SchemaField } from '../../../lib/schema';
 
 interface ArrayFieldProps extends FieldProps {
   field?: SchemaField;
@@ -61,7 +61,7 @@ export const ArrayField: React.FC<ArrayFieldProps> = ({
         // Convert tags to numbers, filter out invalid numbers
         const numberArray = newTags
           .map((tag) => Number(tag.text))
-          .filter((num) => !isNaN(num));
+          .filter((num) => !Number.isNaN(num));
 
         updateFrontmatterField(
           name,

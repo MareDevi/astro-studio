@@ -1,23 +1,23 @@
+import {
+  Eye,
+  GitBranch,
+  MonitorPlay,
+  PanelLeft,
+  PanelLeftClose,
+  PanelRight,
+  PanelRightClose,
+  Pilcrow,
+  Plus,
+  Save,
+} from 'lucide-react';
 import type React from 'react';
 import { useShallow } from 'zustand/react/shallow';
+import { useCreateFile } from '../../../hooks/useCreateFile';
+import { cn } from '../../../lib/utils';
 import { useEditorStore } from '../../../store/editorStore';
 import { useProjectStore } from '../../../store/projectStore';
 import { useUIStore } from '../../../store/uiStore';
-import { useCreateFile } from '../../../hooks/useCreateFile';
 import { Button } from '../../ui/button';
-import {
-  Save,
-  PanelRight,
-  PanelLeft,
-  PanelLeftClose,
-  PanelRightClose,
-  Plus,
-  Eye,
-  Pilcrow,
-  MonitorPlay,
-  GitBranch,
-} from 'lucide-react';
-import { cn } from '../../../lib/utils';
 
 interface TitleBarToolbarProps {
   /** Window controls for the left side (e.g., macOS traffic lights) */
@@ -81,6 +81,7 @@ export const TitleBarToolbar: React.FC<TitleBarToolbarProps> = ({
 
   return (
     <div
+      role="toolbar"
       className={cn(
         'w-full flex items-center justify-between px-3 py-1.5 select-none border-b transition-opacity duration-300 transform-gpu',
         bothPanelsHidden

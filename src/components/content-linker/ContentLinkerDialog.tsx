@@ -1,4 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { type Collection, commands, type FileEntry } from '@/types';
+import { useCollectionsQuery } from '../../hooks/queries/useCollectionsQuery';
+import { usePlatform } from '../../hooks/usePlatform';
+import { resolveTitle } from '../../lib/content-linker';
+import { getCollectionSettings } from '../../lib/project-registry/collection-settings';
+import { useContentLinkerStore } from '../../store/contentLinkerStore';
+import { useEditorStore } from '../../store/editorStore';
+import { useProjectStore } from '../../store/projectStore';
+import { Badge } from '../ui/badge';
 import {
   CommandDialog,
   CommandEmpty,
@@ -8,15 +17,6 @@ import {
   CommandList,
   CommandShortcut,
 } from '../ui/command';
-import { Badge } from '../ui/badge';
-import { useContentLinkerStore } from '../../store/contentLinkerStore';
-import { useProjectStore } from '../../store/projectStore';
-import { useEditorStore } from '../../store/editorStore';
-import { useCollectionsQuery } from '../../hooks/queries/useCollectionsQuery';
-import { getCollectionSettings } from '../../lib/project-registry/collection-settings';
-import { resolveTitle } from '../../lib/content-linker';
-import { commands, type FileEntry, type Collection } from '@/types';
-import { usePlatform } from '../../hooks/usePlatform';
 
 const EMPTY_COLLECTIONS: Collection[] = [];
 
@@ -47,10 +47,6 @@ export function ContentLinkerDialog() {
 
   // Build a lookup from value string -> FileEntry
   const fileMapRef = useRef<Map<string, FileEntry>>(new Map());
-
-  // Derive a stable primitive key from collections to avoid re-fetching
-  // when TanStack Query returns a new array reference with identical data
-  const collectionsKey = collections.map((c) => c.name).join(',');
 
   // Fetch all files recursively when dialog opens
   useEffect(() => {
@@ -104,7 +100,7 @@ export function ContentLinkerDialog() {
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, projectPath, collectionsKey]);
+  }, [isOpen, projectPath, collections.length, collections.map]);
 
   // Get the currently highlighted item's value from the DOM.
   // Uses cmdk's internal [cmdk-item][aria-selected] attributes —

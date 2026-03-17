@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
+import { updateCopyeditModePartsOfSpeech } from '../lib/editor/extensions/copyedit-mode';
 import { useProjectStore } from '../store/projectStore';
 import { useUIStore } from '../store/uiStore';
-import { updateCopyeditModePartsOfSpeech } from '../lib/editor/extensions/copyedit-mode';
 
 type PartOfSpeech =
   | 'nouns'

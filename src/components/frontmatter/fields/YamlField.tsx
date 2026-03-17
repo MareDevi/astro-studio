@@ -1,10 +1,10 @@
 import React from 'react';
-import { useEditorStore } from '../../../store/editorStore';
 import { getNestedValue } from '../../../lib/object-utils';
+import type { SchemaField } from '../../../lib/schema';
+import { useEditorStore } from '../../../store/editorStore';
+import type { FieldProps } from '../../../types/common';
 import { AutoExpandingTextarea } from '../../ui/auto-expanding-textarea';
 import { FieldWrapper } from './FieldWrapper';
-import type { FieldProps } from '../../../types/common';
-import type { SchemaField } from '../../../lib/schema';
 
 interface YamlFieldProps extends FieldProps {
   field?: SchemaField;

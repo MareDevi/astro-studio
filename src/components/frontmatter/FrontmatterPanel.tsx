@@ -1,13 +1,13 @@
 import React from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { useEditorStore } from '../../store/editorStore';
-import { useProjectStore } from '../../store/projectStore';
+import type { Collection } from '@/types';
 import { useCollectionsQuery } from '../../hooks/queries/useCollectionsQuery';
+import { getEffectiveSettings } from '../../lib/project-registry/effective-settings';
 import { deserializeCompleteSchema } from '../../lib/schema';
 import { camelCaseToTitleCase } from '../../lib/utils';
+import { useEditorStore } from '../../store/editorStore';
+import { useProjectStore } from '../../store/projectStore';
 import { FrontmatterField } from './fields';
-import { getEffectiveSettings } from '../../lib/project-registry/effective-settings';
-import type { Collection } from '@/types';
 
 export const FrontmatterPanel: React.FC = () => {
   // Object subscriptions need shallow to prevent re-renders on reference changes

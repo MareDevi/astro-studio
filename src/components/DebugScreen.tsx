@@ -1,17 +1,17 @@
-import React from 'react';
-import { EditorView, keymap, drawSelection } from '@codemirror/view';
-import { EditorState } from '@codemirror/state';
-import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
 import {
   closeBrackets,
   closeBracketsKeymap,
   snippet,
 } from '@codemirror/autocomplete';
-import {
-  syntaxHighlighting,
-  defaultHighlightStyle,
-} from '@codemirror/language';
+import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
 import { markdown } from '@codemirror/lang-markdown';
+import {
+  defaultHighlightStyle,
+  syntaxHighlighting,
+} from '@codemirror/language';
+import { EditorState } from '@codemirror/state';
+import { drawSelection, EditorView, keymap } from '@codemirror/view';
+import React from 'react';
 
 export const DebugScreen: React.FC = () => {
   const editorRef = React.useRef<HTMLDivElement>(null);
@@ -75,10 +75,12 @@ export const DebugScreen: React.FC = () => {
 
         <div className="mb-4">
           <button
+            type="button"
             className="px-4 py-2 bg-yellow-500 dark:bg-yellow-600 text-white rounded hover:bg-yellow-600 dark:hover:bg-yellow-700"
             onClick={() => {
               if (viewRef.current) {
                 insertSnippet(
+                  // biome-ignore lint/suspicious/noTemplateCurlyInString: CodeMirror snippet
                   '<Callout type="${warning}" title="${}" icon="${}">${}</Callout>',
                   viewRef.current,
                 );

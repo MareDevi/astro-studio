@@ -1,9 +1,9 @@
-import { describe, test, expect } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import {
-  isExcludedContent,
-  isRangeBeingEdited,
   buildExclusionSet,
   getMatchRanges,
+  isExcludedContent,
+  isRangeBeingEdited,
   isValidRange,
   processPosType,
 } from './pos-matching';

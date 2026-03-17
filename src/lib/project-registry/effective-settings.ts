@@ -2,9 +2,9 @@
  * Utilities for getting effective project settings with collection-scoped overrides
  */
 
-import type { ProjectSettings } from './types';
 import { ASTRO_PATHS } from '../constants';
 import { getCollectionSettings } from './collection-settings';
+import type { ProjectSettings } from './types';
 
 /**
  * Direct function for use outside React components

@@ -12,7 +12,12 @@
       "!**/node_modules",
       "!**/dist",
       "!**/src-tauri/target",
-      "!**/telemetry-worker/dist"
+      "!**/telemetry-worker/dist",
+      "!website",
+      "!**/.astro",
+      "!test",
+      "!src/test",
+      "!src/components/ui"
     ]
   },
   "formatter": {

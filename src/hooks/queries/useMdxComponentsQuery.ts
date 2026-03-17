@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { commands, type MdxComponent } from '@/types';
 import { queryKeys } from '@/lib/query-keys';
+import { commands, type MdxComponent } from '@/types';
 
 // Re-export MdxComponent type for consumers
 export type { MdxComponent } from '@/types';

@@ -1,12 +1,12 @@
+import { getCurrentWindow } from '@tauri-apps/api/window';
 import { useEffect, useRef } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { getCurrentWindow } from '@tauri-apps/api/window';
-import { useEditorStore } from '../store/editorStore';
-import { useProjectStore } from '../store/projectStore';
-import { useUIStore } from '../store/uiStore';
 import { focusEditor } from '../lib/focus-utils';
 import { openProjectViaDialog } from '../lib/projects/actions';
 import { toast } from '../lib/toast';
+import { useEditorStore } from '../store/editorStore';
+import { useProjectStore } from '../store/projectStore';
+import { useUIStore } from '../store/uiStore';
 import { useEditorActions } from './editor/useEditorActions';
 import { usePlatform } from './usePlatform';
 

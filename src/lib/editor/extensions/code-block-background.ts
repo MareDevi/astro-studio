@@ -1,7 +1,7 @@
+import { syntaxTree } from '@codemirror/language';
 import type { EditorState, Range } from '@codemirror/state';
 import { StateField } from '@codemirror/state';
-import { Decoration, EditorView, type DecorationSet } from '@codemirror/view';
-import { syntaxTree } from '@codemirror/language';
+import { Decoration, type DecorationSet, EditorView } from '@codemirror/view';
 
 /**
  * Code Block Background Extension

@@ -1,12 +1,12 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { IMAGE_EXTENSIONS_WITH_DOTS } from '../../files';
 import {
-  isImageFile,
   extractFilename,
   formatAsMarkdown,
+  isImageFile,
   processDroppedFile,
   processDroppedFiles,
 } from './fileProcessing';
-import { IMAGE_EXTENSIONS_WITH_DOTS } from '../../files';
 
 // Mock Tauri invoke
 vi.mock('@tauri-apps/api/core', () => ({

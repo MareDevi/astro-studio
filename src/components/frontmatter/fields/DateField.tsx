@@ -1,15 +1,15 @@
 import type React from 'react';
-import { useEditorStore } from '../../../store/editorStore';
-import { getNestedValue } from '../../../lib/object-utils';
-import { DatePicker } from '../../ui/date-picker';
-import { FieldWrapper } from './FieldWrapper';
-import type { FieldProps } from '../../../types/common';
-import type { SchemaField } from '../../../lib/schema';
 import {
   formatIsoDate,
-  parseIsoDate,
   formatIsoDateTime,
+  parseIsoDate,
 } from '../../../lib/dates';
+import { getNestedValue } from '../../../lib/object-utils';
+import type { SchemaField } from '../../../lib/schema';
+import { useEditorStore } from '../../../store/editorStore';
+import type { FieldProps } from '../../../types/common';
+import { DatePicker } from '../../ui/date-picker';
+import { FieldWrapper } from './FieldWrapper';
 
 interface DateFieldProps extends FieldProps {
   field?: SchemaField;
@@ -44,7 +44,7 @@ export const DateField: React.FC<DateFieldProps> = ({
           value && typeof value === 'string' ? parseIsoDate(value) : undefined
         }
         onChange={(date: Date | undefined) => {
-          if (!date || isNaN(date.getTime())) {
+          if (!date || Number.isNaN(date.getTime())) {
             updateFrontmatterField(name, undefined);
             return;
           }
@@ -71,7 +71,7 @@ export const DateField: React.FC<DateFieldProps> = ({
             if (alreadyHasTime) {
               // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
               const originalDate = new Date(value as string);
-              if (!isNaN(originalDate.getTime())) {
+              if (!Number.isNaN(originalDate.getTime())) {
                 // Update date but keep time
                 date.setHours(
                   originalDate.getHours(),

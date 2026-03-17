@@ -37,24 +37,24 @@
  *    - Editor styling, line wrapping
  */
 
-import { EditorView, dropCursor, drawSelection } from '@codemirror/view';
+import { closeBrackets } from '@codemirror/autocomplete';
+import { history } from '@codemirror/commands';
 import { markdown } from '@codemirror/lang-markdown';
 import { syntaxHighlighting } from '@codemirror/language';
-import { history } from '@codemirror/commands';
-import { closeBrackets } from '@codemirror/autocomplete';
 import { EditorState } from '@codemirror/state';
-import { markdownStyleExtension, comprehensiveHighlightStyle } from '../syntax';
-import { altKeyState, urlHoverPlugin, handleUrlClick } from '../urls';
+import { drawSelection, dropCursor, EditorView } from '@codemirror/view';
 import { handlePaste } from '../paste';
-import { createKeymapExtensions, type KeymapHandlers } from './keymap';
-import { createEditorTheme } from './theme';
-import { createFocusModeExtension } from './focus-mode';
-import { createCopyeditModeExtension } from './copyedit-mode';
-import { createTypewriterModeExtension } from './typewriter-mode';
-import { hangingHeadersExtension } from './hanging-headers';
-import { syntaxMarkDecorationsExtension } from './syntax-mark-decorations';
-import { codeBlockBackgroundExtension } from './code-block-background';
+import { comprehensiveHighlightStyle, markdownStyleExtension } from '../syntax';
+import { altKeyState, handleUrlClick, urlHoverPlugin } from '../urls';
 import { blockquoteStyleExtension } from './blockquote-style';
+import { codeBlockBackgroundExtension } from './code-block-background';
+import { createCopyeditModeExtension } from './copyedit-mode';
+import { createFocusModeExtension } from './focus-mode';
+import { hangingHeadersExtension } from './hanging-headers';
+import { createKeymapExtensions, type KeymapHandlers } from './keymap';
+import { syntaxMarkDecorationsExtension } from './syntax-mark-decorations';
+import { createEditorTheme } from './theme';
+import { createTypewriterModeExtension } from './typewriter-mode';
 
 /**
  * Configuration for creating editor extensions

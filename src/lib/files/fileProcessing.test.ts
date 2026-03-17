@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/unbound-method */
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { ProjectSettings } from '../project-registry/types';
 import { processFileToAssets } from './fileProcessing';
 import type { ProcessFileToAssetsOptions } from './types';
-import type { ProjectSettings } from '../project-registry/types';
 
 // Mock typed commands from bindings
 vi.mock('@/lib/bindings', () => ({

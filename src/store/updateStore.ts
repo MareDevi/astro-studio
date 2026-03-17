@@ -1,5 +1,5 @@
-import { create } from 'zustand';
 import type { Update } from '@tauri-apps/plugin-updater';
+import { create } from 'zustand';
 
 type DialogMode =
   | 'checking'

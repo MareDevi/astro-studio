@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { open } from '@tauri-apps/plugin-dialog';
 import { listen, type UnlistenFn } from '@tauri-apps/api/event';
-import { Button } from '../ui/button';
+import { open } from '@tauri-apps/plugin-dialog';
 import type { VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 import type { buttonVariants } from '../ui/button';
+import { Button } from '../ui/button';
 
 // GLOBAL deduplication tracker for drag-drop events
 // This prevents Tauri's duplicate event firing from affecting ANY FileUploadButton

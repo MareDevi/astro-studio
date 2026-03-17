@@ -1,14 +1,5 @@
 import type React from 'react';
-import { useState, useCallback, useEffect } from 'react';
-import { commands } from '@/lib/bindings';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import {
-  Field,
-  FieldLabel,
-  FieldDescription,
-  FieldContent,
-} from '@/components/ui/field';
+import { useCallback, useEffect, useState } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,8 +10,17 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { getDiagnosticContext } from '../../../lib/diagnostics';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldLabel,
+} from '@/components/ui/field';
+import { commands } from '@/lib/bindings';
 import { usePreferences } from '../../../hooks/usePreferences';
+import { getDiagnosticContext } from '../../../lib/diagnostics';
 import { SettingsSection } from '../SettingsSection';
 
 export const DebugPane: React.FC = () => {

@@ -1,8 +1,8 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { screen, fireEvent } from '@testing-library/react';
-import { ArrayField } from './ArrayField';
+import { fireEvent, screen } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useEditorStore } from '../../../store/editorStore';
 import { renderWithProviders } from '../../../test/test-utils';
+import { ArrayField } from './ArrayField';
 
 describe('ArrayField Component', () => {
   beforeEach(() => {

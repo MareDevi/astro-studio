@@ -3,8 +3,8 @@
  */
 
 import { useShallow } from 'zustand/react/shallow';
-import { useProjectStore } from '../../store/projectStore';
 import { getEffectiveSettings } from '../../lib/project-registry/effective-settings';
+import { useProjectStore } from '../../store/projectStore';
 
 /**
  * Hook to get effective settings with optional collection-specific overrides

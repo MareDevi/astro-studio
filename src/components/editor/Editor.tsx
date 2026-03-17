@@ -1,19 +1,19 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { EditorView } from '@codemirror/view';
 import { EditorState } from '@codemirror/state';
+import { EditorView } from '@codemirror/view';
 import { listen, type UnlistenFn } from '@tauri-apps/api/event';
-import { useEditorStore } from '../../store/editorStore';
-import { useUIStore } from '../../store/uiStore';
-import { useComponentBuilderStore } from '../../store/componentBuilderStore';
-import { useContentLinkerStore } from '../../store/contentLinkerStore';
-import { useProjectStore } from '../../store/projectStore';
-import { useEditorSetup, useEditorHandlers } from '../../hooks/editor';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useEditorHandlers, useEditorSetup } from '../../hooks/editor';
 import { useImageHover } from '../../hooks/editor/useImageHover';
 import { handleTauriFileDrop } from '../../lib/editor/dragdrop';
-import { ImagePreview } from './ImagePreview';
-import { altKeyEffect } from '../../lib/editor/urls';
 import { toggleFocusMode } from '../../lib/editor/extensions/focus-mode';
 import { toggleTypewriterMode } from '../../lib/editor/extensions/typewriter-mode';
+import { altKeyEffect } from '../../lib/editor/urls';
+import { useComponentBuilderStore } from '../../store/componentBuilderStore';
+import { useContentLinkerStore } from '../../store/contentLinkerStore';
+import { useEditorStore } from '../../store/editorStore';
+import { useProjectStore } from '../../store/projectStore';
+import { useUIStore } from '../../store/uiStore';
+import { ImagePreview } from './ImagePreview';
 import './Editor.css';
 import '../../lib/editor/extensions/copyedit-mode.css';
 
@@ -28,10 +28,6 @@ const EditorViewComponent: React.FC = () => {
   const currentFileId = useEditorStore((state) => state.currentFile?.id);
   const currentFilePath = useEditorStore((state) => state.currentFile?.path);
   const projectPath = useProjectStore((state) => state.projectPath);
-  const focusModeEnabled = useUIStore((state) => state.focusModeEnabled);
-  const typewriterModeEnabled = useUIStore(
-    (state) => state.typewriterModeEnabled,
-  );
   const editorRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
   const [isAltPressed, setIsAltPressed] = useState(false);
@@ -99,7 +95,7 @@ const EditorViewComponent: React.FC = () => {
   // Subscribe to mode changes using the stable callback
   useEffect(() => {
     handleModeChange();
-  }, [handleModeChange, focusModeEnabled, typewriterModeEnabled]);
+  }, [handleModeChange]);
 
   // Track Alt key state for URL highlighting - moved back to component for timing
   // Uses ref for dispatch tracking (stable listener) + state for React rendering (useImageHover)
@@ -242,7 +238,7 @@ const EditorViewComponent: React.FC = () => {
     };
     // CRITICAL: Empty dependency array - only create once!
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [cleanupCommands, extensions, handleChange, setupCommands]);
 
   // Load content when file changes (initial empty content from openFile)
   useEffect(() => {

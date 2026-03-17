@@ -1,8 +1,8 @@
 import { info, error as logError } from '@tauri-apps/plugin-log';
 import { commands, type JsonValue } from '@/types';
-import type { RecoveryData, CrashReport } from './types';
+import type { CrashReport, RecoveryData } from './types';
 
-export type { RecoveryData, CrashReport };
+export type { CrashReport, RecoveryData };
 
 /**
  * Type-safe conversion for recovery data objects that are structurally valid JSON.

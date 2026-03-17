@@ -2,7 +2,7 @@
  * Default settings and values for the project registry system
  */
 
-import type { GlobalSettings, ProjectSettings, ProjectRegistry } from './types';
+import type { GlobalSettings, ProjectRegistry, ProjectSettings } from './types';
 
 export const DEFAULT_PROJECT_SETTINGS: ProjectSettings = {
   pathOverrides: {

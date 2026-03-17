@@ -1,8 +1,19 @@
-/**
- * URL detection utilities for the editor
- */
+// Combined regex for performance and cleaner code
+export const urlRegex = /https?:\/\/[^\s)]+/;
 
-import { IMAGE_EXTENSIONS_WITH_DOTS } from '../../files';
+// List of common image file extensions
+const IMAGE_EXTENSIONS = [
+  'png',
+  'jpg',
+  'jpeg',
+  'gif',
+  'svg',
+  'webp',
+  'avif',
+  'bmp',
+  'ico',
+];
+const IMAGE_EXTENSIONS_WITH_DOTS = IMAGE_EXTENSIONS.map((ext) => `.${ext}`);
 
 export interface UrlMatch {
   url: string;
@@ -10,13 +21,10 @@ export interface UrlMatch {
   to: number;
 }
 
-// URL detection regex
-export const urlRegex = /^https?:\/\/[^\s]+$/;
-
 /**
- * Enhanced URL detection for both plain URLs and markdown links
+ * Find all URLs in a string
  * @param text - Text to search for URLs
- * @param offset - Offset to add to positions (for line-based searching)
+ * @param offset - Offset to add to positions
  * @returns Array of URL matches with positions
  */
 export const findUrlsInText = (
@@ -28,13 +36,13 @@ export const findUrlsInText = (
 
   // First, find all markdown link ranges to avoid duplicates
   const markdownLinkRegex = /!?\[([^\]]*)\]\(([^)]+)\)/g;
-  let match;
-  while ((match = markdownLinkRegex.exec(text)) !== null) {
+  let match = markdownLinkRegex.exec(text);
+  while (match !== null) {
     const linkUrl = match[2];
     const linkText = match[1];
     const isImage = match[0].startsWith('!');
 
-    if (linkUrl && linkUrl.startsWith('http') && match.index !== undefined) {
+    if (linkUrl?.startsWith('http') && match.index !== undefined) {
       // Position of the URL part within the markdown link/image
       // For images: ![alt](url) - need to account for the extra ! character
       const urlStart =
@@ -53,11 +61,13 @@ export const findUrlsInText = (
         to: match.index + match[0].length,
       });
     }
+    match = markdownLinkRegex.exec(text);
   }
 
   // Find plain URLs, but skip those inside markdown links
   const plainUrlRegex = /https?:\/\/[^\s)]+/g;
-  while ((match = plainUrlRegex.exec(text)) !== null) {
+  match = plainUrlRegex.exec(text);
+  while (match !== null) {
     const urlStart = match.index;
     const urlEnd = match.index + match[0].length;
 
@@ -73,6 +83,7 @@ export const findUrlsInText = (
         to: offset + urlEnd,
       });
     }
+    match = plainUrlRegex.exec(text);
   }
 
   return urls;
@@ -84,7 +95,10 @@ export const findUrlsInText = (
  * @returns true if text is a valid URL
  */
 export const isValidUrl = (text: string): boolean => {
-  return urlRegex.test(text.trim());
+  const trimmed = text.trim();
+  if (!trimmed) return false;
+  const match = trimmed.match(urlRegex);
+  return match !== null && match[0] === trimmed;
 };
 
 /**
@@ -131,8 +145,8 @@ export const findImageUrlsAndPathsInText = (
   // 1. Find remote URLs (http/https) with image extensions
   // Stop at whitespace, quotes, brackets, or commas
   const remoteUrlRegex = /https?:\/\/[^\s<>"'(),]+/g;
-  let match;
-  while ((match = remoteUrlRegex.exec(text)) !== null) {
+  let match = remoteUrlRegex.exec(text);
+  while (match !== null) {
     const url = match[0];
     const start = match.index;
     const end = start + url.length;
@@ -145,12 +159,14 @@ export const findImageUrlsAndPathsInText = (
       });
       processedRanges.push({ from: start, to: end });
     }
+    match = remoteUrlRegex.exec(text);
   }
 
   // 2. Find relative paths (./... or ../...) with image extensions
   // Stop at whitespace, quotes, brackets, or commas
   const relativePathRegex = /\.\.?\/[^\s<>"'(),]+/g;
-  while ((match = relativePathRegex.exec(text)) !== null) {
+  match = relativePathRegex.exec(text);
+  while (match !== null) {
     const path = match[0];
     const start = match.index;
     const end = start + path.length;
@@ -163,13 +179,15 @@ export const findImageUrlsAndPathsInText = (
       });
       processedRanges.push({ from: start, to: end });
     }
+    match = relativePathRegex.exec(text);
   }
 
   // 3. Find absolute paths (/...) with image extensions
   // Must start with / but not // (to avoid matching URLs)
   // Stop at whitespace, quotes, brackets, or commas
   const absolutePathRegex = /\/(?!\/)[^\s<>"'(),]+/g;
-  while ((match = absolutePathRegex.exec(text)) !== null) {
+  match = absolutePathRegex.exec(text);
+  while (match !== null) {
     const path = match[0];
     const start = match.index;
     const end = start + path.length;
@@ -182,6 +200,7 @@ export const findImageUrlsAndPathsInText = (
       });
       processedRanges.push({ from: start, to: end });
     }
+    match = absolutePathRegex.exec(text);
   }
 
   return matches;

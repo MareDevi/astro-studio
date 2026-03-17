@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
 import type { EditorView } from '@codemirror/view';
+import { useCallback, useEffect, useState } from 'react';
 import { findImageUrlsAndPathsInText } from '../../lib/editor/urls/detection';
 
 export interface HoveredImage {

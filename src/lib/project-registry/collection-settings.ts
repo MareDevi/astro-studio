@@ -7,8 +7,8 @@
  * 3. Hard-coded default (from ASTRO_PATHS)
  */
 
-import type { ProjectSettings } from './types';
 import { ASTRO_PATHS } from '../constants';
+import type { ProjectSettings } from './types';
 
 /**
  * Get effective settings for a specific collection with three-tier fallback

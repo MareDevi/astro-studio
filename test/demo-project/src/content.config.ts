@@ -1,5 +1,5 @@
 import { defineCollection, reference } from 'astro:content';
-import { glob, file } from 'astro/loaders';
+import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 // Authors collection - file-based JSON collection for reference testing

@@ -66,7 +66,7 @@ export function getPublishedDate(
     const value = frontmatter[field];
     if (value) {
       const date = new Date(value as string);
-      if (!isNaN(date.getTime())) {
+      if (!Number.isNaN(date.getTime())) {
         return date;
       }
     }
@@ -253,9 +253,9 @@ export function sortFiles(
       const timeA = new Date(valueA as string | number).getTime();
       const timeB = new Date(valueB as string | number).getTime();
       // Handle invalid dates (NaN) - treat as missing, push to bottom
-      if (isNaN(timeA) && isNaN(timeB)) return 0;
-      if (isNaN(timeA)) return 1;
-      if (isNaN(timeB)) return -1;
+      if (Number.isNaN(timeA) && Number.isNaN(timeB)) return 0;
+      if (Number.isNaN(timeA)) return 1;
+      if (Number.isNaN(timeB)) return -1;
       comparison = timeA - timeB;
     } else {
       // For string comparisons, ensure we have strings

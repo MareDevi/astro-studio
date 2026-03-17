@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -107,7 +107,9 @@ function completeTask(taskIdentifier) {
     console.error(`\nAvailable tasks in tasks-todo/:`);
     todoFiles
       .filter((f) => f.endsWith('.md'))
-      .forEach((f) => console.error(`   - ${f}`));
+      .forEach((f) => {
+        console.error(`   - ${f}`);
+      });
     process.exit(1);
   }
 

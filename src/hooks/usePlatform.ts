@@ -1,5 +1,5 @@
+import { type Platform, platform } from '@tauri-apps/plugin-os';
 import { useState } from 'react';
-import { platform, type Platform } from '@tauri-apps/plugin-os';
 
 export type AppPlatform = 'macos' | 'windows' | 'linux';
 

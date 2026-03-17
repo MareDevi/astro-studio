@@ -4,16 +4,16 @@
  * Handles saving and loading project data using the application support directory
  */
 
-import { commands } from '@/lib/bindings';
 import { error, info } from '@tauri-apps/plugin-log';
-import type { ProjectRegistry, GlobalSettings, ProjectData } from './types';
-import { DEFAULT_PROJECT_REGISTRY, DEFAULT_GLOBAL_SETTINGS } from './defaults';
+import { commands } from '@/lib/bindings';
+import { DEFAULT_GLOBAL_SETTINGS, DEFAULT_PROJECT_REGISTRY } from './defaults';
 import {
-  needsGlobalSettingsMigration,
-  needsProjectDataMigration,
   migrateGlobalSettingsWithLogging,
   migrateProjectDataWithLogging,
+  needsGlobalSettingsMigration,
+  needsProjectDataMigration,
 } from './migrations';
+import type { GlobalSettings, ProjectData, ProjectRegistry } from './types';
 
 /**
  * Get the application support directory paths

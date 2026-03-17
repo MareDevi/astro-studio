@@ -1,12 +1,12 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { screen, fireEvent } from '@testing-library/dom';
-import { FrontmatterPanel } from './FrontmatterPanel';
-import { useEditorStore } from '../../store/editorStore';
+import { fireEvent, screen } from '@testing-library/dom';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Collection, FileEntry } from '@/types';
-import { renderWithProviders } from '../../test/test-utils';
-
 // Mock the query hook - will be configured per test
 import { useCollectionsQuery } from '../../hooks/queries/useCollectionsQuery';
+import { useEditorStore } from '../../store/editorStore';
+import { renderWithProviders } from '../../test/test-utils';
+import { FrontmatterPanel } from './FrontmatterPanel';
+
 vi.mock('../../hooks/queries/useCollectionsQuery');
 
 // Helper to create mock file entries with all required fields
@@ -131,7 +131,8 @@ describe('FrontmatterPanel Component', () => {
 
     expect(screen.getByDisplayValue('Test Post')).toBeInTheDocument();
     expect(screen.getByRole('switch')).toBeInTheDocument();
-    expect(screen.getByText('01/12/2023')).toBeInTheDocument(); // Date shows as button text
+    const expectedDate = new Date('2023-12-01').toLocaleDateString();
+    expect(screen.getByText(expectedDate)).toBeInTheDocument();
     expect(screen.getByDisplayValue('5')).toBeInTheDocument();
   });
 

@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { useUpdateStore } from '../updateStore';
 import type { Update } from '@tauri-apps/plugin-updater';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useUpdateStore } from '../updateStore';
 
 const SKIPPED_VERSION_KEY = 'astro-editor-skipped-update-version';
 

@@ -1,8 +1,8 @@
-import type { ProcessedFile } from './types';
-import { useProjectStore } from '../../../store/projectStore';
 import { useEditorStore } from '../../../store/editorStore';
-import { processFileToAssets, IMAGE_EXTENSIONS_WITH_DOTS } from '../../files';
+import { useProjectStore } from '../../../store/projectStore';
+import { IMAGE_EXTENSIONS_WITH_DOTS, processFileToAssets } from '../../files';
 import { getCollectionSettings } from '../../project-registry';
+import type { ProcessedFile } from './types';
 
 /**
  * Check if a file is an image based on its extension

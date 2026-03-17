@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
-import { useEditorHandlers } from './useEditorHandlers';
+import { act, renderHook } from '@testing-library/react';
+import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 import type { FileEntry } from '@/types';
+import { useEditorHandlers } from './useEditorHandlers';
 
 // Mock the store
 vi.mock('../../store/editorStore', () => ({

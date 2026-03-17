@@ -1,8 +1,8 @@
 import type React from 'react';
-import { usePlatform, type AppPlatform } from '../../../hooks/usePlatform';
+import { type AppPlatform, usePlatform } from '../../../hooks/usePlatform';
+import { UnifiedTitleBarLinux } from './UnifiedTitleBarLinux';
 import { UnifiedTitleBarMacOS } from './UnifiedTitleBarMacOS';
 import { UnifiedTitleBarWindows } from './UnifiedTitleBarWindows';
-import { UnifiedTitleBarLinux } from './UnifiedTitleBarLinux';
 
 const titleBarByPlatform: Record<AppPlatform, React.FC> = {
   macos: UnifiedTitleBarMacOS,

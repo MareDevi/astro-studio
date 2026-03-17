@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { screen } from '@testing-library/react';
-import { FrontmatterField } from './FrontmatterField';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { FieldType, type SchemaField } from '../../../lib/schema';
 import { useEditorStore } from '../../../store/editorStore';
 import { renderWithProviders } from '../../../test/test-utils';
-import { FieldType, type SchemaField } from '../../../lib/schema';
+import { FrontmatterField } from './FrontmatterField';
 
 // Mock the project registry utils
 vi.mock('../../../../lib/project-registry/effective-settings', () => ({

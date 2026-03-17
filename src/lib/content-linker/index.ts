@@ -1,7 +1,7 @@
 export {
+  buildContentLink,
   buildRelativePath,
   resolveSlug,
-  resolveUrlPattern,
-  buildContentLink,
   resolveTitle,
+  resolveUrlPattern,
 } from './link-builder';

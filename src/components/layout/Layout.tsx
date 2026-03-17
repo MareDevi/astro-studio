@@ -1,41 +1,41 @@
 import type React from 'react';
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { useUIStore } from '../../store/uiStore';
+import { useEditorActions } from '../../hooks/editor/useEditorActions';
+import { useCreateFile } from '../../hooks/useCreateFile';
+import { useDOMEventListeners } from '../../hooks/useDOMEventListeners';
+import { useEditorFileContent } from '../../hooks/useEditorFileContent';
+import { useEditorFocusTracking } from '../../hooks/useEditorFocusTracking';
+import { useFileChangeHandler } from '../../hooks/useFileChangeHandler';
+import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts';
+import { useMenuEvents } from '../../hooks/useMenuEvents';
+import { useProjectInitialization } from '../../hooks/useProjectInitialization';
+import { useRustToastBridge } from '../../hooks/useRustToastBridge';
+import { useSquareCornersEffect } from '../../hooks/useSquareCornersEffect';
+import { focusEditor } from '../../lib/focus-utils';
+import { LAYOUT_SIZES } from '../../lib/layout-constants';
 import { useTheme } from '../../lib/theme-provider';
+import { useEditorStore } from '../../store/editorStore';
 import { useProjectStore } from '../../store/projectStore';
-import { UnifiedTitleBar } from './unified-title-bar';
-import { LeftSidebar } from './LeftSidebar';
-import { MainEditor } from './MainEditor';
-import { RightSidebar } from './RightSidebar';
-import { FrontmatterPanel } from '../frontmatter';
-import { GitPanel } from '../git/GitPanel';
-import { PreviewPanel } from '../preview/PreviewPanel';
+import { useUIStore } from '../../store/uiStore';
 import { CommandPalette } from '../command-palette';
 import { ComponentBuilderDialog } from '../component-builder';
 import { ContentLinkerDialog } from '../content-linker';
-import { Toaster } from '../ui/sonner';
+import { FrontmatterPanel } from '../frontmatter';
+import { GitPanel } from '../git/GitPanel';
 import { PreferencesDialog } from '../preferences';
-import { useProjectInitialization } from '../../hooks/useProjectInitialization';
-import { useRustToastBridge } from '../../hooks/useRustToastBridge';
-import { useEditorFocusTracking } from '../../hooks/useEditorFocusTracking';
-import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts';
-import { useMenuEvents } from '../../hooks/useMenuEvents';
-import { useDOMEventListeners } from '../../hooks/useDOMEventListeners';
-import { useEditorFileContent } from '../../hooks/useEditorFileContent';
-import { useFileChangeHandler } from '../../hooks/useFileChangeHandler';
-import { useEditorActions } from '../../hooks/editor/useEditorActions';
-import { useCreateFile } from '../../hooks/useCreateFile';
-import { useSquareCornersEffect } from '../../hooks/useSquareCornersEffect';
-import { useEditorStore } from '../../store/editorStore';
-import { focusEditor } from '../../lib/focus-utils';
-import { LAYOUT_SIZES } from '../../lib/layout-constants';
+import { PreviewPanel } from '../preview/PreviewPanel';
 import {
-  ResizablePanelGroup,
-  ResizablePanel,
-  ResizableHandle,
   type PanelImperativeHandle,
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
 } from '../ui/resizable';
+import { Toaster } from '../ui/sonner';
+import { LeftSidebar } from './LeftSidebar';
+import { MainEditor } from './MainEditor';
+import { RightSidebar } from './RightSidebar';
+import { UnifiedTitleBar } from './unified-title-bar';
 
 export const Layout: React.FC = () => {
   // UI state - use selector syntax for consistency

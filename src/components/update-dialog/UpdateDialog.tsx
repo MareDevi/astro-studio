@@ -1,7 +1,8 @@
-import { marked } from 'marked';
+import { info, error as logError } from '@tauri-apps/plugin-log';
 import { relaunch } from '@tauri-apps/plugin-process';
-import { error as logError, info } from '@tauri-apps/plugin-log';
-import { useUpdateStore } from '@/store/updateStore';
+import { AlertCircleIcon, CheckCircle2Icon, DownloadIcon } from 'lucide-react';
+import { marked } from 'marked';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -10,9 +11,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { CheckCircle2Icon, AlertCircleIcon, DownloadIcon } from 'lucide-react';
+import { useUpdateStore } from '@/store/updateStore';
 import './release-notes.css';
 
 function ProgressBar({ value }: { value: number }) {
@@ -62,6 +62,7 @@ function ReleaseNotesArea() {
   return (
     <div
       className="release-notes max-h-[300px] overflow-y-auto rounded-md border p-4"
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: Release notes are sanitized before being passed here
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

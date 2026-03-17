@@ -1,8 +1,8 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
+  type CompleteSchema,
   deserializeCompleteSchema,
   FieldType,
-  type CompleteSchema,
 } from './schema';
 
 // Helper to assert result is not null and return typed result

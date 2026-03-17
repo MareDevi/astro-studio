@@ -13,9 +13,9 @@
  */
 
 export {
-  toggleMarkdown,
   createMarkdownLink,
   parseMarkdownLinks,
+  toggleMarkdown,
 } from './formatting';
-export { transformLineToHeading, getHeadingLevel, isHeading } from './headings';
+export { getHeadingLevel, isHeading, transformLineToHeading } from './headings';
 export type { HeadingLevel, MarkdownLinkMatch } from './types';

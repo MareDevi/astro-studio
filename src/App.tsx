@@ -1,12 +1,12 @@
-import { Layout } from './components/layout';
-import { ThemeProvider } from './lib/theme-provider';
-import { check } from '@tauri-apps/plugin-updater';
-import { info, error } from '@tauri-apps/plugin-log';
 import { listen } from '@tauri-apps/api/event';
-import { commands } from '@/lib/bindings';
+import { error, info } from '@tauri-apps/plugin-log';
+import { check } from '@tauri-apps/plugin-updater';
 import { useEffect } from 'react';
 import { UpdateDialog } from '@/components/update-dialog';
+import { commands } from '@/lib/bindings';
 import { useUpdateStore } from '@/store/updateStore';
+import { Layout } from './components/layout';
+import { ThemeProvider } from './lib/theme-provider';
 import './App.css';
 
 async function fetchAndSetReleaseNotes(

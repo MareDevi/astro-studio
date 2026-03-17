@@ -1,11 +1,11 @@
 import type React from 'react';
-import { useEditorStore } from '../../../store/editorStore';
 import { getNestedValue } from '../../../lib/object-utils';
+import type { SchemaField } from '../../../lib/schema';
+import { useEditorStore } from '../../../store/editorStore';
+import type { FieldProps } from '../../../types/common';
 import { Input } from '../../ui/input';
 import { valueToString } from '../utils';
 import { FieldWrapper } from './FieldWrapper';
-import type { FieldProps } from '../../../types/common';
-import type { SchemaField } from '../../../lib/schema';
 
 interface NumberFieldProps extends FieldProps {
   placeholder?: string;

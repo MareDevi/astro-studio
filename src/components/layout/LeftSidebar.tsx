@@ -1,39 +1,39 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { useShallow } from 'zustand/react/shallow';
-import { commands } from '@/lib/bindings';
-import { useEditorStore } from '../../store/editorStore';
-import { useProjectStore } from '../../store/projectStore';
-import { useUIStore } from '../../store/uiStore';
-import { useCollectionsQuery } from '../../hooks/queries/useCollectionsQuery';
-import { useDirectoryScanQuery } from '../../hooks/queries/useDirectoryScanQuery';
-import type { FileEntry, Collection } from '@/types';
-import { useRenameFileMutation } from '../../hooks/mutations/useRenameFileMutation';
-import { Button } from '../ui/button';
-import { Badge } from '../ui/badge';
 import {
-  FolderOpen,
+  AlertTriangle,
   ArrowLeft,
+  ChevronRight,
   FileText,
   Filter,
   Folder,
-  ChevronRight,
-  AlertTriangle,
+  FolderOpen,
   SlidersHorizontal,
 } from 'lucide-react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useShallow } from 'zustand/react/shallow';
+import { commands } from '@/lib/bindings';
 import { cn } from '@/lib/utils';
+import type { Collection, FileEntry } from '@/types';
+import { useRenameFileMutation } from '../../hooks/mutations/useRenameFileMutation';
+import { useCollectionsQuery } from '../../hooks/queries/useCollectionsQuery';
+import { useDirectoryScanQuery } from '../../hooks/queries/useDirectoryScanQuery';
+import { useEffectiveSettings } from '../../hooks/settings/useEffectiveSettings';
+import { filterFilesByDraft } from '../../lib/files/filtering';
+import { filterFilesBySearch } from '../../lib/files/search';
+import {
+  getSortOptionsForCollection,
+  sortFiles,
+} from '../../lib/files/sorting';
+import { openProjectViaDialog } from '../../lib/projects/actions';
+import { deserializeCompleteSchema } from '../../lib/schema';
+import { useEditorStore } from '../../store/editorStore';
+import { useProjectStore } from '../../store/projectStore';
+import { useUIStore } from '../../store/uiStore';
+import { Badge } from '../ui/badge';
+import { Button } from '../ui/button';
 import { FileContextMenu } from '../ui/context-menu';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
-import { useEffectiveSettings } from '../../hooks/settings/useEffectiveSettings';
 import { FileItem } from './FileItem';
 import { FilterBar } from './FilterBar';
-import { openProjectViaDialog } from '../../lib/projects/actions';
-import { filterFilesByDraft } from '../../lib/files/filtering';
-import {
-  sortFiles,
-  getSortOptionsForCollection,
-} from '../../lib/files/sorting';
-import { filterFilesBySearch } from '../../lib/files/search';
-import { deserializeCompleteSchema } from '../../lib/schema';
 
 export const LeftSidebar: React.FC = () => {
   // Object subscription needs shallow
@@ -382,6 +382,7 @@ export const LeftSidebar: React.FC = () => {
             {/* Collection name (always clickable to go to root) */}
             {selectedCollection && currentSubdirectory ? (
               <button
+                type="button"
                 onClick={() => handleBreadcrumbClick(null)}
                 className="hover:underline cursor-pointer truncate"
               >
@@ -407,6 +408,7 @@ export const LeftSidebar: React.FC = () => {
                     </span>
                   ) : (
                     <button
+                      type="button"
                       onClick={() => handleBreadcrumbClick(pathUpToSegment)}
                       className="hover:underline cursor-pointer truncate"
                     >
@@ -525,6 +527,7 @@ export const LeftSidebar: React.FC = () => {
 
               return (
                 <button
+                  type="button"
                   key={collection.name}
                   onClick={() => handleCollectionClick(collection)}
                   className="w-full text-left p-3 rounded-md hover:bg-accent transition-colors"
@@ -600,6 +603,7 @@ export const LeftSidebar: React.FC = () => {
                   .sort((a, b) => a.name.localeCompare(b.name))
                   .map((dir) => (
                     <button
+                      type="button"
                       key={dir.relative_path}
                       onClick={() => handleSubdirectoryClick(dir.relative_path)}
                       className="w-full text-left p-3 rounded-md hover:bg-accent transition-colors flex items-center gap-2 mb-1"

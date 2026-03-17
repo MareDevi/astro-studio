@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import fs from 'fs';
-import { execSync } from 'child_process';
-import readline from 'readline';
+import { execSync } from 'node:child_process';
+import fs from 'node:fs';
+import readline from 'node:readline';
 
 function exec(command, options = {}) {
   try {
@@ -40,7 +40,7 @@ async function resolveVersion() {
   const arg = process.argv[2];
 
   // If a valid version was passed as argument, use it directly
-  if (arg && arg.match(/^v?\d+\.\d+\.\d+$/)) {
+  if (arg?.match(/^v?\d+\.\d+\.\d+$/)) {
     const clean = arg.replace('v', '');
     return clean;
   }
@@ -99,7 +99,7 @@ async function prepareRelease() {
     const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
     const oldPkgVersion = pkg.version;
     pkg.version = cleanVersion;
-    fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+    fs.writeFileSync('package.json', `${JSON.stringify(pkg, null, 2)}\n`);
     console.log(`   ${oldPkgVersion} → ${cleanVersion}`);
 
     // Update Cargo.toml
@@ -124,7 +124,7 @@ async function prepareRelease() {
     tauriConfig.version = cleanVersion;
     fs.writeFileSync(
       tauriConfigPath,
-      JSON.stringify(tauriConfig, null, 2) + '\n',
+      `${JSON.stringify(tauriConfig, null, 2)}\n`,
     );
     console.log(`   ${oldTauriVersion} → ${cleanVersion}`);
 

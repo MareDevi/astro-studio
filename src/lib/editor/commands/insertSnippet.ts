@@ -1,5 +1,5 @@
-import type { EditorView } from '@codemirror/view';
 import { snippet } from '@codemirror/autocomplete';
+import type { EditorView } from '@codemirror/view';
 
 /**
  * Inserts a snippet at the current cursor position with tab navigation support

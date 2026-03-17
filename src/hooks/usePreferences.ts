@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
-import { useProjectStore } from '../store/projectStore';
 import type {
-  GlobalSettings,
-  ProjectSettings,
   CollectionSpecificSettings,
   DeepPartial,
+  GlobalSettings,
+  ProjectSettings,
 } from '../lib/project-registry';
+import { useProjectStore } from '../store/projectStore';
 
 /**
  * Custom hook for managing preferences with easy read/write access
@@ -48,10 +48,10 @@ export const usePreferences = () => {
 
       const existingCollections = currentProjectSettings.collections || [];
       const collectionIndex = existingCollections.findIndex(
-        (c) => c.name === collectionName,
+        (c: any) => c.name === collectionName,
       );
 
-      let updatedCollections;
+      let updatedCollections: any[];
       if (collectionIndex >= 0) {
         // Update existing collection
         updatedCollections = [...existingCollections];

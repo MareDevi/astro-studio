@@ -1,8 +1,8 @@
 import type { EditorView } from '@codemirror/view';
 import { create } from 'zustand';
+import type { FileEntry } from '@/types';
 import { buildContentLink } from '../lib/content-linker';
 import { useUIStore } from './uiStore';
-import type { FileEntry } from '@/types';
 
 interface ContentLinkerState {
   isOpen: boolean;

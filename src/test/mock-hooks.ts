@@ -1,5 +1,5 @@
 import { vi } from 'vitest';
-import { mockCollections, mockFiles, mockFileContent } from './test-utils';
+import { mockCollections, mockFileContent, mockFiles } from './test-utils';
 
 // Mock for useCollectionsQuery
 export const mockUseCollectionsQuery = vi.fn(() => ({

@@ -1,9 +1,9 @@
+import { debug, info } from '@tauri-apps/plugin-log';
 import { useEffect } from 'react';
-import { useEditorStore } from '../store/editorStore';
-import { useProjectStore } from '../store/projectStore';
 import { queryClient } from '../lib/query-client';
 import { queryKeys } from '../lib/query-keys';
-import { debug, info } from '@tauri-apps/plugin-log';
+import { useEditorStore } from '../store/editorStore';
+import { useProjectStore } from '../store/projectStore';
 
 interface FileChangeEvent {
   path: string;

@@ -1,5 +1,16 @@
+import { ArrowLeft, Check, Circle, CircleDot } from 'lucide-react';
 import React from 'react';
-import { Check, ArrowLeft, Circle, CircleDot } from 'lucide-react';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { useMdxComponentsQuery } from '../../hooks/queries/useMdxComponentsQuery';
+import { useEffectiveSettings } from '../../hooks/settings/useEffectiveSettings';
+import { cn } from '../../lib/utils';
+import {
+  type ClientDirective,
+  useComponentBuilderStore,
+} from '../../store/componentBuilderStore';
+import { useProjectStore } from '../../store/projectStore';
+import { FrameworkIcon } from '../icons/FrameworkIcon';
+import { Badge } from '../ui/badge';
 import {
   CommandDialog,
   CommandEmpty,
@@ -9,17 +20,6 @@ import {
   CommandList,
   CommandShortcut,
 } from '../ui/command';
-import { Badge } from '../ui/badge';
-import { cn } from '../../lib/utils';
-import {
-  useComponentBuilderStore,
-  type ClientDirective,
-} from '../../store/componentBuilderStore';
-import { useMdxComponentsQuery } from '../../hooks/queries/useMdxComponentsQuery';
-import { useProjectStore } from '../../store/projectStore';
-import { useEffectiveSettings } from '../../hooks/settings/useEffectiveSettings';
-import { useHotkeys } from 'react-hotkeys-hook';
-import { FrameworkIcon } from '../icons/FrameworkIcon';
 
 // Client directive options for framework components
 const clientDirectiveOptions: { value: ClientDirective; label: string }[] = [
@@ -184,9 +184,9 @@ export function ComponentBuilderDialog() {
     const allAttrs = [propsString, directiveString].filter(Boolean).join(' ');
 
     if (selectedComponent.has_slot) {
-      return `<${selectedComponent.name}${allAttrs ? ' ' + allAttrs : ''}></${selectedComponent.name}>`;
+      return `<${selectedComponent.name}${allAttrs ? ` ${allAttrs}` : ''}></${selectedComponent.name}>`;
     }
-    return `<${selectedComponent.name}${allAttrs ? ' ' + allAttrs : ''} />`;
+    return `<${selectedComponent.name}${allAttrs ? ` ${allAttrs}` : ''} />`;
   }, [selectedComponent, enabledProps, clientDirective]);
 
   return (

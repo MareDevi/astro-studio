@@ -18,15 +18,15 @@
  * (see src/components/editor/editor.css).
  */
 
-import { StateField, StateEffect, type Transaction } from '@codemirror/state';
+import type { Range } from '@codemirror/state';
+import { StateEffect, StateField, type Transaction } from '@codemirror/state';
 import {
-  EditorView,
   Decoration,
   type DecorationSet,
+  EditorView,
   ViewPlugin,
   type ViewUpdate,
 } from '@codemirror/view';
-import type { Range } from '@codemirror/state';
 import { findCurrentSentence } from '../sentence-detection';
 
 /** State effect to toggle focus mode on or off. Dispatch with `true` to enable, `false` to disable. */

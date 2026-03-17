@@ -1,13 +1,13 @@
 'use client';
 
-import type * as React from 'react';
-import { useState, useCallback } from 'react';
 import { GripVerticalIcon } from 'lucide-react';
+import type * as React from 'react';
+import { useCallback, useState } from 'react';
 import {
   Group,
   Panel,
-  Separator,
   type PanelImperativeHandle,
+  Separator,
 } from 'react-resizable-panels';
 
 import { cn } from '@/lib/utils';
@@ -105,4 +105,4 @@ function ResizableHandle({
 // Re-export the imperative handle type for consumers
 export type { PanelImperativeHandle };
 
-export { ResizablePanelGroup, ResizablePanel, ResizableHandle };
+export { ResizableHandle, ResizablePanel, ResizablePanelGroup };

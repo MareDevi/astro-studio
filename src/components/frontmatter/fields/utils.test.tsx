@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { tagsToStringArray, valueToString } from '../utils';
+import { describe, expect, it } from 'vitest';
 import type { Tag } from '../../ui/tag-input';
+import { tagsToStringArray, valueToString } from '../utils';
 
 describe('Frontmatter Field Utilities', () => {
   describe('tagsToStringArray', () => {
@@ -118,11 +118,11 @@ describe('Frontmatter Field Utilities', () => {
       });
 
       it('should convert floating point numbers', () => {
-        expect(valueToString(3.14159)).toBe('3.14159');
+        expect(valueToString(Math.PI)).toBe(String(Math.PI));
       });
 
       it('should convert negative floating point numbers', () => {
-        expect(valueToString(-2.718)).toBe('-2.718');
+        expect(valueToString(-Math.E)).toBe(String(-Math.E));
       });
 
       it('should handle very large numbers', () => {
@@ -272,7 +272,7 @@ describe('Frontmatter Field Utilities', () => {
       });
 
       it('should handle sparse arrays', () => {
-        const sparse = ['a', , , 'b']; // eslint-disable-line no-sparse-arrays
+        const sparse = ['a', undefined, undefined, 'b']; // eslint-disable-line no-sparse-arrays
         expect(valueToString(sparse)).toBe('a,,,b');
       });
 

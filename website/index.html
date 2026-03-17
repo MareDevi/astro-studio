@@ -186,21 +186,24 @@
 
     <!-- Structured Data -->
     <script type="application/ld+json">
-      "@context": "https://schema.org",
+      {
+        "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "Astro Studio",
         "applicationCategory": "DeveloperApplication",
         "operatingSystem": ["macOS", "Windows"],
         "description": "Schema-aware markdown editor for Astro content collections with intelligent frontmatter forms",
         "url": "https://astroeditor.danny.is/",
-        "author": 
+        "author": {
           "@type": "Person",
           "name": "Danny Smith",
-          "url": "https://danny.is",
-        "offers": 
+          "url": "https://danny.is"
+        },
+        "offers": {
           "@type": "Offer",
           "price": "0",
-          "priceCurrency": "USD",
+          "priceCurrency": "USD"
+        },
         "downloadUrl": "https://astroeditor.danny.is/",
         "screenshot": "https://astroeditor.danny.is/overview.png",
         "featureList": [
@@ -216,6 +219,7 @@
           "Subfolder support with breadcrumb navigation",
           "Three-tier configuration system"
         ]
+      }
     </script>
   </head>
 

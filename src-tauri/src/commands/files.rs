@@ -2360,37 +2360,37 @@ folded: >
         // Apply normalization
         normalize_dates(&mut frontmatter);
 
-        // Verify nested object dates are normalized
+        // Verify nested object dates are NOT normalized (precision preserved)
         let metadata = frontmatter.get("metadata").unwrap().as_object().unwrap();
         assert_eq!(
             metadata.get("deadline").unwrap(),
-            &Value::String("2024-01-15".to_string()),
-            "Nested object date should be normalized to date-only"
+            &Value::String("2024-01-15T00:00:00Z".to_string()),
+            "Nested object date should preserve precision"
         );
         assert_eq!(
             metadata.get("created").unwrap(),
-            &Value::String("2024-01-01".to_string()),
-            "Nested object date with timezone should be normalized"
+            &Value::String("2024-01-01T12:30:00+00:00".to_string()),
+            "Nested object date with timezone should preserve precision"
         );
 
-        // Verify array dates are normalized
+        // Verify array dates are NOT normalized
         let events = frontmatter.get("events").unwrap().as_array().unwrap();
         assert_eq!(
             events[0],
-            Value::String("2024-02-14".to_string()),
-            "Array date should be normalized"
+            Value::String("2024-02-14T00:00:00Z".to_string()),
+            "Array date should preserve precision"
         );
         assert_eq!(
             events[1],
-            Value::String("2024-03-20".to_string()),
-            "Array date should be normalized"
+            Value::String("2024-03-20T00:00:00Z".to_string()),
+            "Array date should preserve precision"
         );
 
-        // Verify top-level date is normalized
+        // Verify top-level date is NOT normalized
         assert_eq!(
             frontmatter.get("publishDate").unwrap(),
-            &Value::String("2024-06-15".to_string()),
-            "Top-level date should be normalized"
+            &Value::String("2024-06-15T00:00:00Z".to_string()),
+            "Top-level date should preserve precision"
         );
     }
 

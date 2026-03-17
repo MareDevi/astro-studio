@@ -1,6 +1,6 @@
 import { commands } from '@/lib/bindings';
-import { globalCommandRegistry } from './CommandRegistry';
 import type { HeadingLevel } from '../markdown/types';
+import { globalCommandRegistry } from './CommandRegistry';
 
 /**
  * Interface for menu integration

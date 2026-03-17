@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Vue Composition API with defineProps
-const props = defineProps<{
+const _props = defineProps<{
   title: string;
   subtitle?: string;
   variant?: 'default' | 'featured';

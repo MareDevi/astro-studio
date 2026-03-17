@@ -1,14 +1,14 @@
-import type React from 'react';
-import { useState, useEffect } from 'react';
-import { MoreHorizontal } from 'lucide-react';
 import { emit } from '@tauri-apps/api/event';
 import { getCurrentWindow } from '@tauri-apps/api/window';
-import { exit } from '@tauri-apps/plugin-process';
 import { message } from '@tauri-apps/plugin-dialog';
-import { useEditorStore } from '../../../store/editorStore';
-import { useProjectStore } from '../../../store/projectStore';
+import { exit } from '@tauri-apps/plugin-process';
+import { MoreHorizontal } from 'lucide-react';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import { commands } from '@/lib/bindings';
 import { toast } from '@/lib/toast';
+import { useEditorStore } from '../../../store/editorStore';
+import { useProjectStore } from '../../../store/projectStore';
 import { Button } from '../../ui/button';
 import {
   DropdownMenu,

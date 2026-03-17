@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { commands, type FileEntry } from '@/types';
 import { queryKeys } from '@/lib/query-keys';
+import { commands, type FileEntry } from '@/types';
 
 /**
  * Query hook for loading file-based collections (JSON loader)

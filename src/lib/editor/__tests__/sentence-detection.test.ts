@@ -1,5 +1,5 @@
-import { describe, test, expect } from 'vitest';
 import { EditorState } from '@codemirror/state';
+import { describe, expect, test } from 'vitest';
 import {
   detectSentencesInLine,
   findCurrentSentence,

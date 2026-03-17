@@ -1,8 +1,8 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
-  setNestedValue,
-  getNestedValue,
   deleteNestedValue,
+  getNestedValue,
+  setNestedValue,
 } from './object-utils';
 
 describe('setNestedValue', () => {

@@ -1,9 +1,9 @@
-import ReactDOM from 'react-dom/client';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { info, error } from '@tauri-apps/plugin-log';
+import { error, info } from '@tauri-apps/plugin-log';
+import ReactDOM from 'react-dom/client';
 import App from './App';
-import { queryClient } from './lib/query-client';
 import { getDiagnosticContext } from './lib/diagnostics';
+import { queryClient } from './lib/query-client';
 
 // Log app startup with diagnostic context
 getDiagnosticContext()

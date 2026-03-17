@@ -1,13 +1,13 @@
-import { useCallback } from 'react';
 import type { EditorView } from '@codemirror/view';
-import { createExtensions } from '../../lib/editor/extensions';
-import type { KeymapHandlers } from '../../lib/editor/extensions/keymap';
+import { useCallback } from 'react';
 import {
-  globalCommandRegistry,
+  cleanupMenuCommands,
   createEditorCommandRegistry,
   exportMenuCommands,
-  cleanupMenuCommands,
+  globalCommandRegistry,
 } from '../../lib/editor/commands';
+import { createExtensions } from '../../lib/editor/extensions';
+import type { KeymapHandlers } from '../../lib/editor/extensions/keymap';
 
 /**
  * Hook for setting up editor extensions and commands

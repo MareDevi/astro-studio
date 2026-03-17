@@ -4,9 +4,9 @@
  * This module handles migration from v1 to v2 preference structure.
  */
 
-import { error as logError, info } from '@tauri-apps/plugin-log';
-import type { GlobalSettings, ProjectData } from './types';
+import { info, error as logError } from '@tauri-apps/plugin-log';
 import { DEFAULT_PROJECT_SETTINGS } from './defaults';
+import type { GlobalSettings, ProjectData } from './types';
 
 /**
  * Migrate global settings from v1 to v2

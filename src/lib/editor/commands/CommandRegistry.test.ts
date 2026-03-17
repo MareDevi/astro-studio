@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
-import type { EditorView } from '@codemirror/view';
 import { EditorState } from '@codemirror/state';
+import type { EditorView } from '@codemirror/view';
+import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 import { CommandRegistry } from './CommandRegistry';
 import type { EditorCommandRegistry } from './types';
 

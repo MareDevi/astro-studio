@@ -1,19 +1,19 @@
+import { listen, type UnlistenFn } from '@tauri-apps/api/event';
+import { debug, info, error as logError } from '@tauri-apps/plugin-log';
 import { create } from 'zustand';
 import { commands } from '@/lib/bindings';
-import { listen, type UnlistenFn } from '@tauri-apps/api/event';
-import { error as logError, info, debug } from '@tauri-apps/plugin-log';
-import { toast } from '../lib/toast';
 import { ASTRO_PATHS } from '../lib/constants';
 import { formatErrorForLogging } from '../lib/diagnostics';
 import {
-  projectRegistryManager,
+  type DeepPartial,
   type GlobalSettings,
   type ProjectSettings,
-  type DeepPartial,
+  projectRegistryManager,
 } from '../lib/project-registry';
-import { useEditorStore } from './editorStore';
 import { queryClient } from '../lib/query-client';
 import { queryKeys } from '../lib/query-keys';
+import { toast } from '../lib/toast';
+import { useEditorStore } from './editorStore';
 
 interface ProjectState {
   // Core identifiers

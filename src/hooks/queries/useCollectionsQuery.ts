@@ -1,11 +1,11 @@
 // src/hooks/queries/useCollectionsQuery.ts
 
 import { useQuery } from '@tanstack/react-query';
-import { commands, type Collection } from '@/types';
-import { queryKeys } from '@/lib/query-keys';
-import { getEffectiveContentDirectory } from '@/lib/project-registry';
 import { ASTRO_PATHS } from '@/lib/constants';
+import { getEffectiveContentDirectory } from '@/lib/project-registry';
 import type { ProjectSettings } from '@/lib/project-registry/types';
+import { queryKeys } from '@/lib/query-keys';
+import { type Collection, commands } from '@/types';
 
 // This is our actual data-fetching function using typed Tauri commands.
 const fetchCollections = async (

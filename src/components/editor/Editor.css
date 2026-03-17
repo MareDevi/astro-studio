@@ -7,16 +7,6 @@
   background-color: var(--editor-color-background);
 }
 
-/* Ensure text cursor in CodeMirror editor */
-.editor-view .cm-editor .cm-content {
-  cursor: text !important;
-}
-
-/* Fix selection artifacts - hide selections when editor loses focus */
-.editor-view:not(:focus-within) .cm-selectionBackground {
-  visibility: hidden !important;
-}
-
 /* iA Writer Editor Theme Variables */
 
 /* Inline Code Styling - this works reliably */
@@ -33,8 +23,8 @@
 /* 50vh padding lets first/last lines reach the vertical centre.
    Using vh units avoids JS feedback loops and auto-responds to resizes. */
 .cm-typewriter-active .cm-content {
-  padding-top: 50vh !important;
-  padding-bottom: 50vh !important;
+  padding-top: 50vh;
+  padding-bottom: 50vh;
 }
 
 /* Focus Mode Styling */
@@ -50,7 +40,12 @@
 
 /* URL Alt+Click Styling */
 .alt-pressed .cm-content {
-  cursor: default !important;
+  cursor: default;
+}
+
+/* Ensure text cursor in CodeMirror editor */
+.editor-view .cm-editor .cm-content {
+  cursor: text;
 }
 
 /* Simple URL hover styling when Alt is pressed - just background and cursor */
@@ -59,8 +54,8 @@
     in srgb,
     var(--editor-color-carat) 15%,
     transparent
-  ) !important;
-  cursor: pointer !important;
+  );
+  cursor: pointer;
   border-radius: 3px;
 }
 

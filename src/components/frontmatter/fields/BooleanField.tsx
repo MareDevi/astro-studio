@@ -1,10 +1,10 @@
 import type React from 'react';
-import { useEditorStore } from '../../../store/editorStore';
 import { getNestedValue } from '../../../lib/object-utils';
-import { Switch } from '../../ui/switch';
-import { FieldLabel, FieldDescription } from '../../ui/field';
-import type { FieldProps } from '../../../types/common';
 import type { SchemaField } from '../../../lib/schema';
+import { useEditorStore } from '../../../store/editorStore';
+import type { FieldProps } from '../../../types/common';
+import { FieldDescription, FieldLabel } from '../../ui/field';
+import { Switch } from '../../ui/switch';
 
 interface BooleanFieldProps extends FieldProps {
   field?: SchemaField;

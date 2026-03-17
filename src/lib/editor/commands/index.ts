@@ -24,13 +24,13 @@
 export { CommandRegistry, globalCommandRegistry } from './CommandRegistry';
 export { createEditorCommandRegistry } from './editorCommands';
 export {
-  createMenuCommands,
-  updateFormatMenuState,
-  exportMenuCommands,
   cleanupMenuCommands,
+  createMenuCommands,
+  exportMenuCommands,
+  updateFormatMenuState,
 } from './menuIntegration';
 export type {
+  CommandOptions,
   EditorCommand,
   EditorCommandRegistry,
-  CommandOptions,
 } from './types';

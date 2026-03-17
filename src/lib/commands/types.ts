@@ -1,4 +1,4 @@
-import type { FileEntry, Collection } from '@/types';
+import type { Collection, FileEntry } from '@/types';
 import type { GlobalSettings } from '../project-registry';
 
 /**

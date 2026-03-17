@@ -1,8 +1,10 @@
+import { ArrowDown, ArrowUp, ArrowUpDown, Search, X } from 'lucide-react';
 import type React from 'react';
-import { useRef, useEffect } from 'react';
-import { Search, ArrowUpDown, X, ArrowUp, ArrowDown } from 'lucide-react';
-import { Input } from '../ui/input';
+import { useEffect, useRef } from 'react';
+import type { SortOption } from '@/lib/files';
+import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 import {
   Select,
   SelectContent,
@@ -10,8 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select';
-import { cn } from '@/lib/utils';
-import type { SortOption } from '@/lib/files';
 
 /**
  * Get a subtle type label for sort options

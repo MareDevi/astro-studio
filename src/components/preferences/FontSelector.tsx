@@ -1,7 +1,6 @@
-import type React from 'react';
-import { useState, useMemo } from 'react';
 import { Check, ChevronsUpDown } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import type React from 'react';
+import { useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Command,
@@ -18,6 +17,7 @@ import {
 } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useSystemFontsQuery } from '@/hooks/queries/useSystemFontsQuery';
+import { cn } from '@/lib/utils';
 
 interface FontSelectorProps {
   value?: string;

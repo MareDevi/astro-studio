@@ -26,7 +26,7 @@
  * - Obsidian Typewriter Mode plugin (production reference)
  */
 
-import { StateField, StateEffect, EditorState } from '@codemirror/state';
+import { EditorState, StateEffect, StateField } from '@codemirror/state';
 import { EditorView, ViewPlugin, type ViewUpdate } from '@codemirror/view';
 
 /** State effect to toggle typewriter mode on or off. */

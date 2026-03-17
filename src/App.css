@@ -341,28 +341,28 @@ body {
   .window-unfocused .traffic-light-close,
   .window-unfocused .traffic-light-minimize,
   .window-unfocused .traffic-light-maximize {
-    background: #c4c4c4 !important;
-    border-color: #a0a0a0 !important;
+    background: #c4c4c4;
+    border-color: #a0a0a0;
   }
 
   .window-unfocused .traffic-light-close:hover,
   .window-unfocused .traffic-light-minimize:hover,
   .window-unfocused .traffic-light-maximize:hover {
-    background: #b8b8b8 !important;
+    background: #b8b8b8;
   }
 
   /* Dark mode unfocused state */
   .dark.window-unfocused .traffic-light-close,
   .dark.window-unfocused .traffic-light-minimize,
   .dark.window-unfocused .traffic-light-maximize {
-    background: #5a5a5a !important;
-    border-color: #4a4a4a !important;
+    background: #5a5a5a;
+    border-color: #4a4a4a;
   }
 
   .dark.window-unfocused .traffic-light-close:hover,
   .dark.window-unfocused .traffic-light-minimize:hover,
   .dark.window-unfocused .traffic-light-maximize:hover {
-    background: #6a6a6a !important;
+    background: #6a6a6a;
   }
 }
 
@@ -372,11 +372,11 @@ textarea,
 [contenteditable="true"],
 .cm-editor,
 .CodeMirror {
-  user-select: text !important;
-  -webkit-user-select: text !important;
-  -moz-user-select: text !important;
-  -ms-user-select: text !important;
-  cursor: text !important;
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  cursor: text;
 }
 
 /* Ensure default cursor on all elements */
@@ -398,7 +398,7 @@ label:not(.editor-view *, .cm-editor *),
 li:not(.editor-view *, .cm-editor *),
 td:not(.editor-view *, .cm-editor *),
 th:not(.editor-view *, .cm-editor *) {
-  cursor: default !important;
+  cursor: default;
 }
 
 /* CodeMirror isolation - prevent global styles from interfering */
@@ -406,7 +406,7 @@ th:not(.editor-view *, .cm-editor *) {
 .cm-editor *,
 .cm-focused {
   isolation: isolate;
-  outline: none !important;
+  outline: none;
 }
 
 /* Ensure text cursor in all CodeMirror editor areas */
@@ -416,17 +416,17 @@ th:not(.editor-view *, .cm-editor *) {
 .editor-view .cm-content,
 .cm-editor .cm-scroller,
 .cm-editor .cm-content {
-  cursor: text !important;
+  cursor: text;
 }
 
 /* Only links should have pointer cursor in native app */
 a {
-  cursor: pointer !important;
+  cursor: pointer;
 }
 
 /* Utility class for when pointer cursor is explicitly needed */
 .cursor-pointer {
-  cursor: pointer !important;
+  cursor: pointer;
 }
 
 @layer base {

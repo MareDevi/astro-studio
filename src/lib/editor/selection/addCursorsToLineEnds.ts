@@ -1,5 +1,5 @@
-import type { EditorView } from '@codemirror/view';
 import { EditorSelection } from '@codemirror/state';
+import type { EditorView } from '@codemirror/view';
 
 /**
  * Add cursors to the end of each line within the current selection.

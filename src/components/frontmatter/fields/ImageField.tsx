@@ -1,10 +1,13 @@
+import { Check, Edit3, Loader2, X } from 'lucide-react';
 import type React from 'react';
 import { useState } from 'react';
-import { useEditorStore } from '../../../store/editorStore';
+import { IMAGE_EXTENSIONS, processFileToAssets } from '../../../lib/files';
 import { getNestedValue } from '../../../lib/object-utils';
+import { getCollectionSettings } from '../../../lib/project-registry';
+import type { SchemaField } from '../../../lib/schema';
+import { useEditorStore } from '../../../store/editorStore';
 import { useProjectStore } from '../../../store/projectStore';
-import { FieldWrapper } from './FieldWrapper';
-import { ImageThumbnail } from './ImageThumbnail';
+import type { FieldProps } from '../../../types/common';
 import { FileUploadButton } from '../../tauri';
 import {
   InputGroup,
@@ -12,11 +15,8 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from '../../ui/input-group';
-import { processFileToAssets, IMAGE_EXTENSIONS } from '../../../lib/files';
-import { getCollectionSettings } from '../../../lib/project-registry';
-import { X, Loader2, Edit3, Check } from 'lucide-react';
-import type { FieldProps } from '../../../types/common';
-import type { SchemaField } from '../../../lib/schema';
+import { FieldWrapper } from './FieldWrapper';
+import { ImageThumbnail } from './ImageThumbnail';
 
 interface ImageFieldProps extends FieldProps {
   field?: SchemaField;

@@ -1,14 +1,7 @@
+import { ChevronDown, ChevronRight } from 'lucide-react';
 import type React from 'react';
 import { useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import {
   Collapsible,
   CollapsibleContent,
@@ -16,20 +9,27 @@ import {
 } from '@/components/ui/collapsible';
 import {
   Field,
-  FieldLabel,
-  FieldDescription,
   FieldContent,
+  FieldDescription,
+  FieldLabel,
 } from '@/components/ui/field';
-import { ChevronDown, ChevronRight } from 'lucide-react';
-import { usePreferences } from '../../../hooks/usePreferences';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { useCollectionsQuery } from '../../../hooks/queries/useCollectionsQuery';
+import { usePreferences } from '../../../hooks/usePreferences';
 import { getCollectionSettings } from '../../../lib/project-registry/collection-settings';
-import { deserializeCompleteSchema, FieldType } from '../../../lib/schema';
 import { getDefaultFileType } from '../../../lib/project-registry/default-file-type';
-import type { SchemaField } from '../../../lib/schema';
 import type { CollectionSettings } from '../../../lib/project-registry/types';
-import { SettingsSection } from '../SettingsSection';
+import type { SchemaField } from '../../../lib/schema';
+import { deserializeCompleteSchema, FieldType } from '../../../lib/schema';
 import { PreferencesTextInput } from '../PreferencesTextInput';
+import { SettingsSection } from '../SettingsSection';
 
 export const CollectionSettingsPane: React.FC = () => {
   const {

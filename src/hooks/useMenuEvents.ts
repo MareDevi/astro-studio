@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react';
 import { listen } from '@tauri-apps/api/event';
+import { useEffect, useRef } from 'react';
+import { globalCommandRegistry } from '../lib/editor/commands';
+import type { HeadingLevel } from '../lib/editor/markdown/types';
+import { openProjectViaDialog } from '../lib/projects/actions';
 import { useEditorStore } from '../store/editorStore';
 import { useProjectStore } from '../store/projectStore';
 import { useUIStore } from '../store/uiStore';
-import { globalCommandRegistry } from '../lib/editor/commands';
-import { openProjectViaDialog } from '../lib/projects/actions';
-import type { HeadingLevel } from '../lib/editor/markdown/types';
 
 /**
  * Format menu event mapping for reducing duplication.

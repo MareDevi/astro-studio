@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import { useProjectStore } from './projectStore';
-import { setNestedValue, deleteNestedValue } from '../lib/object-utils';
 import type { FileEntry } from '@/types';
+import { deleteNestedValue, setNestedValue } from '../lib/object-utils';
+import { useProjectStore } from './projectStore';
 
 const MAX_AUTO_SAVE_DELAY_MS = 10000; // Maximum time between auto-saves (10 seconds)
 

@@ -1,7 +1,7 @@
 import {
   extractFilename,
-  isImageFile,
   formatAsMarkdown,
+  isImageFile,
 } from './fileProcessing';
 
 /**

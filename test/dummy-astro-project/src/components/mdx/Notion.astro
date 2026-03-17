@@ -1,6 +1,5 @@
 ---
 import { unfurl } from 'unfurl.js';
-import NotionIcon from '../icons/NotionIcon.astro';
 
 export interface Props {
   href: string;
@@ -11,9 +10,9 @@ const { href, title: manualTitle } = Astro.props;
 
 // Variables with defaults
 let title = manualTitle || 'Notion Page';
-let hasFavicon = false;
-let faviconImageURL = '';
-let emoji = '';
+let _hasFavicon = false;
+let _faviconImageURL = '';
+let _emoji = '';
 
 try {
   // Only fetch if no manual title provided
@@ -29,9 +28,9 @@ try {
     // Get faviconImageURL or emoji
     const faviconURL = result.favicon;
 
-    if (faviconURL && faviconURL.includes('amazonaws.com')) {
-      hasFavicon = true;
-      faviconImageURL = faviconURL;
+    if (faviconURL?.includes('amazonaws.com')) {
+      _hasFavicon = true;
+      _faviconImageURL = faviconURL;
     } else {
       const decodedURL = decodeURIComponent(faviconURL || '');
 
@@ -42,8 +41,8 @@ try {
       const matches = decodedURL.match(emojiRegex) as Array<string>;
 
       if (matches?.length > 0) {
-        hasFavicon = true;
-        emoji = matches[0];
+        _hasFavicon = true;
+        _emoji = matches[0];
       }
     }
   }

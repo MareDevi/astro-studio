@@ -111,7 +111,7 @@
     "zustand": "^5.0.11"
   },
   "devDependencies": {
-    "@ast-grep/cli": "^0.41.0",
+    "@ast-grep/cli": "^0.42.0",
     "@biomejs/biome": "^2.4.7",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
@@ -140,5 +140,8 @@
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
     "vitest": "^4.0.18"
-  }
+  },
+  "trustedDependencies": [
+    "@ast-grep/cli"
+  ]
 }

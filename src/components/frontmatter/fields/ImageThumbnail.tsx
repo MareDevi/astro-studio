@@ -1,9 +1,9 @@
+import { convertFileSrc } from '@tauri-apps/api/core';
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { convertFileSrc } from '@tauri-apps/api/core';
 import { commands } from '@/lib/bindings';
-import { useProjectStore } from '../../../store/projectStore';
 import { useEditorStore } from '../../../store/editorStore';
+import { useProjectStore } from '../../../store/projectStore';
 
 interface ImageThumbnailProps {
   path: string;

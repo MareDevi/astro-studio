@@ -1,6 +1,6 @@
+import { getCurrentWindow } from '@tauri-apps/api/window';
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { getCurrentWindow } from '@tauri-apps/api/window';
 import { cn } from '../../../lib/utils';
 
 /**
@@ -47,18 +47,21 @@ export const TrafficLights: React.FC = () => {
       )}
     >
       <button
+        type="button"
         onClick={() => void handleClose()}
         className="traffic-light traffic-light-close"
       >
         <span className="symbol">&times;</span>
       </button>
       <button
+        type="button"
         onClick={() => void handleMinimize()}
         className="traffic-light traffic-light-minimize"
       >
         <span className="symbol">&minus;</span>
       </button>
       <button
+        type="button"
         onClick={() => void handleToggleMaximize()}
         className="traffic-light traffic-light-maximize"
       >

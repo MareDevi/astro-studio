@@ -1,10 +1,10 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { useCommandContext } from './commands/useCommandContext';
 import { getAllCommands } from '../lib/commands/app-commands';
 import type { AppCommand, CommandGroup } from '../lib/commands/types';
-import { useUIStore } from '../store/uiStore';
 import { focusEditorDelayed } from '../lib/focus-utils';
+import { useUIStore } from '../store/uiStore';
+import { useCommandContext } from './commands/useCommandContext';
 
 /**
  * Hook for managing command palette state and commands
@@ -65,7 +65,8 @@ export function useCommandPalette() {
       context.globalSettings?.general?.highlights?.adjectives,
       context.globalSettings?.general?.highlights?.adverbs,
       context.globalSettings?.general?.highlights?.conjunctions,
-      context.collections.length, // Only react to collection count changes, not array reference
+      context.collections.length,
+      context,
     ],
   );
 

@@ -1,10 +1,9 @@
 import type React from 'react';
-import { Switch } from '@/components/ui/switch';
 import {
   Field,
-  FieldLabel,
-  FieldDescription,
   FieldContent,
+  FieldDescription,
+  FieldLabel,
 } from '@/components/ui/field';
 import {
   Select,
@@ -13,9 +12,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { usePreferences } from '../../../hooks/usePreferences';
-import { SettingsSection } from '../SettingsSection';
 import { PreferencesTextInput } from '../PreferencesTextInput';
+import { SettingsSection } from '../SettingsSection';
 
 export const ProjectSettingsPane: React.FC = () => {
   const { currentProjectSettings, updateProject, projectName, globalSettings } =

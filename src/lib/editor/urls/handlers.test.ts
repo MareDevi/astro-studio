@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import type { EditorView } from '@codemirror/view';
 import { EditorState } from '@codemirror/state';
+import type { EditorView } from '@codemirror/view';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { handleUrlClick } from './handlers';
 
 // Mock Tauri opener

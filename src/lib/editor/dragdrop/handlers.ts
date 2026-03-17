@@ -1,12 +1,12 @@
 import type { EditorView } from '@codemirror/view';
 import { useEditorStore } from '../../../store/editorStore';
 import { useProjectStore } from '../../../store/projectStore';
-import { processDroppedFiles } from './fileProcessing';
 import {
-  validateDropContext,
   buildFallbackMarkdownForPaths,
+  validateDropContext,
 } from './edgeCases';
-import type { FileDropPayload, DropResult } from './types';
+import { processDroppedFiles } from './fileProcessing';
+import type { DropResult, FileDropPayload } from './types';
 
 /**
  * Parse file drop payload from Tauri event
@@ -17,7 +17,7 @@ export const parseFileDropPayload = (
   payload: unknown,
 ): { paths: string[]; position?: { x: number; y: number } } => {
   let filePaths: string[] = [];
-  let position: { x: number; y: number } | undefined ;
+  let position: { x: number; y: number } | undefined;
 
   if (Array.isArray(payload)) {
     filePaths = payload as string[];

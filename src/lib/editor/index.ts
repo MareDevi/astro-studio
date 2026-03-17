@@ -18,23 +18,18 @@
  * - Following React/TypeScript best practices
  */
 
-// Core syntax highlighting
-export * from './syntax';
-
+// Command system
+export * from './commands';
+// Drag & drop functionality
+export * from './dragdrop';
+// Extensions system
+export * from './extensions';
 // Markdown editing utilities
 export * from './markdown';
 
-// URL handling system
-export * from './urls';
-
-// Drag & drop functionality
-export * from './dragdrop';
-
 // Paste handling
 export * from './paste';
-
-// Command system
-export * from './commands';
-
-// Extensions system
-export * from './extensions';
+// Core syntax highlighting
+export * from './syntax';
+// URL handling system
+export * from './urls';

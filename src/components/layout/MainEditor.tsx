@@ -1,10 +1,10 @@
 import type React from 'react';
+import { useProjectStore } from '@/store/projectStore';
+import { openProjectViaDialog } from '../../lib/projects/actions';
 import { useEditorStore } from '../../store/editorStore';
 import { useUIStore } from '../../store/uiStore';
 import { Editor } from '../editor';
-import { openProjectViaDialog } from '../../lib/projects/actions';
 import { Button } from '../ui/button';
-import { useProjectStore } from '@/store/projectStore';
 
 // Welcome screen component for better organization
 const WelcomeScreen: React.FC = () => {

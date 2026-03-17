@@ -1,4 +1,5 @@
 import React from 'react';
+import { useCommandPalette } from '../../hooks/useCommandPalette';
 import {
   CommandDialog,
   CommandEmpty,
@@ -8,7 +9,6 @@ import {
   CommandList,
   CommandSeparator,
 } from '../ui/command';
-import { useCommandPalette } from '../../hooks/useCommandPalette';
 
 /**
  * Command palette component with Cmd+P shortcut

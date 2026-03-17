@@ -1,8 +1,8 @@
 // src/hooks/queries/useDirectoryScanQuery.ts
 
 import { useQuery } from '@tanstack/react-query';
-import { commands, type DirectoryScanResult } from '@/types';
 import { queryKeys } from '@/lib/query-keys';
+import { commands, type DirectoryScanResult } from '@/types';
 
 const fetchDirectoryContents = async (
   directoryPath: string,

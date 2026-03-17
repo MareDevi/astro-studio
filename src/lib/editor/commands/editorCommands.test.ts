@@ -1,15 +1,15 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import type { EditorView } from '@codemirror/view';
 import { EditorState } from '@codemirror/state';
+import type { EditorView } from '@codemirror/view';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { HeadingLevel } from '../markdown/types';
 import {
   createBoldCommand,
+  createEditorCommandRegistry,
+  createHeadingCommand,
   createItalicCommand,
   createLinkCommand,
-  createHeadingCommand,
   createSaveCommand,
-  createEditorCommandRegistry,
 } from './editorCommands';
-import type { HeadingLevel } from '../markdown/types';
 
 // Mock the markdown utilities
 vi.mock('../markdown/formatting', () => ({

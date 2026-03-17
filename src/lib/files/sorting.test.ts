@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { getPublishedDate, sortFilesByPublishedDate } from './sorting';
+import { describe, expect, it } from 'vitest';
 import type { FileEntry } from '@/types';
+import { getPublishedDate, sortFilesByPublishedDate } from './sorting';
 
 const mockMappings = {
   publishedDate: 'publishedDate',

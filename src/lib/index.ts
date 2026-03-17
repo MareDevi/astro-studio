@@ -1,5 +1,5 @@
 export {
-  setNestedValue,
-  getNestedValue,
   deleteNestedValue,
+  getNestedValue,
+  setNestedValue,
 } from './object-utils';

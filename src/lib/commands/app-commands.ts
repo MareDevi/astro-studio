@@ -1,32 +1,32 @@
 import {
-  FileText,
-  FolderOpen,
-  X,
-  Sidebar,
-  PanelRight,
-  MonitorPlay,
-  RefreshCw,
-  Plus,
-  ExternalLink,
-  Code,
-  Folder,
-  Settings,
-  Eye,
   AlignVerticalSpaceAround,
-  Highlighter,
-  Link,
+  ArrowDownCircle,
+  ArrowUpCircle,
+  Code,
+  ExternalLink,
+  Eye,
+  FileText,
+  Folder,
+  FolderOpen,
   GitBranch,
   GitCommit,
-  ArrowUpCircle,
-  ArrowDownCircle,
+  Highlighter,
+  Link,
+  MonitorPlay,
+  PanelRight,
+  Plus,
+  RefreshCw,
+  Settings,
+  Sidebar,
+  X,
 } from 'lucide-react';
-import type { AppCommand, CommandContext } from './types';
+import { commands } from '@/lib/bindings';
+import { useContentLinkerStore } from '@/store/contentLinkerStore';
 import type { Collection } from '@/types';
-import { toast } from '../toast';
 import { openInIde } from '../ide';
 import { openProjectViaDialog } from '../projects/actions';
-import { useContentLinkerStore } from '@/store/contentLinkerStore';
-import { commands } from '@/lib/bindings';
+import { toast } from '../toast';
+import type { AppCommand, CommandContext } from './types';
 
 /**
  * File-related commands

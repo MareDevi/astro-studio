@@ -2,10 +2,10 @@
  * Tests for collection-scoped settings with three-tier fallback
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
+import { ASTRO_PATHS } from '../constants';
 import { getCollectionSettings } from './collection-settings';
 import type { ProjectSettings } from './types';
-import { ASTRO_PATHS } from '../constants';
 
 describe('getCollectionSettings', () => {
   describe('three-tier fallback for path overrides', () => {

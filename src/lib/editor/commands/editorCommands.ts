@@ -1,10 +1,10 @@
 import type { EditorView } from '@codemirror/view';
-import { toggleMarkdown, createMarkdownLink } from '../markdown/formatting';
-import { transformLineToHeading } from '../markdown/headings';
-import { addCursorsToLineEnds } from '../selection';
-import type { HeadingLevel } from '../markdown/types';
-import type { EditorCommand, EditorCommandRegistry } from './types';
 import { useUIStore } from '../../../store/uiStore';
+import { createMarkdownLink, toggleMarkdown } from '../markdown/formatting';
+import { transformLineToHeading } from '../markdown/headings';
+import type { HeadingLevel } from '../markdown/types';
+import { addCursorsToLineEnds } from '../selection';
+import type { EditorCommand, EditorCommandRegistry } from './types';
 
 /**
  * Create a bold toggle command

@@ -1,9 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
-import type { EditorView } from '@codemirror/view';
 import { EditorState } from '@codemirror/state';
-import { useEditorSetup } from './useEditorSetup';
+import type { EditorView } from '@codemirror/view';
+import { act, renderHook } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { EditorCommandRegistry } from '../../lib/editor/commands/types';
+import { useEditorSetup } from './useEditorSetup';
 
 // Mock the dependencies
 vi.mock('../../lib/editor/extensions', () => ({

@@ -22,7 +22,7 @@
  * ```
  */
 
+export type { ExtensionConfig } from './createExtensions';
 export { createExtensions } from './createExtensions';
 export { createKeymapExtensions } from './keymap';
 export { createEditorTheme } from './theme';
-export type { ExtensionConfig } from './createExtensions';

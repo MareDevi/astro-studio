@@ -4,26 +4,26 @@
  * Main API for managing project identification, settings, and persistence
  */
 
-import { safeLog } from '../diagnostics';
 import { commands } from '@/lib/bindings';
+import { safeLog } from '../diagnostics';
+import { DEFAULT_PROJECT_SETTINGS } from './defaults';
+import {
+  loadGlobalSettings,
+  loadProjectData,
+  loadProjectRegistry,
+  saveGlobalSettings,
+  saveProjectData,
+  saveProjectRegistry,
+} from './persistence';
 import type {
-  ProjectRegistry,
+  DeepPartial,
   GlobalSettings,
   ProjectData,
   ProjectMetadata,
+  ProjectRegistry,
   ProjectSettings,
-  DeepPartial,
 } from './types';
-import {
-  loadProjectRegistry,
-  saveProjectRegistry,
-  loadGlobalSettings,
-  saveGlobalSettings,
-  loadProjectData,
-  saveProjectData,
-} from './persistence';
 import { discoverProject, isSameProject } from './utils';
-import { DEFAULT_PROJECT_SETTINGS } from './defaults';
 
 export class ProjectRegistryManager {
   private registry: ProjectRegistry | null = null;
@@ -365,8 +365,8 @@ export class ProjectRegistryManager {
 // Export the manager instance
 export const projectRegistryManager = new ProjectRegistryManager();
 
+export * from './collection-settings';
+export * from './defaults';
+export * from './path-resolution';
 // Export types and utilities
 export * from './types';
-export * from './defaults';
-export * from './collection-settings';
-export * from './path-resolution';

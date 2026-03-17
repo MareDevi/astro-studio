@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { EditorSelection, EditorState } from '@codemirror/state';
 import type { EditorView } from '@codemirror/view';
-import { EditorState, EditorSelection } from '@codemirror/state';
-import { transformLineToHeading, getHeadingLevel, isHeading } from './headings';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { getHeadingLevel, isHeading, transformLineToHeading } from './headings';
 import type { HeadingLevel } from './types';
 
 // Mock dispatch function

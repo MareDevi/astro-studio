@@ -908,9 +908,12 @@ interface Props {
         )
         .await;
 
-        // Should succeed but return empty results since the path doesn't exist within project bounds
-        assert!(result.is_ok());
-        assert_eq!(result.unwrap().len(), 0);
+        // Should return an error for security
+        assert!(result.is_err());
+        let err = result.err().unwrap();
+        assert!(
+            err.contains("Invalid file path") || err.contains("File outside project directory")
+        );
     }
 
     // React Parser Tests

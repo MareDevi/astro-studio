@@ -1,5 +1,5 @@
-import type { EditorView } from '@codemirror/view';
 import { EditorSelection } from '@codemirror/state';
+import type { EditorView } from '@codemirror/view';
 import type { MarkdownLinkMatch } from './types';
 
 /**
@@ -54,9 +54,9 @@ export const toggleMarkdown = (view: EditorView, marker: string): boolean => {
 export const parseMarkdownLinks = (lineText: string): MarkdownLinkMatch[] => {
   const matches: MarkdownLinkMatch[] = [];
   const linkRegex = /\[([^\]]*)\]\(([^)]*)\)/g;
-  let match;
 
-  while ((match = linkRegex.exec(lineText)) !== null) {
+  let match = linkRegex.exec(lineText);
+  while (match !== null) {
     const linkStart = match.index;
     const linkEnd = match.index + match[0].length;
     const linkText = match[1] || '';
@@ -72,6 +72,7 @@ export const parseMarkdownLinks = (lineText: string): MarkdownLinkMatch[] => {
       urlStart,
       urlEnd,
     });
+    match = linkRegex.exec(lineText);
   }
 
   return matches;

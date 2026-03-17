@@ -1,11 +1,11 @@
 <script setup lang="ts">
 // Vue component testing slot detection
-const props = defineProps<{
+const _props = defineProps<{
   type: 'note' | 'tip' | 'warning';
   icon?: string;
 }>();
 
-const typeStyles = {
+const _typeStyles = {
   note: 'bg-blue-50 border-blue-200',
   tip: 'bg-green-50 border-green-200',
   warning: 'bg-orange-50 border-orange-200',

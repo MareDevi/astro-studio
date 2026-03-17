@@ -8,14 +8,14 @@
  * - Preserving existing user preferences during migration
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
+import { DEFAULT_PROJECT_SETTINGS } from './defaults';
 import {
   migrateGlobalSettingsV1toV2,
   migrateProjectDataV1toV2,
   needsGlobalSettingsMigration,
   needsProjectDataMigration,
 } from './migrations';
-import { DEFAULT_PROJECT_SETTINGS } from './defaults';
 
 describe('Global Settings Migration', () => {
   describe('migrateGlobalSettingsV1toV2', () => {

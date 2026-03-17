@@ -1,5 +1,5 @@
+import { Folder, Layers, Settings, Wrench } from 'lucide-react';
 import React, { useState } from 'react';
-import { Settings, Folder, Layers, Wrench } from 'lucide-react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,11 +24,11 @@ import {
   SidebarMenuItem,
   SidebarProvider,
 } from '@/components/ui/sidebar';
-import { GeneralPane } from './panes/GeneralPane';
-import { ProjectSettingsPane } from './panes/ProjectSettingsPane';
+import { usePreferences } from '../../hooks/usePreferences';
 import { CollectionSettingsPane } from './panes/CollectionSettingsPane';
 import { DebugPane } from './panes/DebugPane';
-import { usePreferences } from '../../hooks/usePreferences';
+import { GeneralPane } from './panes/GeneralPane';
+import { ProjectSettingsPane } from './panes/ProjectSettingsPane';
 
 interface PreferencesDialogProps {
   open: boolean;
@@ -116,6 +116,7 @@ export const PreferencesDialog: React.FC<PreferencesDialogProps> = ({
                           isActive={activePane === item.id}
                         >
                           <button
+                            type="button"
                             onClick={() => setActivePane(item.id)}
                             className="w-full"
                           >

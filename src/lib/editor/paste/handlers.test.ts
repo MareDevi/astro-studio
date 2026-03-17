@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { EditorSelection, EditorState } from '@codemirror/state';
 import type { EditorView } from '@codemirror/view';
-import { EditorState, EditorSelection } from '@codemirror/state';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { handlePaste, isClipboardUrl } from './handlers';
 
 // Mock URL detection

@@ -27,25 +27,25 @@
  * - Normal: Default CodeMirror keymaps
  */
 
-import { keymap, type EditorView } from '@codemirror/view';
+import {
+  closeBracketsKeymap,
+  hasNextSnippetField,
+  hasPrevSnippetField,
+  nextSnippetField,
+  prevSnippetField,
+} from '@codemirror/autocomplete';
 import {
   defaultKeymap,
   historyKeymap,
   toggleComment,
 } from '@codemirror/commands';
 import { searchKeymap } from '@codemirror/search';
-import {
-  hasNextSnippetField,
-  nextSnippetField,
-  hasPrevSnippetField,
-  prevSnippetField,
-  closeBracketsKeymap,
-} from '@codemirror/autocomplete';
 import { Prec } from '@codemirror/state';
-import { toggleMarkdown, createMarkdownLink } from '../markdown/formatting';
+import { type EditorView, keymap } from '@codemirror/view';
+import { globalCommandRegistry } from '../commands';
+import { createMarkdownLink, toggleMarkdown } from '../markdown/formatting';
 import { transformLineToHeading } from '../markdown/headings';
 import { addCursorsToLineEnds } from '../selection';
-import { globalCommandRegistry } from '../commands';
 
 /**
  * Keymap handler callbacks passed from the editor component

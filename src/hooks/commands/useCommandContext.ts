@@ -1,10 +1,10 @@
 import { useShallow } from 'zustand/react/shallow';
+import type { CommandContext } from '../../lib/commands/types';
 import { useEditorStore } from '../../store/editorStore';
 import { useProjectStore } from '../../store/projectStore';
 import { useUIStore } from '../../store/uiStore';
-import { useCollectionsQuery } from '../queries/useCollectionsQuery';
 import { useEditorActions } from '../editor/useEditorActions';
-import type { CommandContext } from '../../lib/commands/types';
+import { useCollectionsQuery } from '../queries/useCollectionsQuery';
 
 /**
  * Creates command context from current app state

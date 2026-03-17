@@ -1,22 +1,22 @@
+import {
+  ArrowDownCircle,
+  ArrowUpCircle,
+  FileEdit,
+  FileText,
+  GitCommit,
+  Plus,
+  RefreshCw,
+  Trash2,
+} from 'lucide-react';
 import type React from 'react';
-import { useState, useEffect, useCallback } from 'react';
-import { useProjectStore } from '../../store/projectStore';
+import { useCallback, useEffect, useState } from 'react';
 import { commands } from '../../lib/bindings';
 import { toast } from '../../lib/toast';
+import { cn } from '../../lib/utils';
+import { useProjectStore } from '../../store/projectStore';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { ScrollArea } from '../ui/scroll-area';
-import {
-  GitCommit,
-  RefreshCw,
-  FileText,
-  Plus,
-  FileEdit,
-  Trash2,
-  ArrowUpCircle,
-  ArrowDownCircle,
-} from 'lucide-react';
-import { cn } from '../../lib/utils';
 
 interface ChangedFile {
   path: string;
@@ -240,9 +240,9 @@ export const GitPanel: React.FC = () => {
       <ScrollArea className="flex-1">
         <div className="divide-y divide-border/50">
           {changedFiles.length > 0 ? (
-            changedFiles.map((file, index) => (
+            changedFiles.map((file) => (
               <div
-                key={index}
+                key={file.path}
                 className="group flex items-center gap-3 px-4 py-2 hover:bg-muted/50 transition-colors cursor-default"
               >
                 <div className="shrink-0">{getStatusIcon(file.status)}</div>

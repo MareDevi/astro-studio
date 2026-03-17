@@ -15,14 +15,14 @@
  * Layout component, which dispatches altKeyEffect to the editor.
  */
 
+import { StateEffect, StateField } from '@codemirror/state';
 import {
+  Decoration,
+  type DecorationSet,
   type EditorView,
   ViewPlugin,
   type ViewUpdate,
-  Decoration,
-  type DecorationSet,
 } from '@codemirror/view';
-import { StateField, StateEffect } from '@codemirror/state';
 import { findUrlsInText } from './detection';
 
 /**

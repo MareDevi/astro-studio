@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
 import type { EditorView } from '@codemirror/view';
 import { listen } from '@tauri-apps/api/event';
+import { useEffect } from 'react';
 import { handleTauriFileDrop } from '../../lib/editor/dragdrop';
 
 /**

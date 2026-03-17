@@ -1,15 +1,15 @@
-import { Menu, MenuItem, PredefinedMenuItem } from '@tauri-apps/api/menu';
 import { LogicalPosition } from '@tauri-apps/api/dpi';
-import { commands } from '@/lib/bindings';
+import { Menu, MenuItem, PredefinedMenuItem } from '@tauri-apps/api/menu';
+import { ask } from '@tauri-apps/plugin-dialog';
 import { remove } from '@tauri-apps/plugin-fs';
 import { openPath } from '@tauri-apps/plugin-opener';
-import { ask } from '@tauri-apps/plugin-dialog';
-import type { FileEntry } from '@/types';
-import { useProjectStore } from '../../store/projectStore';
-import { openInIde } from '../../lib/ide';
-import { getTitle } from '@/lib/files/sorting';
 import { getPlatform } from '@/hooks/usePlatform';
+import { commands } from '@/lib/bindings';
+import { getTitle } from '@/lib/files/sorting';
 import { getPlatformString } from '@/lib/platform-strings';
+import type { FileEntry } from '@/types';
+import { openInIde } from '../../lib/ide';
+import { useProjectStore } from '../../store/projectStore';
 
 interface ContextMenuOptions {
   file: FileEntry;

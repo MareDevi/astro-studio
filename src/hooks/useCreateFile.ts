@@ -1,15 +1,15 @@
-import { useCallback, useRef, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { commands, type DirectoryScanResult } from '@/types';
+import { todayIsoDate, todayIsoDateTime } from '../lib/dates';
+import { getDefaultFileType } from '../lib/project-registry/default-file-type';
+import { deserializeCompleteSchema, FieldType } from '../lib/schema';
+import { toast } from '../lib/toast';
 import { useEditorStore } from '../store/editorStore';
 import { useProjectStore } from '../store/projectStore';
 import { useUIStore } from '../store/uiStore';
-import { useCollectionsQuery } from './queries/useCollectionsQuery';
 import { useCreateFileMutation } from './mutations/useCreateFileMutation';
-import { deserializeCompleteSchema, FieldType } from '../lib/schema';
-import { toast } from '../lib/toast';
-import { todayIsoDate, todayIsoDateTime } from '../lib/dates';
-import { getDefaultFileType } from '../lib/project-registry/default-file-type';
+import { useCollectionsQuery } from './queries/useCollectionsQuery';
 
 // Helper function to singularize collection name
 const singularize = (word: string): string => {

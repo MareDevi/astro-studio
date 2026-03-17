@@ -2,7 +2,7 @@
  * Basic tests for the project registry system
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Unmock the project-registry module for these tests
 vi.unmock('.');

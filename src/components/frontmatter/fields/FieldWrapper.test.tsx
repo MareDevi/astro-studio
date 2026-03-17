@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { FieldWrapper } from './FieldWrapper';
+import { describe, expect, it } from 'vitest';
 import type { FieldConstraints } from '../../../lib/schema';
+import { FieldWrapper } from './FieldWrapper';
 
 describe('FieldWrapper', () => {
   describe('vertical layout', () => {

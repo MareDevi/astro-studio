@@ -1,12 +1,17 @@
+import { Check, ChevronsUpDown, X } from 'lucide-react';
 import React from 'react';
-import { useEditorStore } from '../../../store/editorStore';
-import { getNestedValue } from '../../../lib/object-utils';
-import { useProjectStore } from '../../../store/projectStore';
-import { useCollectionsQuery } from '../../../hooks/queries/useCollectionsQuery';
 import { useCollectionFilesQuery } from '../../../hooks/queries/useCollectionFilesQuery';
+import { useCollectionsQuery } from '../../../hooks/queries/useCollectionsQuery';
 import { useFileBasedCollectionQuery } from '../../../hooks/queries/useFileBasedCollectionQuery';
+import { getNestedValue } from '../../../lib/object-utils';
+import type { SchemaField } from '../../../lib/schema';
+import { FieldType } from '../../../lib/schema';
+import { cn } from '../../../lib/utils';
+import { useEditorStore } from '../../../store/editorStore';
+import { useProjectStore } from '../../../store/projectStore';
+import type { FieldProps } from '../../../types/common';
+import { Badge } from '../../ui/badge';
 import { Button } from '../../ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover';
 import {
   Command,
   CommandEmpty,
@@ -15,14 +20,9 @@ import {
   CommandItem,
   CommandList,
 } from '../../ui/command';
-import { Badge } from '../../ui/badge';
-import { Check, ChevronsUpDown, X } from 'lucide-react';
-import { cn } from '../../../lib/utils';
-import { FieldWrapper } from './FieldWrapper';
-import { FieldType } from '../../../lib/schema';
-import type { FieldProps } from '../../../types/common';
-import type { SchemaField } from '../../../lib/schema';
+import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover';
 import { NONE_SENTINEL } from './constants';
+import { FieldWrapper } from './FieldWrapper';
 
 interface ReferenceFieldProps extends FieldProps {
   field?: SchemaField;
@@ -186,9 +186,8 @@ export const ReferenceField: React.FC<ReferenceFieldProps> = ({
                       className="gap-1 pr-1"
                     >
                       {opt.label}
-                      <span
-                        role="button"
-                        tabIndex={0}
+                      <button
+                        type="button"
                         onClick={(e) => handleRemoveItem(opt.value, e)}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter' || e.key === ' ') {
@@ -201,7 +200,7 @@ export const ReferenceField: React.FC<ReferenceFieldProps> = ({
                       >
                         <X className="h-3 w-3" />
                         <span className="sr-only">Remove</span>
-                      </span>
+                      </button>
                     </Badge>
                   ))
                 ) : (

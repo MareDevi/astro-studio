@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { cn } from '@/lib/utils';
 import TextareaAutosize from 'react-textarea-autosize';
+import { cn } from '@/lib/utils';
 
 export interface AutoExpandingTextareaProps
   extends Omit<React.ComponentProps<'textarea'>, 'style'> {

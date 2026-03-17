@@ -1,9 +1,9 @@
 import type React from 'react';
 import {
   Field,
-  FieldLabel,
-  FieldDescription,
   FieldContent,
+  FieldDescription,
+  FieldLabel,
 } from '@/components/ui/field';
 import type { FieldConstraints } from '../../../lib/schema';
 

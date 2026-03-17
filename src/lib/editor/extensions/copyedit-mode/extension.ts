@@ -5,12 +5,12 @@
  * Uses compromise.js for NLP processing.
  */
 
-import { StateField, StateEffect, type Transaction } from '@codemirror/state';
 import type { Range } from '@codemirror/state';
+import { StateEffect, StateField, type Transaction } from '@codemirror/state';
 import {
-  EditorView,
   Decoration,
   type DecorationSet,
+  EditorView,
   ViewPlugin,
   type ViewUpdate,
 } from '@codemirror/view';

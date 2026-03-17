@@ -1,8 +1,8 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { useEditorStore } from '../editorStore';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { FileEntry } from '@/types';
-import { useProjectStore } from '../projectStore';
 import { resetToastMocks } from '../../test/mocks/toast';
+import { useEditorStore } from '../editorStore';
+import { useProjectStore } from '../projectStore';
 
 // Mock the query client to prevent hanging on invalidateQueries
 vi.mock('../../lib/query-client', () => ({

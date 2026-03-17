@@ -5,8 +5,8 @@
  * with proper three-tier fallback (collection → project → defaults)
  */
 
-import type { ProjectSettings, CollectionSettings } from './types';
 import { ASTRO_PATHS } from '../constants';
+import type { CollectionSettings, ProjectSettings } from './types';
 
 /**
  * Get effective content directory path for a collection

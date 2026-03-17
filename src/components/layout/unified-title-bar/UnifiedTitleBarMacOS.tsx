@@ -1,6 +1,6 @@
 import type React from 'react';
-import { TrafficLights } from './TrafficLights';
 import { TitleBarToolbar } from './TitleBarToolbar';
+import { TrafficLights } from './TrafficLights';
 
 /**
  * macOS-specific unified title bar with traffic light window controls.

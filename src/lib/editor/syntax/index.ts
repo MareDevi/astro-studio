@@ -19,6 +19,6 @@
  * ```
  */
 
+export { comprehensiveHighlightStyle } from './highlightStyle';
 export { markdownTags } from './markdownTags';
 export { markdownStyleExtension } from './styleExtension';
-export { comprehensiveHighlightStyle } from './highlightStyle';

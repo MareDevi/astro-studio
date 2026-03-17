@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { screen, fireEvent } from '@testing-library/react';
-import { BooleanField } from './BooleanField';
+import { fireEvent, screen } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { FieldType, type SchemaField } from '../../../lib/schema';
 import { useEditorStore } from '../../../store/editorStore';
 import { renderWithProviders } from '../../../test/test-utils';
-import { FieldType, type SchemaField } from '../../../lib/schema';
+import { BooleanField } from './BooleanField';
 
 describe('BooleanField Component', () => {
   beforeEach(() => {
