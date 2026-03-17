@@ -87,6 +87,18 @@ pub fn run() {
                 }
             });
 
+            // Open devtools on startup for debugging release white screen
+            #[cfg(debug_assertions)]
+            {
+                // In debug mode it's usually open anyway if configured
+            }
+            #[cfg(not(debug_assertions))]
+            {
+                if let Some(window) = app.get_webview_window("main") {
+                    window.open_devtools();
+                }
+            }
+
             // Fix PATH environment variable for production builds
             // This ensures shell commands can find executables like 'code', 'cursor', etc.
             // if let Err(e) = fix_path_env::fix() {

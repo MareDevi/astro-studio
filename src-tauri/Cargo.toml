@@ -18,7 +18,7 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 tauri-build = { version = "2", features = [] }
 
 [dependencies]
-tauri = { version = "2", features = [ "protocol-asset"] }
+tauri = { version = "2", features = [ "protocol-asset", "devtools"] }
 
 # Type-safe Tauri commands with auto-generated TypeScript bindings
 specta = { version = "=2.0.0-rc.22", features = ["indexmap", "serde_json"] }
@@ -58,7 +58,7 @@ tempfile = "3.27"
 
 # macOS-only dependencies
 [target.'cfg(target_os = "macos")'.dependencies]
-tauri = { version = "2", features = ["macos-private-api"] }
+tauri = { version = "2", features = ["macos-private-api", "devtools"] }
 window-vibrancy = "0.7"
 
 # Desktop-only dependencies (excludes Android and iOS)
