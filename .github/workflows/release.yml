@@ -57,8 +57,8 @@ jobs:
         run: |
           if [ -z "$TAURI_PRIVATE_KEY" ]; then
             echo "TAURI_PRIVATE_KEY is missing, disabling updater artifacts to allow build to continue."
-            # Use sed to disable updater artifacts in tauri.conf.json
-            sed -i 's/"createUpdaterArtifacts": true/"createUpdaterArtifacts": false/g' src-tauri/tauri.conf.json
+            # Cross-platform replacement using Bun
+            bun -e 'const fs = require("fs"); const content = fs.readFileSync("src-tauri/tauri.conf.json", "utf8"); fs.writeFileSync("src-tauri/tauri.conf.json", content.replace(/\"createUpdaterArtifacts\":\s*true/g, "\"createUpdaterArtifacts\": false"));'
           else
             echo "TAURI_PRIVATE_KEY is present."
           fi
