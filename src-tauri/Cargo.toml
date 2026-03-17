@@ -1,6 +1,6 @@
 [package]
 name = "astro-studio"
-version = "1.0.10"
+version = "1.0.11"
 description = "A Tauri-based Astro Studio with preview and Git control"
 authors = ["MareDevi"]
 edition = "2021"

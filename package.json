@@ -1,7 +1,7 @@
 {
   "name": "astro-studio",
   "private": true,
-  "version": "1.0.10",
+  "version": "1.0.11",
   "type": "module",
   "author": "MareDevi",
   "description": "A cross-platform application based on astro-editor, designed to enhance Astro content creation.",
